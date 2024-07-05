@@ -5,23 +5,8 @@ require "includes/admin_header.php";
 $services = fetchData($con_db, 'services', $condition = 'published_at', $orderBy = 'id DESC', $limit = '');
 
 
-/* Delete */
-if (isset($_GET["delete"])) {
-    /* Only admins can delete */
-    checkAdminAccess();
-    $deleteservicesId = $_GET["delete"];
-
-    $deleteservicesSql = "DELETE FROM services WHERE id = $deleteservicesId";
-    $deleteservicesQuery = mysqli_query($con_db, $deleteservicesSql);
-
-    if (!$deleteservicesQuery) {
-        die("Delete service query failed" . mysqli_error($con_db));
-    } else {
-
-        header("Location: services.php");
-        exit();
-    }
-}
+/* Delete query */
+deleteQuery($con_db, 'services', 'id', 'services.php');
 
 ?>
 

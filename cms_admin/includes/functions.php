@@ -86,6 +86,26 @@ function fetchData($con_db, $tableName, $condition = '', $orderBy = '', $limit =
     return mysqli_fetch_all($query, MYSQLI_ASSOC);
 }
 
+/* Delete data from database */
+function deleteQuery($con_db, $tableName, $columnName, $redirectUrl) {
+    if (!isset($_SESSION["role"]) || $_SESSION["role"] !== 'admin') {
+        die("You do not have permission to delete.");
+    }
+
+    if (isset($_GET["delete"])) {
+        $deleteId = mysqli_real_escape_string($con_db, $_GET["delete"]);
+        $deleteSql = "DELETE FROM $tableName WHERE $columnName = $deleteId";
+        $deleteQuery = mysqli_query($con_db, $deleteSql);
+
+        if (!$deleteQuery) {
+            die("Delete query failed: " . mysqli_error($con_db));
+        } else {
+            header("Location: $redirectUrl");
+            exit();
+        }
+    }
+}
+
 
 /* Pagination */
 function pagination($con_db, $tableName, $currentPage, $itemsPerPage, $condition = '', $orderBy = '') {

@@ -42,21 +42,7 @@ if (!$usersQuery) {
 }
 
 // Handle user deletion
-if (isset($_GET["delete"])) {
-    if (!isset($_SESSION["role"]) || $_SESSION["role"] !== 'admin') {
-        die("You do not have permission to delete users.");
-    } else {
-        $delete_user = mysqli_real_escape_string($con_db, $_GET["delete"]);
-        $deleteUserSql = "DELETE FROM users WHERE user_id = $delete_user";
-        $deleteUserQuery = mysqli_query($con_db, $deleteUserSql);
-        if (!$deleteUserQuery) {
-            die("Delete user query failed: " . mysqli_error($con_db));
-        } else {
-            header("Location: users.php");
-            exit();
-        }
-    }
-}
+deleteQuery($con_db, 'users', 'user_id', 'users.php');
 ?>
 
 

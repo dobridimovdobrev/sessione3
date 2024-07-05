@@ -21,22 +21,8 @@ if (!$subscribersQuery) {
     $subscribers = mysqli_fetch_all($usersQuery, MYSQLI_ASSOC);
 }
 
-// Handle user deletion
-if (isset($_GET["delete"])) {
-    if (!isset($_SESSION["role"]) || $_SESSION["role"] !== 'admin') {
-        die("You do not have permission to delete subscribers.");
-    } else {
-        $delete_subscriber = mysqli_real_escape_string($con_db, $_GET["delete"]);
-        $deleteSubscriberSql = "DELETE FROM subscribers WHERE id = $delete_subscriber";
-        $deleteSubscriberQuery = mysqli_query($con_db, $deleteSubscriberSql);
-        if (!$deleteSubscriberQuery) {
-            die("Delete subscriber query failed: " . mysqli_error($con_db));
-        } else {
-            header("Location: subscribers.php");
-            exit();
-        }
-    }
-}
+// Delete query
+deleteQuery($con_db, 'subscribers', 'id', 'subscribers.php');
 ?>
 
 

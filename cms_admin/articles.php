@@ -41,20 +41,7 @@ if (!$articlesQuery) {
 }
 
 /* Delete query*/
-if (isset($_GET["delete"])) {
-    /* Only admins can delete */
-    checkAdminAccess();
-    $deleteArticlesId = $_GET["delete"];
-    $deleteArticlesSql = "DELETE FROM articles WHERE id = $deleteArticlesId";
-    $deleteArticlesQuery = mysqli_query($con_db, $deleteArticlesSql);
-
-    if (!$deleteArticlesQuery) {
-        die("Delete article query failed: " . mysqli_error($con_db));
-    } else {
-        header("Location: articles.php");
-        exit();
-    }
-}
+deleteQuery($con_db, 'articles', 'id', 'articles.php');
 ?>
 
 

@@ -3,22 +3,8 @@ require "includes/admin_header.php";
 /* If access denied if user is not an admin */
 checkAdminAccess();
 
-// Handle user deletion
-if (isset($_GET["delete"])) {
-    if (!isset($_SESSION["role"]) || $_SESSION["role"] !== 'admin') {
-        die("You do not have permission to delete messages.");
-    } else {
-        $delete_message = mysqli_real_escape_string($con_db, $_GET["delete"]);
-        $deleteMessageSql = "DELETE FROM messages WHERE id = $delete_message";
-        $deleteMessageQuery = mysqli_query($con_db, $deleteMessageSql);
-        if (!$deleteMessageQuery) {
-            die("Delete message query failed: " . mysqli_error($con_db));
-        } else {
-            header("Location: messages.php");
-            exit();
-        }
-    }
-}
+// Delete Query 
+deleteQuery($con_db, 'messages', 'id', 'messages.php');
 
 /* I set a variable message query to avoid getting error of undefinded variable */
 $messageQuery = null;
