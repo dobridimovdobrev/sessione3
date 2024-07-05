@@ -3,15 +3,6 @@ require "includes/admin_header.php";
 /* If access denied if user is not an admin */
 checkAdminAccess();
 
-$usersSql = "SELECT * FROM users ORDER BY user_id DESC";
-$usersQuery = mysqli_query($con_db, $usersSql);
-
-if (!$usersQuery) {
-    die("User query failed" . mysqli_error($con_db));
-} else {
-    $users = mysqli_fetch_all($usersQuery, MYSQLI_ASSOC);
-}
-
 $usersPerPage = 10; // Number of user per page
 $currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 
@@ -30,11 +21,11 @@ if (isset($_POST["submit"])) {
     }
 }
 
-// Use the function to get paginated articles if no search query is active
+// Use the function to get paginated users if no search query is active
 if (!$usersQuery) {
-    $result = getPaginatedUsers($con_db, $currentPage, $usersPerPage);
-    $users = $result['users'];
-    $totalPages = $result['totalPages'];
+    $usersPagination = pagination($con_db, 'users', $currentPage, $usersPerPage, 'user_date', 'user_id DESC');
+    $users = $usersPagination['data'];
+    $totalPages = $usersPagination['totalPages'];
 } else {
     // When there's a search query, paginate the search results
     $totalRecords = mysqli_num_rows($usersQuery);
@@ -92,7 +83,7 @@ if (isset($_GET["delete"])) {
         <table class="default-table__table">
             <thead>
                 <tr>
-                    <!-- <th>Id</th> -->
+                    <!-- Table -->
                     <th>Username</th>
                     <th>First name</th>
                     <th>Last name</th>
@@ -104,31 +95,39 @@ if (isset($_GET["delete"])) {
             </thead>
 
             <tbody>
+                <!-- For each loop asign user variables -->
+                <?php if (!empty($users)) : ?>
+                    <?php foreach ($users as $user) :
+                        $user_id = $user["user_id"];
+                        $username = $user["username"];
+                        $user_firstname = $user["user_firstname"];
+                        $user_lastname = $user["user_lastname"];
+                        $user_email = $user["user_email"];
+                        $user_role = $user["user_role"];
+                        $user_date = $user["user_date"];
+                    ?>
+                        <!-- Displaying data from DB -->
+                        <tr>
+                            <td><?= $username ?></td>
+                            <td><?= $user_firstname ?></td>
+                            <td><?= $user_lastname ?></td>
+                            <td><?= $user_email ?></td>
+                            <td><?= $user_role ?></td>
+                            <td><?= $user_date ?></td>
+                            <!-- Action butons edit and delete -->
+                            <td>
+                                <a href="includes/edit_user.php?edit=<?= $user_id ?>" class="default">Edit</a>
+                                <a href="javascript:void(0);" onclick="showDeleteModal(<?= $user_id ?>, 'users.php')" class="delete">Delete</a>
+                            </td>
 
-                <?php foreach ($users as $user) :
-                    $user_id = $user["user_id"];
-                    $username = $user["username"];
-                    $user_firstname = $user["user_firstname"];
-                    $user_lastname = $user["user_lastname"];
-                    $user_email = $user["user_email"];
-                    $user_role = $user["user_role"];
-                    $user_date = $user["user_date"];
-                ?>
-
+                        </tr>
+                    <?php endforeach; ?>
+                <?php else : ?>
+                    <!-- If not user found -->
                     <tr>
-                        <td><?= $username ?></td>
-                        <td><?= $user_firstname ?></td>
-                        <td><?= $user_lastname ?></td>
-                        <td><?= $user_email ?></td>
-                        <td><?= $user_role ?></td>
-                        <td><?= $user_date ?></td>
-                        <td>
-                            <a href="includes/edit_user.php?edit=<?= $user_id ?>" class="default">Edit</a>
-                            <a href="javascript:void(0);" onclick="showDeleteModal(<?= $user_id ?>, 'users.php')" class="delete">Delete</a>
-                        </td>
-
+                        <td colspan="9">No users found.</td>
                     </tr>
-                <?php endforeach; ?>
+                <?php endif; ?>
             </tbody>
         </table>
 

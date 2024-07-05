@@ -1,15 +1,8 @@
 <?php
 require "includes/admin_header.php";
 
-/* Articles */
-$servicesSql = "SELECT * FROM services ORDER BY id DESC ";
-$servicesQuery = mysqli_query($con_db, $servicesSql);
-
-if (!$servicesQuery) {
-    die("service query failed" . mysqli_error($con_db));
-} else {
-    $services = mysqli_fetch_all($servicesQuery, MYSQLI_ASSOC);
-}
+/* Services fetch data from database */
+$services = fetchData($con_db, 'services', $condition = 'published_at', $orderBy = 'id DESC', $limit = '');
 
 
 /* Delete */
