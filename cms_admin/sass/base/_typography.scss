@@ -54,6 +54,7 @@ $small-font:1.4rem;
 }
 
 .paragraph{
+    font-family: Verdana;
     font-size: $normal;
     &:not(:last-child){
         margin-bottom: $marbot-2;

@@ -12,7 +12,7 @@ if (!$usersQuery) {
     $users = mysqli_fetch_all($usersQuery, MYSQLI_ASSOC);
 }
 
-$usersPerPage = 3; // Number of user per page
+$usersPerPage = 10; // Number of user per page
 $currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 
 // Initialize search-related variables

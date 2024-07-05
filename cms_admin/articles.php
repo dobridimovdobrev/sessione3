@@ -12,8 +12,8 @@ $articlesQuery = null;
 
 // Check if the search form was submitted
 if (isset($_POST["submit"])) {
-    $search = $_POST["search"];
-    $articlesSql = "SELECT * FROM articles WHERE title LIKE '%$search%'";
+    $search = trim(mysqli_real_escape_string($con_db, $_POST["search"]));
+    $articlesSql = "SELECT * FROM articles WHERE title LIKE '%$search%' AND status = 'published'";
     $articlesQuery = mysqli_query($con_db, $articlesSql);
 
     if (!$articlesQuery) {
@@ -23,15 +23,14 @@ if (isset($_POST["submit"])) {
 
 // Use the function to get paginated articles if no search query is active
 if (!$articlesQuery) {
-    $result = getPaginatedArticles($con_db, $currentPage, $articlesPerPage);
-    $articles = $result['articles'];
-    $totalPages = $result['totalPages'];
+    $articlesPagination = pagination($con_db, 'articles', $currentPage, $articlesPerPage, "status = 'published'", 'published_at DESC');
+    $articles = $articlesPagination['data'];
+    $totalPages = $articlesPagination['totalPages'];
 } else {
-    // When there's a search query, paginate the search results
     $totalRecords = mysqli_num_rows($articlesQuery);
     $totalPages = ceil($totalRecords / $articlesPerPage);
     $offset = ($currentPage - 1) * $articlesPerPage;
-    $articlesSql = "SELECT * FROM articles WHERE title LIKE '%$search%' AND status = 'published' LIMIT $offset, $articlesPerPage";
+    $articlesSql = "SELECT * FROM articles WHERE title LIKE '%$search%' AND status = 'published' ORDER BY published_at DESC LIMIT $offset, $articlesPerPage";
     $articlesQuery = mysqli_query($con_db, $articlesSql);
 
     if (!$articlesQuery) {
@@ -50,7 +49,7 @@ if (isset($_GET["delete"])) {
     $deleteArticlesQuery = mysqli_query($con_db, $deleteArticlesSql);
 
     if (!$deleteArticlesQuery) {
-        die("Delete article query failed" . mysqli_error($con_db));
+        die("Delete article query failed: " . mysqli_error($con_db));
     } else {
         header("Location: articles.php");
         exit();
@@ -101,7 +100,7 @@ if (isset($_GET["delete"])) {
                     <!-- For each loop to display articles -->
                     <?php foreach ($articles as $article) :
 
-                        // I want to see my articles if draft,but subscribers shouldn't see article if draft
+                        // I want to see my articles if draft, but subscribers shouldn't see articles if draft
 
                         $articleId = $article["id"];
                         $articleTitle = $article["title"];
@@ -118,7 +117,7 @@ if (isset($_GET["delete"])) {
                         $selectCategorySql = "SELECT cat_title FROM categories WHERE cat_id = $articleCategory";
                         $selectCategoryQuery = mysqli_query($con_db, $selectCategorySql);
                         if (!$selectCategoryQuery) {
-                            die("Query for category title failed" . mysqli_error($con_db));
+                            die("Query for category title failed: " . mysqli_error($con_db));
                         } else {
                             $selectCategory = mysqli_fetch_assoc($selectCategoryQuery);
                             $catTitle = $selectCategory["cat_title"];
@@ -126,21 +125,21 @@ if (isset($_GET["delete"])) {
                     ?>
                         <!-- Displaying articles into the table -->
                         <tr>
-                                <td><?= $articleTitle ?></td>
-                                <td><?= $catTitle ?></td>
-                                <td><?= $articleAuthor ?></td>
-                                <td><?= substr($articleTags, 0, 70) . "..." ?></td>
-                                <td><img src="../uploads/<?= $articleImage ?>" alt="<?= $articleTitle ?>" width="100" height="60"></td>
-                                <td><?= $articleViews ?></td>
-                                <td><?= $articleStatus ?></td>
-                                <td><?= $articleDate ?></td>
-                                <td>
-                                    <a href="../article.php?id=<?= $articleId ?>" class="default" target="_blank">View </a>
+                            <td><?= htmlspecialchars($articleTitle) ?></td>
+                            <td><?= htmlspecialchars($catTitle) ?></td>
+                            <td><?= htmlspecialchars($articleAuthor) ?></td>
+                            <td><?= htmlspecialchars(substr($articleTags, 0, 70)) . "..." ?></td>
+                            <td><img src="../uploads/<?= htmlspecialchars($articleImage) ?>" alt="<?= htmlspecialchars($articleTitle) ?>" width="100" height="60"></td>
+                            <td><?= htmlspecialchars($articleViews) ?></td>
+                            <td><?= htmlspecialchars($articleStatus) ?></td>
+                            <td><?= htmlspecialchars($articleDate) ?></td>
+                            <td>
+                                <a href="../article.php?id=<?= $articleId ?>" class="default" target="_blank">View</a>
                                 <?php if ($_SESSION['role'] === 'admin') : ?>
                                     <a href="includes/edit_article.php?edit=<?= $articleId ?>" class="default" target="_blank">Edit</a>
                                     <a href="javascript:void(0);" onclick="showDeleteModal(<?= $articleId ?>, 'articles.php')" class="delete">Delete</a>
                                 <?php endif; ?>
-                                </td>
+                            </td>
                         </tr>
                     <?php endforeach; ?>
                 <?php else : ?>
@@ -169,13 +168,12 @@ if (isset($_GET["delete"])) {
 <!-- Delete Confirmation Modal -->
 <div id="deleteModal" class="modal">
     <div class="modal-content">
-        <span class="close"></span>
+        <span class="close">&times;</span>
         <p class="confirmDeleteparagraph">Are you sure you want to delete this article?</p>
         <button id="cancelBtn" class="btn">Cancel</button>
         <button id="confirmDeleteBtn" class="btn btn-danger">Delete</button>
     </div>
 </div>
-
 
 <?php
 require "includes/admin_footer.php";

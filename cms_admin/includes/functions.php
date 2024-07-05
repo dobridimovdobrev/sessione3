@@ -52,59 +52,66 @@ function checkAdminAccess()
     }
 }
 
-/* Pagination Articles */
-function getPaginatedArticles($con_db, $currentPage, $articlesPerPage)
-{
-    $offset = ($currentPage - 1) * $articlesPerPage;
-    $totalRecordsSql = "SELECT COUNT(*) FROM articles WHERE status = 'published' ";
-    $totalRecordsResult = mysqli_query($con_db, $totalRecordsSql);
+/* confirmQuery */
+function confirmQuery($query) {
+    global $con_db;
 
-    if (!$totalRecordsResult) {
+    if (!$query) {
         die("Query failed: " . mysqli_error($con_db));
-    }
-
-    $totalRecordsRow = mysqli_fetch_array($totalRecordsResult);
-    $totalRecords = $totalRecordsRow[0];
-    $totalPages = ceil($totalRecords / $articlesPerPage);
-    /* If status published you will not see the draft */
-    $articlesSql = "SELECT * FROM articles ORDER BY id DESC LIMIT $offset, $articlesPerPage";
-    $articlesResult = mysqli_query($con_db, $articlesSql);
-
-    if (!$articlesResult) {
-        die("Query failed: " . mysqli_error($con_db));
-    }
-
-    $articles = mysqli_fetch_all($articlesResult, MYSQLI_ASSOC);
-
-    return ['articles' => $articles, 'totalPages' => $totalPages];
+    } 
 }
 
-/* Pagination Users */
-function getPaginatedUsers($con_db, $currentPage, $usersPerPage)
-{
-    $offset = ($currentPage - 1) * $usersPerPage;
-    $totalRecordsSql = "SELECT COUNT(*) FROM users ";
-    $totalRecordsResult = mysqli_query($con_db, $totalRecordsSql);
-
-    if (!$totalRecordsResult) {
+/* Fetch Data from database */
+function fetchData($con_db, $tableName, $condition = '', $orderBy = '', $limit = '') {
+    $sql = "SELECT * FROM $tableName";
+    
+    if (!empty($condition)) {
+        $sql .= " WHERE $condition";
+    }
+    
+    if (!empty($orderBy)) {
+        $sql .= " ORDER BY $orderBy";
+    }
+    
+    if (!empty($limit)) {
+        $sql .= " LIMIT $limit";
+    }
+    
+    $query = mysqli_query($con_db, $sql);
+    
+    if (!$query) {
         die("Query failed: " . mysqli_error($con_db));
     }
-
-    $totalRecordsRow = mysqli_fetch_array($totalRecordsResult);
-    $totalRecords = $totalRecordsRow[0];
-    $totalPages = ceil($totalRecords / $usersPerPage);
-
-    $usersSql = "SELECT * FROM users ORDER BY user_id DESC LIMIT $offset, $usersPerPage ";
-    $usersResult = mysqli_query($con_db, $usersSql);
-
-    if (!$usersResult) {
-        die("Query failed: " . mysqli_error($con_db));
-    }
-
-    $users = mysqli_fetch_all($usersResult, MYSQLI_ASSOC);
-
-    return ['users' => $users, 'totalPages' => $totalPages];
+    
+    return mysqli_fetch_all($query, MYSQLI_ASSOC);
 }
+
+
+/* Pagination */
+function pagination($con_db, $tableName, $currentPage, $itemsPerPage, $condition = '', $orderBy = '') {
+    $offset = ($currentPage - 1) * $itemsPerPage;
+    
+    // Fetch total records
+    $totalRecordsSql = "SELECT COUNT(*) FROM $tableName";
+    if (!empty($condition)) {
+        $totalRecordsSql .= " WHERE $condition";
+    }
+    $totalResult = mysqli_query($con_db, $totalRecordsSql);
+    
+    confirmQuery($totalResult);
+
+    $totalRow = mysqli_fetch_array($totalResult);
+    $total = $totalRow[0];
+    $totalPages = ceil($total / $itemsPerPage);
+
+    // Fetch paginated data
+    $limit = "$offset, $itemsPerPage";
+    $data = fetchData($con_db, $tableName, $condition, $orderBy, $limit);
+
+    return ['data' => $data, 'totalPages' => $totalPages];
+}
+
+/* /////////////////////// CRUD CATEGORIES //////////////////////// */
 
 /* Create category*/
 function create_categories()
@@ -160,7 +167,6 @@ function all_categories()
 
 
 /* Update category */
-
 function update_categories()
 {
     global $con_db;
@@ -195,7 +201,7 @@ function update_categories()
         }
     }
 }
-
+/* Delete categories */
 function delete_categories()
 {
     global $con_db;

@@ -7,17 +7,14 @@ require "includes/header.php";
 /* Default section with the image after navigation */
 require "includes/main.php";
 
-// Include the functions file
-require "includes/functions.php";
-
-$articlesPerPage = 12; // Number of articles per page
+$articlesPerPage = 6; // Number of articles per page
 /*  type casting (int) for integer and security against sql inj attacks */
 $currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 
 // Use the function to get paginated articles
-$result = getPaginatedArticles($con_db, $currentPage, $articlesPerPage);
-$articles = $result['articles'];
-$totalPages = $result['totalPages'];
+$articlesPagination = pagination($con_db, 'articles', $currentPage, $articlesPerPage, "status = 'published'", 'published_at DESC');
+$articles = $articlesPagination['data'];
+$totalPages = $articlesPagination['totalPages'];
 ?>
 
 <!-- Section Blog -->

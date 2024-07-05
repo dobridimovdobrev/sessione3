@@ -14,28 +14,11 @@ require "includes/header.php";
 
 
 //connecting to the database article mysql query and ordering by date
-$articleSql = " SELECT * FROM articles WHERE status = 'published' ORDER BY published_at DESC LIMIT 6 ";
-$articleQuery = mysqli_query($con_db, $articleSql);
-
-if (!$articleQuery) {
-  die("Article query failed" . mysqli_error($con_db)); // check  for issues 
-
-  // fetch is for reading and extracting all data and convert them into array
-} else {
-  $articles = mysqli_fetch_all($articleQuery, MYSQLI_ASSOC);
-}
+$articles = fetchData($con_db, 'articles', "status = 'published'", 'published_at DESC', '6' );
 
 /* Displaying services */
-$serviceSql = " SELECT * FROM services ORDER BY id DESC LIMIT 6 ";
-$serviceQuery = mysqli_query($con_db, $serviceSql);
+$services = fetchData($con_db, 'services', $condition = '', 'published_at DESC', '6' );
 
-if (!$serviceQuery) {
-  die("Service query failed" . mysqli_error($con_db)); // check  for issues 
-
-  // fetch is for reading and extracting all data and convert them into array
-} else {
-  $services = mysqli_fetch_all($serviceQuery, MYSQLI_ASSOC);
-}
 
 /* Newsletter form  */
 $name = $email = $origin =  "";
@@ -67,16 +50,14 @@ if (isset($_POST["submit"])) {
     // Prepare and execute the SQL statement
     $newsletterSql = "INSERT INTO subscribers (name, email, origin, date) VALUES (?, ?, ?, NOW())";
     $newsletterStmt = mysqli_prepare($con_db, $newsletterSql);
-
-    if (!$newsletterStmt) {
-      die("Newsletter query failed" . mysqli_error($con_db));
-    }
-
+    /* Confirm query */
+    confirmQuery($newsletterStmt);
+    /* If no errors prepare stmt will be bind and execute */
     mysqli_stmt_bind_param($newsletterStmt, "sss", $name, $email, $origin);
     $execute = mysqli_stmt_execute($newsletterStmt);
-
-    if (!$execute) {
-      die("Newsletter executing failed" . mysqli_stmt_error($newsletterStmt));
+    /* Check for executing errors */
+    if (confirmQuery($execute)) {
+      /* If no execute errors insert new id into database,close stmt and redirect to thanks page */
     } else {
       $subscribersId = mysqli_insert_id($con_db);
       mysqli_stmt_close($newsletterStmt);

@@ -1,6 +1,8 @@
 <?php
 // include database
 require "includes/mysql-database.php";
+/* include functions */
+require "functions.php";
 ob_start();
 session_start();
 
@@ -13,6 +15,8 @@ if (!$pageQuery) {
     $pages = mysqli_fetch_all($pageQuery, MYSQLI_ASSOC);
 }
 
+/* Set active links for sidebar navigation */
+$activeClass = "navigation__link--active";
 // Get the current page name
 $currentPage = basename($_SERVER['REQUEST_URI']);
 ?>
@@ -51,7 +55,7 @@ $currentPage = basename($_SERVER['REQUEST_URI']);
                 <ul class="navigation__list">
                     <!-- foreach loop for dynamic navigation -->
                     <?php foreach ($pages as $menu) :
-                        $isActive = basename($menu['page_url']) === $currentPage ? 'navigation__link--active' : '';
+                        $isActive = basename($menu['page_url']) === $currentPage ? $activeClass  : '';
                     ?>
                         <li class="navigation__item">
                             <a href="<?= $menu['page_url'] ?>" class="navigation__link <?= $isActive ?>" title="<?= $menu['page_title'] ?>" aria-label="<?= $menu['page_title'] ?>">
@@ -61,10 +65,10 @@ $currentPage = basename($_SERVER['REQUEST_URI']);
                     <?php endforeach; ?>
                     <?php if (!isset($_SESSION["username"])) : ?>
                         <li class="navigation__item">
-                            <a href="login.php" class="navigation__link <?= ($currentPage == 'login.php') ? 'navigation__link--active' : '' ?>" title="login" aria-label="login">
+                            <a href="login.php" class="navigation__link <?= ($currentPage == 'login.php') ? $activeClass : '' ?>" title="login" aria-label="login">
                                 Login
                                 <svg class="login-icon">
-                                    <use href="/mysite-mysql/assets/front-icons/symbol-defs.svg#icon-user-tie"></use>
+                                    <use href="/mysite-mysql/assets/front-icons/symbol-defs.svg#icon-user-tie"></use>   
                                 </svg>
                             </a>
                         </li>

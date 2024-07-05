@@ -1,9 +1,15 @@
 <?php
+/* Include database */
 require __DIR__ . "/../../includes/mysql-database.php";
+/* Include functions */
 require "functions.php";
 ob_start();
+/* Start session */
 session_start();
 $user_session = session_id();
+
+/* Set active links for sidebar navigation */
+$activeClass = "admin_sidebar-nav__item--active";
 $pageUrl = basename($_SERVER['REQUEST_URI']);
 ?>
 <!DOCTYPE html>
@@ -20,6 +26,7 @@ $pageUrl = basename($_SERVER['REQUEST_URI']);
 </head>
 <body>
     <header class="admin_header">
+        <!-- Header left side navigation -->
         <nav class="admin_header__nav-left">
             <ul>
                 <li>
@@ -32,16 +39,20 @@ $pageUrl = basename($_SERVER['REQUEST_URI']);
                 </li>
             </ul>
         </nav>
+        <!-- Header right side navigation-->
         <nav class="admin_header__nav-right">
             <ul class="admin_header__nav-right__list">
+                <!-- Greeting User by username dynamic mode -->
                 <?php if (isset($_SESSION["role"])) : ?>
                     <li class="admin_header__nav-right__item">
+                        <!-- Username -->
                         <a href="" class="admin_header__nav-right__link" aria-label="user profile" title="user">
                             <span>Hello <?= ucfirst($_SESSION["username"]) ?></span>
                             <svg class="admin_header__nav-right__icons">
                                 <use href="/mysite-mysql/assets/back-icons/symbol-defs.svg#icon-user-tie"></use>
                             </svg>
                         </a>
+                        <!-- Sub menu for username to logout -->
                         <ul class="admin_header__nav-right__sub-list">
                             <li>
                                 <a href="/mysite-mysql/logout.php" class="admin_header__nav-right__link" aria-label="logout" title="logout">
@@ -65,7 +76,7 @@ $pageUrl = basename($_SERVER['REQUEST_URI']);
                 <ul>
                     <!-- User Profile visible for subscribers -->
                     <?php if ($_SESSION["role"] === "subscriber") : ?>
-                        <li class="admin_sidebar-nav__item <?= ($pageUrl === 'profile.php') ? 'admin_sidebar-nav__item--active' : ''; ?>">
+                        <li class="admin_sidebar-nav__item <?= ($pageUrl === 'profile.php') ? $activeClass : ''; ?>">
                             <a href="/mysite-mysql/cms_admin/profile.php" class="admin_sidebar-nav__link" aria-label="profile" title="profile">
                                 <svg class="admin_sidebar-nav__icons">
                                     <use href="/mysite-mysql/assets/back-icons/symbol-defs.svg#icon-gauge"></use>
@@ -77,7 +88,7 @@ $pageUrl = basename($_SERVER['REQUEST_URI']);
 
                     <!-- Dashboard visible for admin -->
                     <?php if ($_SESSION["role"] === "admin") : ?>
-                        <li class="admin_sidebar-nav__item <?= ($pageUrl === 'dashboard.php') ? 'admin_sidebar-nav__item--active' : ''; ?>">
+                        <li class="admin_sidebar-nav__item <?= ($pageUrl === 'dashboard.php') ? $activeClass : ''; ?>">
                             <a href="/mysite-mysql/cms_admin/dashboard.php" class="admin_sidebar-nav__link" aria-label="dashboard" title="dashboard">
                                 <svg class="admin_sidebar-nav__icons">
                                     <use href="/mysite-mysql/assets/back-icons/symbol-defs.svg#icon-gauge"></use>
@@ -87,8 +98,8 @@ $pageUrl = basename($_SERVER['REQUEST_URI']);
                         </li>
                     <?php endif; ?>
 
-                    <!-- Services -->
-                    <li class="admin_sidebar-nav__item <?= ($pageUrl === 'services.php') ? 'admin_sidebar-nav__item--active' : ''; ?>">
+                    <!-- Services (admin and subscribers) -->
+                    <li class="admin_sidebar-nav__item <?= ($pageUrl === 'services.php') ? $activeClass : ''; ?>">
                         <a href="/mysite-mysql/cms_admin/services.php" class="admin_sidebar-nav__link" aria-label="Services" title="Services">
                             <svg class="admin_sidebar-nav__icons">
                                 <use href="/mysite-mysql/assets/back-icons/symbol-defs.svg#icon-tools"></use>
@@ -97,8 +108,8 @@ $pageUrl = basename($_SERVER['REQUEST_URI']);
                         </a>
                     </li>
 
-                    <!-- Articles -->
-                    <li class="admin_sidebar-nav__item <?= ($pageUrl === 'articles.php') ? 'admin_sidebar-nav__item--active' : ''; ?>">
+                    <!-- Articles (admin and subscribers) -->
+                    <li class="admin_sidebar-nav__item <?= ($pageUrl === 'articles.php') ? $activeClass : ''; ?>">
                         <a href="/mysite-mysql/cms_admin/articles.php" class="admin_sidebar-nav__link" aria-label="Articles" title="Articles">
                             <svg class="admin_sidebar-nav__icons">
                                 <use href="/mysite-mysql/assets/back-icons/symbol-defs.svg#icon-new-message"></use>
@@ -109,7 +120,7 @@ $pageUrl = basename($_SERVER['REQUEST_URI']);
 
                     <!-- Categories (admin only) -->
                     <?php if ($_SESSION["role"] === "admin") : ?>
-                        <li class="admin_sidebar-nav__item <?= ($pageUrl === 'categories.php') ? 'admin_sidebar-nav__item--active' : ''; ?>">
+                        <li class="admin_sidebar-nav__item <?= ($pageUrl === 'categories.php') ? $activeClass : ''; ?>">
                             <a href="/mysite-mysql/cms_admin/categories.php" class="admin_sidebar-nav__link" aria-label="Categories" title="Categories">
                                 <svg class="admin_sidebar-nav__icons">
                                     <use href="/mysite-mysql/assets/back-icons/symbol-defs.svg#icon-archive"></use>
@@ -121,7 +132,7 @@ $pageUrl = basename($_SERVER['REQUEST_URI']);
 
                     <!-- Users (admin only) -->
                     <?php if ($_SESSION["role"] === "admin") : ?>
-                        <li class="admin_sidebar-nav__item <?= ($pageUrl === 'users.php') ? 'admin_sidebar-nav__item--active' : ''; ?>">
+                        <li class="admin_sidebar-nav__item <?= ($pageUrl === 'users.php') ? $activeClass : ''; ?>">
                             <a href="/mysite-mysql/cms_admin/users.php" class="admin_sidebar-nav__link" aria-label="Users" title="Users">
                                 <svg class="admin_sidebar-nav__icons">
                                     <use href="/mysite-mysql/assets/back-icons/symbol-defs.svg#icon-users"></use>
@@ -133,7 +144,7 @@ $pageUrl = basename($_SERVER['REQUEST_URI']);
 
                     <!-- Newsletter (admin only) -->
                     <?php if ($_SESSION["role"] === "admin") : ?>
-                        <li class="admin_sidebar-nav__item <?= ($pageUrl === 'subscribers.php') ? 'admin_sidebar-nav__item--active' : ''; ?>">
+                        <li class="admin_sidebar-nav__item <?= ($pageUrl === 'subscribers.php') ? $activeClass : ''; ?>">
                             <a href="/mysite-mysql/cms_admin/subscribers.php" class="admin_sidebar-nav__link" aria-label="Newsletter" title="Newsletter">
                                 <svg class="admin_sidebar-nav__icons">
                                     <use href="/mysite-mysql/assets/back-icons/symbol-newsletter.svg#icon-email"></use>
@@ -145,7 +156,7 @@ $pageUrl = basename($_SERVER['REQUEST_URI']);
 
                     <!-- Messages (admin only) -->
                     <?php if ($_SESSION["role"] === "admin") : ?>
-                        <li class="admin_sidebar-nav__item <?= ($pageUrl === 'messages.php') ? 'admin_sidebar-nav__item--active' : ''; ?>">
+                        <li class="admin_sidebar-nav__item <?= ($pageUrl === 'messages.php') ? $activeClass : ''; ?>">
                             <a href="/mysite-mysql/cms_admin/messages.php" class="admin_sidebar-nav__link" aria-label="Messages" title="Messages">
                                 <svg class="admin_sidebar-nav__icons">
                                     <use href="/mysite-mysql/assets/back-icons/symbol-defs.svg#icon-mail"></use>
@@ -156,6 +167,7 @@ $pageUrl = basename($_SERVER['REQUEST_URI']);
                     <?php endif; ?>
                 </ul>
             </nav>
+            <!-- Validated Css image from W3C -->
             <div>
             <a href="https://jigsaw.w3.org/css-validator/check/referer" title="W3C css validator" aria-label="W3C css validator">
             <img class="admin_sidebar-nav__css-validator"
