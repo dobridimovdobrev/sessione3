@@ -1,8 +1,8 @@
 <?php
 
 $db_host = "localhost";
-$db_user = "dobri";
-$db_pass = "Svqtiqduh1!";
+$db_user = "dobri2";
+$db_pass = "Dobri123!";
 $db_name = "cms";
 // connecting to mysql database. The ordrer for host,name, password and database name is !important
 $con_db = mysqli_connect($db_host , $db_user , $db_pass ,$db_name ); 
