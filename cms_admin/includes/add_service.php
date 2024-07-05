@@ -10,7 +10,7 @@ $serviceTitleError = $serviceDescriptionError = $serviceContentError =
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["submit"])) {
 
     $title = trim(mysqli_real_escape_string($con_db, $_POST["title"]));
-    $description = trim(mysqli_real_escape_string($con_db, $_POST["description"]));
+    $description = trim($_POST["description"]);
     /* Do not use mysqli real escape string for summernote editor because it not applying your styles and have issues !important */
     $content = trim($_POST["content"]);
     $tags = trim(mysqli_real_escape_string($con_db, $_POST["tags"]));

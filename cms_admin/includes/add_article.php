@@ -21,7 +21,7 @@ $articleTitleError = $articleDescriptionError = $articleContentError = $articleA
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["submit"])) {
     /* Assign values from POST to variables */
     $title = trim(mysqli_real_escape_string($con_db, $_POST["title"]));
-    $description = trim(mysqli_real_escape_string($con_db, $_POST["description"]));
+    $description = trim($_POST["description"]);
     /* Do not use mysqli real escape string for summernote editor because it not applying your styles and have issues !important */
     $content = trim($_POST["content"]);
     $author = trim(mysqli_real_escape_string($con_db, $_POST["author"]));

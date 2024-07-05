@@ -21,7 +21,7 @@ if (isset($_GET["id"])) {
     $offset = ($currentPage - 1) * $articlesPerPage;
 
     // Query to count total articles in the selected category
-    $totalRecordsSql = "SELECT COUNT(*) FROM articles WHERE cat_id = $categoryId " ;
+    $totalRecordsSql = "SELECT COUNT(*) FROM articles WHERE cat_id = $categoryId AND status = 'published' " ;
     $totalRecordsResult = mysqli_query($con_db, $totalRecordsSql);
 
     if (!$totalRecordsResult) {

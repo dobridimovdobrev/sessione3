@@ -2,72 +2,6 @@
 /* Verify user ip */
 function verify_user_ip()
 {
-
-    /* Count services */
-    function countServices()
-    {
-        global $con_db;
-        $dashboardServiceSql = "SELECT * FROM services";
-        $dashboardServiceQuery = mysqli_query($con_db, $dashboardServiceSql);
-        if (!$dashboardServiceQuery) {
-            die("Query failed" . mysqli_error($con_db));
-        } else {
-            return mysqli_num_rows($dashboardServiceQuery);
-        }
-    }
-
-    /* Count articles */
-    function countArticles()
-    {
-        global $con_db;
-        $dashboardMessageSql = "SELECT * FROM articles WHERE status = 'published' ";
-        $dashboardMessageQuery = mysqli_query($con_db, $dashboardMessageSql);
-        if (!$dashboardMessageQuery) {
-            die("Query failed" . mysqli_error($con_db));
-        } else {
-            return mysqli_num_rows($dashboardMessageQuery);
-        }
-    }
-
-    /* Count users */
-    function countUsers()
-    {
-        global $con_db;
-        $dashboardUserSql = "SELECT * FROM users";
-        $dashboardUserQuery = mysqli_query($con_db, $dashboardUserSql);
-        if (!$dashboardUserQuery) {
-            die("Query failed" . mysqli_error($con_db));
-        } else {
-            return mysqli_num_rows($dashboardUserQuery);
-        }
-    }
-
-    /* Count newsletters */
-    function countNewsletters()
-    {
-        global $con_db;
-        $dashboardNewslettersSql = "SELECT * FROM subscribers";
-        $dashboardNewslettersQuery = mysqli_query($con_db, $dashboardNewslettersSql);
-        if (!$dashboardNewslettersQuery) {
-            die("Query failed" . mysqli_error($con_db));
-        } else {
-            return mysqli_num_rows($dashboardNewslettersQuery);
-        }
-    }
-
-    /* Count messages */
-    function countMessages()
-    {
-        global $con_db;
-        $dashboardArtilceSql = "SELECT * FROM messages";
-        $dashboardArtilceQuery = mysqli_query($con_db, $dashboardArtilceSql);
-        if (!$dashboardArtilceQuery) {
-            die("Query failed" . mysqli_error($con_db));
-        } else {
-            return mysqli_num_rows($dashboardArtilceQuery);
-        }
-    }
-
     if (isset($_SESSION['role'])) {
 
 
@@ -86,6 +20,20 @@ function verify_user_ip()
         // Return the detected IP address or null if not available
         return $user_ip;
     }
+}
+
+/* Count tables from database (services,articles,users,subscribers,messages) */
+function countTable($table)
+{
+    global $con_db;
+    $dashboardSql = "SELECT * FROM $table ";
+    $dashboardQuery = mysqli_query($con_db, $dashboardSql);
+    if (!$dashboardQuery) {
+        die("Query failed" . mysqli_error($con_db));
+    }else{
+        $result = mysqli_num_rows($dashboardQuery);
+    } 
+        return $result;
 }
 
 /* Admin access function */

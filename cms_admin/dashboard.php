@@ -18,7 +18,7 @@ $user_ip_adress = verify_user_ip();
                     <use href="/mysite-mysql/assets/back-icons/symbol-defs.svg#icon-tools"></use>
                 </svg>
                 <div class="dashboard__dynamic-data">
-                    <h2 class="dashboard__heading"><?= countServices(); ?></h2>
+                    <h2 class="dashboard__heading"><?= countTable('services'); ?></h2>
                     <p class="dashboard__paragraph">Services </p>
                 </div>
             </div>
@@ -38,7 +38,7 @@ $user_ip_adress = verify_user_ip();
                     <use href="/mysite-mysql/assets/back-icons/symbol-defs.svg#icon-new-message"></use>
                 </svg>
                 <div class="dashboard__dynamic-data">
-                    <h2 class="dashboard__heading"><?= countArticles(); ?></h2>
+                    <h2 class="dashboard__heading"><?= countTable('articles'); ?></h2>
                     <p class="dashboard__paragraph">Articles</p>
                 </div>
             </div>
@@ -58,7 +58,7 @@ $user_ip_adress = verify_user_ip();
                     <use href="/mysite-mysql/assets/back-icons/symbol-defs.svg#icon-users"></use>
                 </svg>
                 <div class="dashboard__dynamic-data">
-                    <h2 class="dashboard__heading"><?= countUsers(); ?></h2>
+                    <h2 class="dashboard__heading"><?= countTable('users'); ?></h2>
                     <p class="dashboard__paragraph">Users</p>
                 </div>
             </div>
@@ -78,7 +78,7 @@ $user_ip_adress = verify_user_ip();
                     <use href="/mysite-mysql/assets/back-icons/symbol-newsletter.svg#icon-email"></use>
                 </svg>
                 <div class="dashboard__dynamic-data">
-                    <h2 class="dashboard__heading"><?= countNewsletters(); ?></h2>
+                    <h2 class="dashboard__heading"><?= countTable('subscribers'); ?></h2>
                     <p class="dashboard__paragraph">Newsletter</p>
                 </div>
             </div>
@@ -98,7 +98,7 @@ $user_ip_adress = verify_user_ip();
                     <use href="/mysite-mysql/assets/back-icons/symbol-defs.svg#icon-mail"></use>
                 </svg>
                 <div class="dashboard__dynamic-data">
-                    <h2 class="dashboard__heading"><?= countMessages(); ?></h2>
+                    <h2 class="dashboard__heading"><?= countTable('messages'); ?></h2>
                     <p class="dashboard__paragraph">Messages</p>
                 </div>
             </div>
