@@ -1,0 +1,58 @@
+.default {
+    @extend %default-button;
+    @include action-button($color-blue);
+}
+
+.delete {
+    @extend %default-button;
+    @include action-button($color-brown-red);
+}
+
+/* Modal window for delete confirmation */
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4);
+
+    /* Modal Content */
+    .modal-content {
+        
+        background-color: #fefefe;
+        margin: 15% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 24%;
+        
+    }
+
+    .confirmDeleteparagraph{
+        font-size: $normal-font-2;
+    }
+
+
+    /* Buttons */
+    .btn {
+        margin-bottom: 1rem;
+        font-size: $normal;
+        padding: 10px 20px;
+        border: none;
+        cursor: pointer;
+        &:last-child{
+            margin-bottom: 0;
+        }
+    }
+
+
+    .btn-danger {
+        background-color: red;
+        color: white;
+    }
+}

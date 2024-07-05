@@ -1,0 +1,62 @@
+// Reusable typography/ font styles and sizes
+
+$mega-big-font:7.6rem;
+$ultra-big-font:5.6rem;
+$extra-big-font:4.8rem;
+$big-font-4:4rem;
+$big-font:3.6rem;
+$md-font-3:3rem;
+$md-font-2:2.6rem;
+$md-font:2rem;
+$normal-font-2:1.8rem;
+$normal:1.6rem;
+$small-font:1.4rem;
+
+.echo-errors{
+    padding: $padding-2;
+}
+
+.primary-heading{
+    font-size: $big-font-4;
+    color: $color-dark-grey;
+}
+
+.secondary-heading {
+    font-size: $big-font;
+    line-height: 1.2;
+    margin-bottom: $marbot-8;
+    color: $color-dark-grey;
+
+}
+
+.third-heading{
+    font-size: $md-font-3;
+    font-weight: 700;
+    color: $color-dark-grey;
+    
+}
+
+.fourth-heading{
+    font-size: $md-font-2;
+    color: $color-dark-grey;
+}
+
+.fifth-heading{
+    @extend %same-font;
+}
+
+.article-heading{
+    @extend %same-font;
+}
+
+.service-heading{
+    @extend %same-font;
+}
+
+.paragraph{
+    font-size: $normal;
+    &:not(:last-child){
+        margin-bottom: $marbot-2;
+    }
+}
+

@@ -1,0 +1,23 @@
+// Article button for opening full page article
+
+.read-more {
+    background-color: #003549;
+    font-size: 1.6rem;
+    line-height: 1.5;
+    color: #f1f1f1;
+    position: absolute;
+    right: 0;
+    bottom: -13px;
+    text-decoration: none;
+    border-radius: 2px;
+    display: block;
+    padding: 5px 10px;
+    transition: all .3s;
+
+    &:hover {
+        color: $color-black;
+        background: $color-orange-light;
+        /* outline: 1px solid transparent;
+        background: $color-orange-dark; */
+    }
+}

@@ -1,0 +1,32 @@
+@import "abstracts/extends";
+@import "abstracts/mixins";
+@import "abstracts/variables";
+
+@import "base/animations";
+@import "base/base";
+@import "base/typography";
+@import "base/utilities";
+
+@import "components/articles";
+@import "components/box-work";
+@import "components/buttons";
+
+@import "components/forms";
+@import "components/google-map";
+@import "components/more-accordions"; 
+@import "components/icons";
+@import "components/navigation";
+@import "components/pagination";
+
+@import "components/read-more";
+@import "components/search-articles";
+@import "components/service-box";
+@import "components/social-icons";
+
+@import "layout/footer";
+@import "layout/grid-page";
+@import "layout/header";
+
+@import "pages/blog";
+@import "pages/contacts";
+@import "pages/home";

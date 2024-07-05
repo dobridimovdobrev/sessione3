@@ -1,0 +1,225 @@
+// main horizontal navigation menu
+
+.navigation {
+    @include flex;
+    @include space-between;
+    @include flex-ver-center;
+    padding: 0 2.6rem;
+
+    background-color: rgba($primary-color, .96);
+
+
+    &__checkbox {
+        display: none;
+    }
+
+    &__list {
+        list-style: none;
+        @include flex;
+
+        @include flex-ver-center;
+        gap: 2rem;
+
+    }
+
+    &__item {
+        padding: 1.8rem;
+    }
+
+    
+
+    &__link {
+        font-size: $md-font;
+        font-family: "Rubik", sans-serif;
+        font-weight: 500;
+        position: relative;
+        display: inline-block;
+        text-decoration: none;
+        color: $text-color; 
+        transition: all .3s;
+        
+        &--active,
+        &:hover {
+            color: $color-orange-dark;
+        }
+
+        
+        &::after {
+            content: '';
+            position: absolute;
+            bottom: -8px; // Use the variable to set the space
+            left: 0;
+            width: 0;
+            height: 2px; // Thickness of the underline
+            background-color: currentColor; // Use the link's text color for the underline
+            transition: width 0.4s ease;
+
+        }
+
+        &--active::after,
+        &:hover::after {
+            width: 100%;
+        }
+
+    }
+
+
+    // Hamburger Menu styles on 900px
+
+    @include responsive(tablet) {
+
+        &__list {
+            flex-direction: column;
+        }
+
+        &__link::after {
+            display: none;
+        }
+
+
+        &__checkbox:checked~&__background {
+            transform: scale(80);
+        }
+
+        &__checkbox:checked~&__main-nav {
+            opacity: 1;
+            width: 100%;
+        }
+
+        &__checkbox:checked+&__button &__icon {
+            background-color: transparent;
+        }
+
+        &__checkbox:checked+&__button &__icon::before {
+            top: 0;
+            transform: rotate(135deg); // 45deg working too
+        }
+
+        &__checkbox:checked+&__button &__icon::after {
+            top: 0;
+            transform: rotate(-135deg); // -45deg working too
+        }
+
+        &__icon {
+            position: relative;
+            margin-top: 3.5rem;
+
+            &,
+            &::before,
+            &::after {
+                width: 3rem;
+                height: 2px;
+                background-color: $font-color;
+                display: inline-block;
+            }
+
+            &::before,
+            &::after {
+                content: "";
+                position: absolute;
+                left: 0;
+                transition: all .2s;
+            }
+
+            &::before {
+                top: -.8rem;
+            }
+
+            &::after {
+                top: .8rem;
+            }
+        }
+
+        &__button {
+            text-align: center; // to center the icon menu
+            background-color: $primary-color;
+            cursor: pointer;
+            height: 7rem;
+            width: 7rem;
+            position: fixed;
+            top: .5rem;
+            right: 1.2rem;
+            border-radius: 50%;
+            z-index: 2000;
+
+            @include responsive(small-tab) {
+                right: .7rem;
+            }
+
+        }
+
+        &__button:hover &__icon::before {
+            top: -1rem;
+        }
+
+        &__button:hover &__icon::after {
+            top: 1rem;
+        }
+
+
+        &__background {
+            height: 6rem;
+            width: 6rem;
+            border-radius: 50%;
+            position: fixed;
+            top: 1.2rem;
+            right: 1.8rem;
+            background-image: radial-gradient($primary-color-2, $primary-color);
+            z-index: 1000;
+            transition: transform .8s cubic-bezier(0.85, 0, 0.15, 1); //nice effect for background
+        }
+
+        &__main-nav {
+            height: 100vh;
+            width: 0;
+            position: fixed;
+            top: 0;
+            right: 0;
+            z-index: 1500;
+            opacity: 0;
+            transition: all .8s cubic-bezier(0.68, -0.6, 0.32, 1.6); //nice effect for animation menu
+        }
+
+        &__list {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            list-style: none;
+            text-align: center;
+            width: 100%;
+        }
+
+        &__item {
+            margin: 1.4rem;
+        }
+
+        &__link {
+
+            &:link,
+            &:visited {
+                display: inline-block; //don't forget this or some animations will not working because of inline elements
+                padding: 1rem 2rem;
+                font-size: $big-font;
+                font-weight: 300;
+                color: $color-dark-grey;
+                text-transform: uppercase;
+                text-decoration: none;
+                background-image: linear-gradient(116deg, transparent 50%, $color-white 50%); //1 nice hover effect
+                background-size: 230%; //2 nice hover effect
+                transition: all .5s; //3 nice hover effect
+            }
+
+            &:hover,
+            &:active {
+                background-position: 100%; //4 nice hover effect
+                color: $color-light-grey;
+                transform: translateX(1rem);
+            }
+        }
+
+    }
+
+
+
+}

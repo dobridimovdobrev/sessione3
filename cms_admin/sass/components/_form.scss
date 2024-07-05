@@ -1,0 +1,81 @@
+.search-form {
+    position: relative;
+    width: 36rem;
+    height: 5rem;
+
+    &__input {
+        font-size: $normal;
+        padding: 1rem 1.2rem;
+        width: 100%;
+        border: 1px solid #808080;
+    }
+
+    &__button {
+        border: none;
+        cursor: pointer;
+    }
+
+    &__search-icon-magnifying-glass {
+        position: absolute;
+        top: 6px;
+        right: 6px;
+        fill: #5D5D5D;
+        stroke: ghostwhite;
+        width: 32px;
+        height: 32px;
+    }
+
+}
+
+.form-group {
+    display: grid;
+    grid-template-columns: 1fr;
+    margin-bottom: $margin-2;
+
+    & .counter {
+        color: red;
+        font-size: $small-font;
+    }
+
+    &__success {
+        font-size: $normal;
+        color: green;
+    }
+
+    &__error {
+        font-size: $normal;
+        color: red;
+    }
+
+    &__label {
+        font-size: $normal;
+        font-weight: bold;
+    }
+
+    &__input {
+        padding: $padding-1;
+        font-size: $normal;
+    }
+
+    &__btn-form {
+        padding: 1.4rem 2.4rem;
+        margin-bottom: $margin-3;
+        background-color: #0f66b8;
+        color: $color-white;
+        border: none;
+        font-size: $normal-font-2;
+        text-transform: uppercase;
+        cursor: pointer;
+
+        &:hover {
+            border: 1px solid $color-black;
+            background: none;
+            color: $color-black;
+        }
+    }
+
+    &__form-content {
+        font-size: $normal-font-2;
+        padding: $padding-1;
+    }
+}

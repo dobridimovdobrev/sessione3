@@ -1,0 +1,84 @@
+// work component only for the homepage for now
+.box-work{
+    @include grid-col(2);
+    gap: 9rem;
+    margin-bottom:$marbot-8;
+
+    @include responsive(780px){
+        @include grid-col(1);
+        
+    }
+
+    @include responsive(small-phone){
+        margin-bottom: $marbot-5;
+        
+    }    
+
+
+    & .work-heading-title {
+        font-size: $big-font;
+        line-height: 1.2;
+        margin-bottom: $marbot-3;
+
+        @include responsive(samsung-fold) {
+            font-size: $md-font-3;
+          }
+    }
+    
+    & .work-description {
+        font-size: 1.8rem;
+        line-height: 1.8;
+    
+        @include responsive(tablet){
+            font-size: $normal;
+            line-height: 1.6;
+        }
+
+    }
+    
+    
+    & .work-number {
+        font-size: $mega-big-font;
+        font-weight: 600;
+        color: $color-grey;
+        margin-bottom: 1.2rem;
+    
+    
+        @include responsive(tablet){
+            font-size: $ultra-big-font;
+        }
+    }
+
+    & picture{
+        display: flex;
+        justify-content: center;
+        @include responsive(780px){
+            grid-row: -1;
+        }
+    }
+
+    & .work-images {
+        width: 100%;
+        @include responsive(tablet){
+            
+            box-shadow: 0 1px 5px rgba($color-black, .15);
+        }
+
+        @include responsive(780px){
+            width: 62%;
+           align-self: center;
+           box-shadow: none;
+        }
+
+        @include responsive(small-tab) {
+            width: 80%;
+            
+        }
+
+        @include responsive(phone) {
+            width: 100%;
+            
+        }
+
+    }
+}

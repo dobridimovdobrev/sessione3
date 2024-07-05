@@ -1,0 +1,107 @@
+
+.category{
+    display: grid;
+    grid-template-columns: 40fr 60fr;
+    gap: 5rem;
+    position: relative;
+    
+    .category-input{
+        font-size: $normal;
+        padding: $padding-1;
+        margin: $margin-1 0 $margin-2 0;
+        border-radius: 5px;
+        border: 1px solid $primary-color;
+        width: 100%;
+        
+        
+    
+        &:focus{
+            border-color: $color-purple;
+            outline: none;
+        }
+    }
+       
+   
+
+        & .cms_admin-error{
+            font-size: $normal;
+            color: $color-brown-red;
+            display: block;
+            position: absolute;
+            top: 3px;
+            left: 48rem;
+
+            /* top:110px;
+               left:0;
+               put it inside the form
+               if i need showing correctly
+               on small screens. */
+        }
+    
+    
+    
+
+    &__table{
+        border-collapse: collapse;
+        font-size: $normal;
+        width: 100%;
+      
+      
+
+        & thead {
+            background-color: $table-color-1; /* Optional background color for the header */
+        }
+    
+        & th, & td {
+            padding: $padding-1 $padding-2; /* Adjust padding as needed */
+            text-align: left; /* Adjust text alignment as needed */
+            border: 1px solid $table-color-2;
+        }
+    
+        & tbody {
+            display: grid;
+            grid-template-columns: 1fr; /* Ensure columns match the header */
+            gap: 0; /* Adjust gap as needed */
+            
+          
+        }
+
+        & tr {
+            /* display: contents;  *//* Ensure each cell is part of the grid layout */  
+            display: grid;
+            grid-template-columns:  80fr 15fr;
+
+           
+        }
+
+        .category__table-row {
+            transition: background-color 0.3s;
+
+            &:hover {
+                background-color: #c1deff; /* Change this to your desired hover background color */
+            }
+        }
+
+        & #update-form{
+            display: grid;
+            grid-template-columns: 1fr;
+        }
+        
+    }
+    
+    & .category__table form {
+        display: grid;
+        grid-template-columns: 86fr 7fr 7fr;
+        gap: 1rem;
+    }
+    
+    & .category__table form input[type="text"] {
+        flex-grow: 1;
+        margin-right: 1rem;
+        padding: 0.5rem;
+        font-size: $normal;
+    }
+    
+    
+
+}

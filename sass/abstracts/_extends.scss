@@ -1,0 +1,64 @@
+// Extends that i create to not repeat myself (DRY) importing variables scss
+@import "../abstracts/variables";
+
+%same-font {
+
+    font-size: 2rem;
+    color: $color-dark-grey;
+
+}
+
+%padding-default {
+    padding: 8.6rem 0 5.6rem 0;
+}
+
+%shadow-light {
+    box-shadow: 0 .5rem 1.5rem rgba($color-black, .15);
+}
+
+%shadow {
+    box-shadow: 0 1rem 2rem rgba($color-black, .15);
+}
+
+
+%absoluteCenter {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+
+%absolute {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+/* Animations */
+
+%fromLeft {
+
+    animation: fromLeft .8s;
+}
+
+%fromRight {
+
+    animation: fromRight .8s;
+}
+
+%fromLeft-2 {
+
+    animation: fromLeft-2 .7s .94s;
+}
+
+%fromRight-2 {
+
+    animation: fromRight-2 .7s .94s;
+}
+
+%fromBottom {
+
+    animation: fromBottom .8s 1.5s;
+
+}

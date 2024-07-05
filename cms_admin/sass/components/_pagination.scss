@@ -1,0 +1,36 @@
+/* Add this CSS to your existing stylesheet */
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    padding: $padding-5 0;
+
+    & a {
+        margin: 0 5px;
+        font-size: $small-font;
+        padding: 10px 15px;
+        text-decoration: none;
+        color: $text-color;
+        background-color: #fff;
+        border: 1px solid #dee2e6;
+        border-radius: 4px;
+        transition: background-color 0.3s, color 0.3s;
+    }
+
+    & a:hover {
+        background-color: $primary-color;
+        color: $color-white;
+    }
+
+    & a.active {
+        background-color: $primary-color;
+        color: $color-white;
+        border-color: $color-white;
+        pointer-events: none;
+    }
+
+    & a.prev,
+    & a.next {
+        font-weight: bold;
+    }
+}

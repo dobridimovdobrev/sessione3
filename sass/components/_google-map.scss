@@ -1,0 +1,10 @@
+
+// reusable iframe google map for embedding 
+.google-map{
+    width: 100%;
+    height: 100%;
+
+    @include responsive(780px){
+       height: 30rem;
+    }
+}

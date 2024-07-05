@@ -1,0 +1,90 @@
+// Buttons for home page hero section
+.hero-buttons {
+    display: flex;
+    margin-bottom: $marbot-8;
+    align-items: center;
+    gap: 4rem;
+
+    @include responsive(tablet) {
+        animation: none;
+        display: none;
+    }
+
+}
+
+.btn {
+    @include button-base;
+    @extend %absolute;
+    width: 18rem;
+
+    //Button from small to big on phone screens
+    @include responsive(phone){
+      width: 100%;
+    }
+
+    //different color button styles
+    &--white {
+        background-color: $color-white;
+        color: $color-white;
+    
+        &::after {
+            background-color: $color-white;
+        }
+    
+    }
+
+    &--purple {
+        background-color: $color-purple;
+        color: $color-white;
+    
+        &::after {
+            background-color: $color-purple;
+        }
+    
+    }
+    
+    &--orange {
+        background-color: $color-orange;
+        color: $color-white;
+    
+        &::after {
+            background-color: $color-orange;
+        }
+    }
+
+    &--brown {
+      background-color: $color-brown-light;
+      color: $color-white;
+  
+      &::after {
+          background-color: $color-brown-light;
+      }
+  }
+
+    // reusable animations
+
+    &--from-left {
+        @include from-left-animation;
+      }
+    
+      &--from-right {
+        @include from-right-animation;
+      }
+
+      &--from-left-2 {
+        @include from-left-2-animation;
+      }
+    
+      &--from-right-2 {
+        @include from-right-2-animation;
+      }
+
+      &--from-bottom {
+        @include from-bottom-animation;
+      }
+}
+
+
+
+
+

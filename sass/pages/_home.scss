@@ -1,0 +1,176 @@
+//All homepage and primary sections
+
+//Hero section
+
+.hero-section {
+    background-color: $primary-color;
+    background-image: url(../img/primary-header-image.jpg);
+    background-size: cover;
+    background-position: top;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    @extend %padding-default;
+
+
+    & .hero-container {
+        @include grid-col(1fr 1.5fr);
+        column-gap: 12rem;
+        align-items: center;
+        max-width: 130rem;
+        padding: 0 3.6rem;
+        margin: 0 auto;
+
+
+        @include responsive(desktop) {
+            max-width: 120rem;
+            display: grid;
+            grid-template-columns: 40fr 60fr;
+            column-gap: 10rem;
+
+        }
+
+
+
+        @include responsive(tablet) {
+            @include grid-col(1);
+            text-align: center;
+            gap: 5rem;
+        }
+
+        & .big-hero-box {
+            max-width: 50rem;
+            transition: .5s;
+
+            @include responsive(tablet) {
+                animation: none;
+                max-width: 100rem;
+                text-align: center;
+            }
+
+        }
+
+        & .myphoto {
+            width: 100%;
+            transition: .5s;
+
+            @include responsive(tablet) {
+                animation: none;
+                width: 80%;
+            }
+
+            @include responsive(small-tab) {
+                width: 100%;
+            }
+
+
+        }
+    }
+}
+
+//Primary section
+
+.primary-section {
+    background-image: url(../img/primary-header-image.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position-y: -27rem;  
+    @extend %padding-default;
+
+     @include responsive(desktop-pro){
+        background-position-y: -22rem;
+    }
+
+    @include responsive(desktop){
+        background-position-y: -16rem;
+    }
+
+    @include responsive(tablet-pro){
+        background-position-y: -11rem;
+    }
+
+    @include responsive(tablet){
+        background-position-y: -6rem;
+    }
+
+    @include responsive(780px){
+        background-position-y: -3rem;
+    }
+
+    @include responsive(small-tab){
+        background-position-y: 0;
+    }
+
+} 
+
+//Featured section
+
+.featured-section {
+    padding: 5.6rem 0 3.2rem 0;
+
+    @include responsive(780px) {
+        display: none;
+    }
+
+    .logos {
+        display: flex;
+        justify-content: space-between;
+
+
+        & img {
+            height: 3.2rem;
+            filter: brightness(0);
+            opacity: 50%;
+
+            @include responsive(tablet) {
+                height: 2.4rem;
+            }
+        }
+    }
+}
+
+
+// Work section
+
+.work-section {
+    @extend %padding-default;
+
+}
+
+
+
+//Service section
+
+.service-section {
+    @extend %padding-default;
+
+    @include responsive(780px) {
+        padding: $padtop-6 0;
+    }
+
+
+}
+
+//Contact section
+
+.subscribe-section {
+    padding-bottom: $padbot-9;
+
+    @include responsive(samsung-fold) {
+        margin: $martop-2;
+    }
+}
+
+/* Login Section */
+
+.login-section {
+    padding: 5.6rem 0;
+}
+
+/* Register section */
+
+.register-section {
+    padding: 5.6rem 0;
+    max-width: 60rem;
+    margin: 0 auto;
+}

@@ -1,0 +1,234 @@
+/* ***********************/
+/*Reusable Mixin and Media Queries Responsive*/
+/* ***********************
+-samsung-fold from 280px to 320px /20em
+-small-phone 420px / 26.25em
+-phone: 480px / 30em
+-small-tab: 600px / 37.5em
+- 780px for some elements / 48.75em
+-tablet: 900px / 56.25em
+-tablet-pro 1024px / 64em
+-desktop: 1200px / 75em
+-desktop-pro: 1400px/87.5em
+-big-desktop:1800px /112.5em
+*/
+
+@mixin responsive($breakpoint) {
+
+  @if $breakpoint ==samsung-fold {
+    @media(max-width: 20em) {
+      @content
+    }
+
+    ;
+  }
+
+  @if $breakpoint ==small-phone {
+    @media(max-width: 26.25em) {
+      @content
+    }
+
+    ;
+  }
+
+  @if $breakpoint ==phone {
+    @media(max-width: 30em) {
+      @content
+    }
+
+    ;
+  }
+
+  @if $breakpoint ==small-tab {
+    @media(max-width: 37.5em) {
+      @content
+    }
+
+    ;
+  }
+
+  @if $breakpoint ==780px {
+    @media(max-width: 48.75em) {
+      @content
+    }
+
+    ;
+  }
+
+  @if $breakpoint ==tablet {
+    @media(max-width: 56.25em) {
+      @content
+    }
+
+    ;
+  }
+
+  @if $breakpoint ==tablet-pro {
+    @media(max-width: 64em) {
+      @content
+    }
+
+    ;
+  }
+
+  @if $breakpoint ==desktop {
+    @media (max-width: 75em) {
+      @content
+    }
+
+    ;
+  }
+
+  @if $breakpoint ==desktop {
+    @media (max-width: 87.5em) {
+      @content
+    }
+
+    ;
+  }
+
+  @if $breakpoint ==big-desktop {
+    @media (min-width: 112.5em) {
+      @content
+    }
+
+    ;
+  }
+}
+
+// Mixin Using GRID
+
+
+@mixin grid-col($columns...) {
+  display: grid;
+
+  @if type-of(nth($columns, 1))==number {
+
+    grid-template-columns: repeat($columns, 1fr);
+  }
+
+  @else {
+
+    grid-template-columns: $columns;
+  }
+}
+
+
+// Mixin Using FLEX
+
+@mixin flex {
+  display: flex;
+}
+
+
+@mixin space-around {
+  justify-content: space-around;
+}
+
+
+@mixin space-between {
+  justify-content: space-between;
+}
+
+@mixin space-evenly {
+  justify-content: space-evenly;
+}
+
+
+@mixin flex-hor-center {
+  justify-content: center;
+}
+
+
+@mixin flex-ver-center {
+  align-items: center;
+}
+
+
+/* Sidebar - Widget Styles */
+
+@mixin widget-style($widgetBg, $titleColor, $categoriesLinkColor, $tagLinkColor) {
+
+  background: $widgetBg ;
+
+  .fourth-heading {
+    color: $titleColor;
+  }
+
+  .widget__categories-link {
+    color: $categoriesLinkColor;
+  }
+
+  .widget__tag-link {
+    color: $tagLinkColor;
+  }
+  
+}
+
+
+/* Button- Base */
+
+@mixin button-base {
+  
+  font-size: $normal-font-2;
+  text-decoration: none;
+  text-transform: uppercase;
+  padding: 1.2rem 3.8rem;
+  border-radius: 1rem;
+  transition: all .2s;
+  position: relative;
+  animation-fill-mode: backwards;
+  border: none;
+  cursor: pointer;
+
+  &:hover {
+    transform: translateY(-2px);
+    @extend %shadow;
+
+    &::after {
+      transform: scaleX(1.2) scaleY(1.4); //1.4x - 1.6y for bigger buttons
+      opacity: 0;
+    }
+  }
+
+  &:active,
+  &:focus {
+    outline: none;
+    transform: translateY(-1px);
+    @extend %shadow;
+  }
+
+  &::after {
+    content: "";
+    width: 100%;
+    height: 100%;
+    display: inline-block;
+    transition: all .4s;
+    z-index: -1;
+    opacity: 1;
+    border-radius: 1rem;
+    @extend %absolute;
+  }
+}
+
+/* Animations for components */
+
+@mixin from-left-animation {
+  @extend %fromLeft;
+}
+
+@mixin from-right-animation {
+  @extend %fromRight;
+}
+
+@mixin from-left-2-animation {
+  @extend %fromLeft-2;
+}
+
+@mixin from-right-2-animation {
+  @extend %fromRight-2;
+}
+
+@mixin from-bottom-animation {
+  @extend %fromBottom;
+}

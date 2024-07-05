@@ -1,0 +1,49 @@
+// Extends that i create to not repeat myself (DRY) importing variables scss
+@import "../abstracts/variables";
+@import "../base/typography";
+
+%default-button {
+    text-decoration: none;
+    font-size: $normal;
+    padding: 4px 8px;
+    cursor: pointer;
+
+    &:hover {
+        background-color: $color-light-grey-2;
+    }
+}
+
+%same-font {
+
+    font-size: 2rem;
+    color: $color-dark-grey;
+
+}
+
+%padding-default {
+    padding: 8.6rem 0 5.6rem 0;
+}
+
+%shadow-light {
+    box-shadow: 0 .5rem 1.5rem rgba($color-black, .15);
+}
+
+%shadow {
+    box-shadow: 0 1rem 2rem rgba($color-black, .15);
+}
+
+
+%absoluteCenter {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+
+%absolute {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+

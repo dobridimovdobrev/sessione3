@@ -1,0 +1,22 @@
+.default-table{
+    margin-top: $margin-2;
+
+    &__table{
+        border-collapse: collapse;
+        font-size: $normal;
+        width: 100%;
+
+        & thead {
+            background-color: $table-color-1; /* Optional background color for the header */
+        }
+    
+        & th, & td {
+            padding: $padding-1;
+            text-align: left; 
+            border: 1px solid $table-color-2;
+            
+        }
+
+        
+    }
+}

@@ -1,0 +1,463 @@
+/* Newsletter / Subscribe form */
+.cta {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    @extend %shadow;
+    background-image: linear-gradient(to right bottom, $color-orange-light, $color-orange-dark);
+    border-radius: 1rem;
+    overflow: hidden;
+
+    @include responsive(tablet) {
+        @include grid-col(2);
+    }
+
+    @include responsive(780px) {
+        @include grid-col(1);
+        margin: $margin-12;
+    }
+
+    @include responsive(small-tab) {
+        margin: $margin-7;
+
+    }
+
+    @include responsive(phone) {
+        margin: 0;
+
+    }
+
+    & .secondary-heading {
+        color: $color-brown;
+        margin-bottom: $marbot-3;
+        font-size: $big-font;
+    }
+
+    &__text {
+        font-size: $normal;
+        line-height: 1.8;
+        color: inherit;
+
+        /* inherit take the 
+        same color of the parent */
+        @include responsive(tablet) {
+            display: none;
+        }
+    }
+
+    &__box {
+        padding: 4.8rem 6.4rem 6.4rem 6.4rem;
+        color: $color-brown;
+
+        @include responsive(small-phone) {
+            padding: $padtop-3;
+        }
+
+        @include responsive(samsung-fold) {
+            padding: $padtop-3 $padtop-2;
+        }
+    }
+
+    &__img-box {
+        max-width: 37rem;
+        background-size: cover;
+        padding-top: $padtop-2;
+
+        @include responsive(tablet) {
+            padding-top: $padbot-6;
+        }
+
+        @include responsive(780px) {
+            display: none;
+        }
+
+    }
+
+    &__form {
+        @include grid-col(2);
+        column-gap: 3.2rem;
+        row-gap: 2.4rem;
+        margin-top: $martop-5;
+
+        @include responsive(tablet) {
+            @include grid-col(1);
+        }
+    }
+
+    &__label {
+        display: block;
+        font-size: $normal;
+        font-weight: 600;
+        margin-bottom: 1.2rem;
+    }
+
+    &__input,
+    &__select {
+        font-size: 1.8rem;
+        padding: 1.2rem;
+        width: 100%;
+        @extend %shadow;
+        font-family: inherit;
+        /* inherit take the 
+        same value of the parent */
+        color: inherit;
+        border: none;
+        background: $color-white;
+        border-radius: 9px;
+
+        @include responsive(780px) {
+            margin-bottom: $marbot-2;
+        }
+    }
+
+    /* nice outline focus border effect */
+    & *:focus {
+        outline: none;
+        box-shadow: 0 0 0 0.8rem rgba(253, 242, 233, 0.5) !important;
+    }
+
+    &__btn,
+    &:link,
+    &:visited {
+        display: inline-block;
+        background-color: $color-brown;
+        color: $color-white;
+        text-decoration: none;
+        font-size: $md-font;
+        font-weight: 600;
+        padding: 1.2rem;
+        border-radius: 9px;
+        border: none;
+        cursor: pointer;
+        margin-top: 3.8rem;
+        width: 100%;
+        transition: all .3s;
+
+        &:hover {
+            background-color: $color-white;
+            color: $color-dark-grey;
+        }
+    }
+
+    &__form input::placeholder {
+        color: $color-light-grey;
+    }
+}
+
+
+/* Contact Page Form with textarea */
+
+.form-box {
+    border-radius: 3px;
+    @extend %shadow;
+    @include grid-col(45fr 55fr);
+    gap: 5rem;
+    padding: 3rem;
+
+    @include responsive(780px) {
+        @include grid-col(1);
+    }
+}
+
+.form {
+    width: 100%;
+
+    &__group {
+        position: relative;
+        margin-bottom: $marbot-2;
+    }
+
+    &__input,
+    &__textarea {
+        @extend %shadow-light;
+        font-size: $normal;
+        color: inherit;
+        padding: 1.5rem .5rem;
+        border-radius: 2px;
+        background-color: rgba($color-white, .5);
+        border: none;
+        font-family: inherit;
+        border-bottom: 2px solid $color-orange; // color-light-grey this is set to fix the moving of the input because of 3px border
+        width: 100%;
+        display: block;
+        transition: all .3s;
+
+        &::-webkit-input-placeholder {
+            color: $color-dark-grey;
+        }
+
+        &:focus:invalid {
+            border-bottom: 2px solid $color-orange-dark;
+        }
+
+        &:focus {
+            outline: none;
+            @extend %shadow;
+            border-bottom: 2px solid $color-green; // second property to have nice border bottom
+        }
+
+    }
+
+    //This work if in html we put first input and after that label not viceversa
+    &__input:placeholder-shown+&__label {
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-4rem);
+    }
+
+    &__textarea:placeholder-shown+&__label {
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-4rem);
+    }
+
+    &__label {
+        color: $color-grey;
+        font-size: $normal;
+        font-weight: 600;
+        margin-left: .5rem;
+        margin-top: $martop-2;
+        display: block;
+        transition: all .3s;
+
+
+    }
+
+    &__error {
+        font-size: $normal;
+        color: red;
+    }
+
+
+
+}
+
+/* Login Form */
+
+.login-form-box {
+    border-radius: 3px;
+    @extend %shadow;
+    @include grid-col(35fr 65fr);
+    gap: 3rem;
+    padding: 3rem;
+
+    @include responsive(tablet) {
+        @include grid-col(42fr 55fr);
+    }
+
+    @include responsive(780px) {
+        @include grid-col(1);
+    }
+
+    &__img {
+        width: 100%;
+
+        @include responsive(780px) {
+            display: none;
+        }
+    }
+}
+
+.login-form {
+    width: 100%;
+
+    &__sign-up-here {
+        margin-top: $margin-3;
+        display: flex;
+        justify-content: flex-start;
+        align-items: baseline;
+        gap: 2rem;
+
+        @include responsive(phone) {
+            justify-content: center;
+            gap: 4rem;
+        }
+
+        @include responsive(samsung-fold) {
+            gap: 1rem;
+        }
+    }
+
+    &__sign-up-link {
+        font-size: $normal;
+        text-decoration: none;
+        border-bottom: 1px solid $color-login-link;
+        color: $color-login-link;
+        padding: 2px 4px;
+        transition: all .3s;
+
+        &:hover {
+            background-color: $color-login-link;
+            color: $color-white;
+            transform: translateY(-2px);
+            @extend %shadow-light;
+        }
+    }
+
+    &__btn {
+        @include button-base;
+        @extend %absolute;
+        width: 13rem;
+
+        @include responsive(phone) {
+            width: 100%;
+        }
+    }
+
+    &__group {
+        position: relative;
+        margin-bottom: $marbot-2;
+    }
+
+    &__input {
+        @extend %shadow-light;
+        font-size: $normal;
+        color: inherit;
+        padding: 1.5rem .5rem;
+        border-radius: 2px;
+        background-color: rgba($color-white, .5);
+        border: none;
+        font-family: inherit;
+        border-bottom: 2px solid $color-orange; // color-light-grey this is set to fix the moving of the input because of 3px border
+        width: 100%;
+        display: block;
+        transition: all .3s;
+
+        &::-webkit-input-placeholder {
+            color: $color-dark-grey;
+        }
+
+        &:focus:invalid {
+            border-bottom: 2px solid $color-orange-dark;
+        }
+
+        &:focus {
+            outline: none;
+            @extend %shadow;
+            border-bottom: 2px solid $color-green; // second property to have nice border bottom
+        }
+
+    }
+
+    //This work if in html we put first input and after that label not viceversa
+    &__input:placeholder-shown+&__label {
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-4rem);
+    }
+
+    &__label {
+        color: $color-grey;
+        font-size: $normal;
+        font-weight: 600;
+        margin-left: .5rem;
+        margin-top: $martop-2;
+        display: block;
+        transition: all .3s;
+
+
+    }
+
+    &__error {
+        font-size: $normal;
+        color: red;
+    }
+
+
+
+}
+
+/* Register form */
+
+.register-form-box {
+
+    background-image: url(/img/primary-header-image.jpg);
+    border-radius: 3px;
+    @extend %shadow;
+    padding: $padding-3;
+
+
+
+    .register-form {
+
+        max-width: 50rem;
+        margin: 0 auto;
+
+        &__btn {
+            @include button-base;
+            @extend %absolute;
+            width: 18rem;
+            margin-top: $margin-2;
+
+            @include responsive(phone) {
+                width: 100%;
+            }
+        }
+
+        &__check {
+            display: flex;
+            align-items: baseline;
+            margin-bottom: 1rem;
+        }
+
+        &__input[type="checkbox"] {
+            width: auto;
+            margin-right: 0.5rem;
+          }
+
+        &__group {
+            position: relative;
+            margin-bottom: $marbot-2;
+        }
+
+        &__input {
+            @extend %shadow-light;
+            font-size: $normal;
+            color: inherit;
+            padding: 1.5rem .5rem;
+            border-radius: 2px;
+            background-color: rgba($color-white, .5);
+            border: none;
+            font-family: inherit;
+            border-bottom: 2px solid $color-orange; // color-light-grey this is set to fix the moving of the input because of 3px border
+            width: 100%;
+            display: block;
+            transition: all .3s;
+
+            &::-webkit-input-placeholder {
+                color: $color-dark-grey;
+            }
+
+            &:focus:invalid {
+                border-bottom: 2px solid $color-orange-dark;
+            }
+
+            &:focus {
+                outline: none;
+                @extend %shadow;
+                border-bottom: 2px solid $color-green; // second property to have nice border bottom
+            }
+
+        }
+
+        &__label {
+            color: $color-grey;
+            font-size: $normal;
+            font-weight: 600;
+            margin-left: .5rem;
+            margin-top: 1rem;
+            display: block;
+            transition: all .3s;
+
+
+        }
+
+
+
+        &__error {
+            font-size: $normal;
+            color: red;
+        }
+
+    }
+
+}

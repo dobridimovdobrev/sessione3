@@ -1,0 +1,88 @@
+
+/* changing links color */
+@mixin action-button($color) {
+    color: $color;
+
+    
+}
+
+/* max-width */
+@mixin max-width($width) {
+  max-width: $width;
+}
+
+
+/* Articles */
+@mixin articles-theme {
+  .dashboard__top {
+    background-color: rgb(11, 125, 201);
+  }
+
+  .dashboard__link {
+    color: rgb(11, 125, 201);
+  }
+
+  .dashboard__eye-icon {
+    fill: rgb(11, 125, 201);
+  }
+}
+
+/* Services */
+@mixin services-theme {
+  .dashboard__top {
+    background-color: rgb(175, 50, 200);
+  }
+
+  .dashboard__link {
+    color: rgb(175, 50, 200);
+  }
+
+  .dashboard__eye-icon {
+    fill: rgb(175, 50, 200);
+  }
+}
+
+/* Users */
+@mixin users-theme {
+  .dashboard__top {
+    background-color: rgb(211, 74, 11);
+  }
+
+  .dashboard__link {
+    color: rgb(211, 74, 11);
+  }
+
+  .dashboard__eye-icon {
+    fill: rgb(211, 74, 11);
+  }
+}
+
+/* Newsletter */
+@mixin newsletter-theme {
+  .dashboard__top {
+    background-color: rgb(207, 22, 78);
+  }
+
+  .dashboard__link {
+    color: rgb(207, 22, 78);
+  }
+
+  .dashboard__eye-icon {
+    fill: rgb(207, 22, 78);
+  }
+}
+
+/* Messages */
+@mixin messages-theme {
+  .dashboard__top {
+    background-color: rgb(12, 150, 0);
+  }
+
+  .dashboard__link {
+    color: rgb(12, 150, 0);
+  }
+
+  .dashboard__eye-icon {
+    fill: rgb(12, 150, 0);
+  }
+}

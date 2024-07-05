@@ -1,0 +1,73 @@
+// Reusable styles for my html 
+
+.container{
+    max-width: $grid-width;
+    margin: 0 auto;
+    padding: 0 3.6rem;
+
+    @include responsive(samsung-fold) {
+        padding:$padtop-2;
+      }
+}
+
+.hor-gap-2{
+    gap: 2rem;
+}
+.hor-gap-3{
+    gap: 3.6rem;
+}
+.hor-gap-5{
+    gap: 5.6rem;
+}
+
+.hor-gap-7{
+    gap:7rem;
+}
+
+.hor-gap-9{
+    gap:9rem;
+}
+
+.hor-gap-10{
+    gap:10rem;
+}
+
+.ver-gap-5{
+    gap: 5rem;
+}
+.ver-gap-7{
+    gap: 7rem;
+}
+.ver-gap-9{
+    gap: 9rem;
+}
+
+.center-text{
+    text-align: center;
+
+    @include responsive(780px){
+    
+    text-align:start;
+    }
+}
+.marbot-small{
+    margin-bottom: 2rem;
+}
+.marbot-medium{
+    margin-bottom: 4rem;
+}
+.marbot-big{
+    margin-bottom: 8rem;
+}
+
+.martop-small{
+    margin-top: 2rem;
+}
+
+.martop-medium{
+    margin-top: 4rem;
+}
+
+.martop-big{
+    margin-top: 9rem;
+}

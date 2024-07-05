@@ -1,0 +1,51 @@
+.accordion {
+  &.rounded-corners {
+    .item {
+      border-radius: 10px;
+      overflow: hidden;
+      background: #e6bf91;
+      color: $text-color;
+      margin-bottom: 1rem;
+
+      &:hover{
+        background: #5D5D5D;
+        color: #ffdab9;
+      }
+
+      .item-link {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
+        cursor: pointer;
+        background: inherit; // Inherit background from parent .item
+
+        .icon {
+          transition: transform 0.3s ease;
+        }
+
+        .accordion-span{
+          font-family: Verdana;
+          font-size: 1.6rem;
+          font-weight: 600;
+        }
+      }
+
+      .hidden-box {
+        display: none;
+        background: #fff;
+        color: #333;
+        padding: 10px;
+      }
+
+      .accordion-checkbox:checked + .item-link + .hidden-box {
+        display: block;
+      }
+
+      .accordion-checkbox:checked + .item-link .icon {
+        transform: rotate(-180deg);
+      }
+    }
+  }
+
+}

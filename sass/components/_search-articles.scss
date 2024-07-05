@@ -1,0 +1,105 @@
+.search-articles{
+    @include grid-col(1);
+    gap: 7rem;
+    
+    .article { // This targets all article elements
+        position: relative;
+        background-color: rgba(255, 255, 255, 0.7);
+        @extend %shadow;
+        @include responsive(tablet) {
+            @include grid-col(1);
+            align-items: center;
+            gap: 0;
+             
+        }
+
+
+        @include responsive(780px) {
+            @include grid-col(1);
+            align-items: center;
+            gap: 5rem;
+            margin-top: $martop-5;
+        }
+
+        .blog-box {
+            padding: 1rem 3rem 2.6rem 3rem;   
+        }
+
+        .blog-tags {
+            margin-bottom: 1.5rem;
+            display: flex;
+            gap: 1.5rem;
+            justify-content: space-between;
+            align-items: baseline;
+
+            @include responsive(780px){
+                
+                margin-bottom: $marbot-3;
+                flex-direction: row;
+                gap: 2rem;
+                align-items: center;
+            }
+
+            @include responsive(small-phone){
+                flex-direction: column;
+                align-items: start;
+                
+            }    
+        }
+
+        .tag {
+            background-color: #FFA75B;
+            display: inline-block;
+            padding: 0.4rem 0.8rem;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            color: #000;
+            border-radius: 2px;
+            font-weight: 600;
+        }
+
+        .published {
+            display: inline-block;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+            padding: 4px;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            color: $text-color;
+            margin: 1.5rem 0;
+
+            @include responsive(780px){
+                
+                box-shadow: 0 1px 9px rgba(0, 0, 0, 0.15);
+                padding: 1rem;
+                
+            }
+
+            @include responsive(small-phone){
+                box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
+                padding: 1rem;
+                
+            }    
+        }
+
+        .paragraf-description {
+            color: $text-color;
+            /* text-align:justify; */
+            font-size: $normal;
+            line-height: 1.7;
+
+            @include responsive(780px){
+                
+            margin-bottom: $martop-2;
+                
+            }
+        }
+
+        .h2-center {
+            font-family: "Times New Roman", Times, serif;
+            margin-bottom: 1.5rem;
+            font-size: 2.2rem;
+            font-weight: 600;
+            color: $text-color;
+        }
+    }    
+}

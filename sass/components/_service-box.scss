@@ -1,0 +1,71 @@
+// All my services style
+.service-box {
+    @include grid-col(2);
+    gap: 9rem;
+
+    @include responsive(tablet) {
+        gap: 6rem;
+    }
+
+    @include responsive(780px) {
+
+        @include grid-col(1);
+        padding: 0 $padding-14;
+    }
+
+    @include responsive(small-tab) {
+        padding: 0 $padding-7;
+
+    }
+
+    @include responsive(phone) {
+        padding: 0;
+
+    }
+
+    & .gallery-img {
+        width: 92%;
+        height: 25rem;
+        border-radius: 2rem;
+        margin-bottom: $marbot-5;
+        position: relative;
+        @extend %shadow;
+
+        @include responsive(desktop) {
+            width: 100%;
+        }
+
+        @include responsive(780px) {
+
+            height: auto;
+        }
+
+    }
+
+    & .heading-service {
+        font-size: 2rem;
+        text-decoration: underline;
+        padding-bottom: $padbot-2;
+
+        & .service-link:link,
+        & .service-link:visited {
+            
+            color: $text-color;
+        }
+
+      
+
+        & .service-link:hover {
+            color: $color-orange-dark;
+
+        }
+    }
+
+    & .service-description {
+        width: 100%;
+        font-size: $normal;
+        line-height: 1.5;
+        padding: 0;
+        margin-bottom: $marbot-3;
+    }
+}

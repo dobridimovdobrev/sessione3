@@ -1,0 +1,11 @@
+.inbox{
+    max-width: 96rem;
+    padding: 2rem;
+    box-shadow: 0 4px 8px rgba($color-black, .15);
+    
+    .read-message{
+        display: flex;
+    gap: 1rem;
+
+}
+}

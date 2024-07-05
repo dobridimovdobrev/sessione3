@@ -1,0 +1,229 @@
+//footer with navigation
+
+.footer {
+  background-color: $primary-color;
+  padding: 7rem 0;
+  border-top: 1px solid $color-light-grey-2;
+
+  & .footer-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1.5fr 1fr 1fr 1fr;
+    gap: 7rem;
+    justify-items: center;
+
+    @include responsive(tablet) {
+      gap: 6rem;
+    }
+
+    & .css-validator{
+      
+      border: none;
+      width: 10rem;
+      height: 3.1rem;
+      @include responsive(780px) {
+        margin-top: 2.3rem;
+      }
+      @include responsive(small-phone) {
+        display: none;
+      }
+      
+    }
+
+
+    @include responsive(780px) {
+      @include grid-col(3);
+      justify-items: normal;
+      gap: 4rem;
+    }
+
+    @include responsive(small-phone) {
+      @include grid-col(1);
+      gap: 2rem;
+      padding: 0 2rem;
+    }
+
+    & .footer-address {
+      @include responsive(780px) {
+        padding-top: $padtop-2;
+      }
+
+      @include responsive(small-phone) {
+        grid-row: 2;
+      }
+    }
+
+    & .footer-nav {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: $marbot-3;
+
+      @include responsive(780px) {
+        padding-top: $padtop-2;
+      }
+
+
+      & .footer-list {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 2.4rem;
+
+      }
+
+    }
+
+    & .footer-link {
+      text-decoration: none;
+      font-size: $normal;
+      color: $text-color;
+      position: relative;
+      transition: all .3s;
+      display: inline-block;
+
+      @include responsive(samsung-fold){
+        font-size: $small-font;
+      }
+
+      &::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: -7px;
+        width: 0;
+        height: 2px;
+        transition: width .3s ease-out;
+        background-color: currentColor;
+      }
+
+      &:hover {
+        color: $color-orange-dark;
+
+      }
+
+      &:hover::after {
+        width: 100%;
+
+      }
+    }
+
+    & .footer-heading {
+      font-size: $normal;
+      font-weight: 500;
+      margin-bottom: 4rem;
+      padding: 0;
+
+      @include responsive(780px) {
+
+        font-size: $md-font;
+        margin-bottom: $marbot-5;
+
+      }
+
+      @include responsive(small-phone) {
+        font-size: $normal;
+      }
+    }
+
+    & .logo {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+
+      @include responsive(780px) {
+
+        & a {
+          order: -1;
+        }
+
+      }
+
+      @include responsive(small-tab) {
+
+        grid-column: 1 / span 2;
+      }
+
+      @include responsive(small-phone) {
+        grid-row: 3;
+        gap: 0;
+      }
+
+
+      & .footer-logo {
+        height: 6rem;
+        margin-top: 1.3rem;
+
+        @include responsive(780px) {
+          display: none;
+        }
+
+      }
+
+      & .copyright {
+        font-size: $normal;
+        line-height: 1.6;
+        color: #474747;
+        letter-spacing: 1px;
+
+        @include responsive(780px) {
+          text-align: start;
+          order: 2;
+          padding-top: $padtop-3;
+        }
+
+        @include responsive(small-phone) {
+          text-align: center;
+        }
+
+        @include responsive(samsung-fold){
+          font-size: $small-font;
+        }
+      }
+
+      & .footer-social-icons {
+        display: flex;
+        list-style: none;
+        gap: 2.2rem;
+        padding-top: $padtop-2;
+
+        @include responsive(780px) {
+          justify-content: flex-start;
+          padding-top: 2.6rem;
+        }
+
+        @include responsive(small-phone) {
+          display: none;
+      }
+
+        & a:link {
+          display: block;
+          font-size: $md-font;
+          color: $color-white;
+        }
+
+        & img {
+          width: 2rem;
+        }
+      }
+    }
+
+    #footer-face {
+      width: 1rem;
+    }
+
+    & .footer-contacts {
+      display: flex;
+      flex-direction: column;
+      gap: 2.3rem;
+      font-size: $normal;
+      color: $text-color;
+    }
+
+    & .copy-trick{
+      @include responsive(small-phone) {
+        display: none;
+      }
+    }
+  }
+
+}
+

@@ -1,0 +1,120 @@
+<?php
+require "includes/admin_header.php";
+$user_ip_adress = verify_user_ip();
+?>
+
+<!--Content  -->
+
+<div class="container">
+    <?php if ($_SESSION["role"] === 'admin') : ?>
+        <h1>Welcome <?= ucfirst($_SESSION["username"])  ?> </h1>
+    <?php else : header("Location: index.php") ?>
+    <?php endif; ?>
+    <div class="dashboard-box">
+        <!-- Services -->
+        <div class="dashboard service-theme">
+            <div class="dashboard__top">
+                <svg class="dashboard__article-icon">
+                    <use href="/mysite-mysql/assets/back-icons/symbol-defs.svg#icon-tools"></use>
+                </svg>
+                <div class="dashboard__dynamic-data">
+                    <h2 class="dashboard__heading"><?= countServices(); ?></h2>
+                    <p class="dashboard__paragraph">Services </p>
+                </div>
+            </div>
+            <div class="dashboard__bottom">
+                <a href="services.php" class="dashboard__link">
+                    <span>View Details</span>
+                    <svg class="dashboard__eye-icon">
+                        <use href="/mysite-mysql/assets/back-icons/symbol-defs.svg#icon-eye"></use>
+                    </svg>
+                </a>
+            </div>
+        </div>
+        <!-- Articles -->
+        <div class="dashboard article-theme">
+            <div class="dashboard__top">
+                <svg class="dashboard__article-icon">
+                    <use href="/mysite-mysql/assets/back-icons/symbol-defs.svg#icon-new-message"></use>
+                </svg>
+                <div class="dashboard__dynamic-data">
+                    <h2 class="dashboard__heading"><?= countArticles(); ?></h2>
+                    <p class="dashboard__paragraph">Articles</p>
+                </div>
+            </div>
+            <div class="dashboard__bottom">
+                <a href="articles.php" class="dashboard__link">
+                    <span>View Details</span>
+                    <svg class="dashboard__eye-icon">
+                        <use href="/mysite-mysql/assets/back-icons/symbol-defs.svg#icon-eye"></use>
+                    </svg>
+                </a>
+            </div>
+        </div>
+        <!-- Users -->
+        <div class="dashboard user-theme">
+            <div class="dashboard__top">
+                <svg class="dashboard__article-icon">
+                    <use href="/mysite-mysql/assets/back-icons/symbol-defs.svg#icon-users"></use>
+                </svg>
+                <div class="dashboard__dynamic-data">
+                    <h2 class="dashboard__heading"><?= countUsers(); ?></h2>
+                    <p class="dashboard__paragraph">Users</p>
+                </div>
+            </div>
+            <div class="dashboard__bottom">
+                <a href="users.php" class="dashboard__link">
+                    <span>View Details</span>
+                    <svg class="dashboard__eye-icon">
+                        <use href="/mysite-mysql/assets/back-icons/symbol-defs.svg#icon-eye"></use>
+                    </svg>
+                </a>
+            </div>
+        </div>
+        <!-- Newsletter -->
+        <div class="dashboard newsletter-theme">
+            <div class="dashboard__top">
+                <svg class="dashboard__article-icon">
+                    <use href="/mysite-mysql/assets/back-icons/symbol-newsletter.svg#icon-email"></use>
+                </svg>
+                <div class="dashboard__dynamic-data">
+                    <h2 class="dashboard__heading"><?= countNewsletters(); ?></h2>
+                    <p class="dashboard__paragraph">Newsletter</p>
+                </div>
+            </div>
+            <div class="dashboard__bottom">
+                <a href="subscribers.php" class="dashboard__link">
+                    <span>View Details</span>
+                    <svg class="dashboard__eye-icon">
+                        <use href="/mysite-mysql/assets/back-icons/symbol-defs.svg#icon-eye"></use>
+                    </svg>
+                </a>
+            </div>
+        </div>
+        <!-- Messages -->
+        <div class="dashboard message-theme">
+            <div class="dashboard__top">
+                <svg class="dashboard__article-icon">
+                    <use href="/mysite-mysql/assets/back-icons/symbol-defs.svg#icon-mail"></use>
+                </svg>
+                <div class="dashboard__dynamic-data">
+                    <h2 class="dashboard__heading"><?= countMessages(); ?></h2>
+                    <p class="dashboard__paragraph">Messages</p>
+                </div>
+            </div>
+            <div class="dashboard__bottom">
+                <a href="messages.php" class="dashboard__link">
+                    <span>View Details</span>
+                    <svg class="dashboard__eye-icon">
+                        <use href="/mysite-mysql/assets/back-icons/symbol-defs.svg#icon-eye"></use>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<?php
+require "includes/admin_footer.php";
+?>

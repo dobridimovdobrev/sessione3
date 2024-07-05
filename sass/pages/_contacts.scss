@@ -1,0 +1,16 @@
+// Contact section
+
+.contact-section {
+    @extend %padding-default;
+
+    @include responsive(780px){
+        padding: $padtop-6 0;
+    }
+
+}
+
+// Thanks image after sending message trough the contact form
+.thx-img{
+    width: 80%;
+}
+

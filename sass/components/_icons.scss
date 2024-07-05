@@ -1,0 +1,40 @@
+/* Tags icon and component */
+.tags {
+    margin-top: 4rem;
+    background: #474747;
+    padding: .6rem 1.2rem;
+    display: flex;
+    width: fit-content;
+    gap: .5rem;
+    border-radius: 2rem;
+
+    &__label {
+        font-size: $normal;
+        color: #ffdab9;
+    }
+
+    &__icon {
+        width: 2.2rem;
+        height: 2.2rem;
+        fill: #ffdab9;
+    }
+}
+
+/* Login icon */
+.login-icon {
+    width: 2.4rem;
+    height: 2.4rem;
+    fill: #ff8a00;
+}
+
+/* Logged in icon */
+
+.logged-in-icon {
+    transition: all .3s;
+    width: 3.2rem;
+    height: 3.6rem;
+    fill: $color-orange-dark;
+    &:hover{
+        fill: $color-black;
+    }
+}

@@ -1,0 +1,209 @@
+//default page layout with right Sidebar 
+.page-container {
+    max-width: 130rem;
+    padding: 0 3.6rem;
+    margin: 0 auto;
+}
+
+.grid-page {
+
+    @include grid-col(65fr 28fr);
+    gap: 7rem;
+    align-items: start;
+    
+    @include responsive(tablet){
+        @include grid-col(65fr 30fr);
+    gap: 5rem;
+    }
+
+    @include responsive(780px){
+        @include grid-col(1);
+    }
+
+    // Article styles with dynamic data
+
+    & .article {
+        .breadcrumb{
+            
+            padding:.5rem 2rem;
+            @include flex;
+            @include flex-hor-center;
+            @include flex-ver-center;
+            @include space-between;
+            box-shadow:  0  0 1rem .4rem rgba($color-black, .07);
+            
+    
+            @include responsive(tablet-pro){
+                &__heading{
+                    display: none;
+                }    
+            }
+
+
+            @include responsive(phone){
+                flex-direction: column;
+            }
+        }
+
+        &__image {
+            width: 100%;
+            margin-bottom: $marbot-5;
+        }
+
+    }
+
+    //All styles for sidebar and search widget
+
+    & .right-sidebar {
+        display: flex;
+        flex-direction: column;
+        gap: 4rem;
+        flex: 0 0 300px;
+
+        & .widget {
+            background: linear-gradient(to left, $primary-color-2, $primary-color);
+            padding: $padding-2;
+            border-radius: 1rem;
+            @extend %shadow-light;
+
+
+            &--peach-color {
+                @include widget-style(#5D5D5D, #ffdab9, #ffdab9, #555);
+
+            }
+
+            &__search{
+                position: relative;
+
+            }
+
+            &__search-input {
+                font-size: $normal;
+                padding: 1rem 1.2rem;
+                width: 100%;
+                border: none;
+
+                &::-webkit-search-cancel-button {
+                    -webkit-appearance: none;
+                    appearance: none;
+                }
+            }
+
+            &__search-button{
+                border: none;
+                cursor: pointer;
+            }
+
+            &__search-icon-magnifying-glass{
+                position: absolute;
+                top: 2px;
+                right: 2px;
+                fill: #5D5D5D;
+                stroke: ghostwhite;
+                width: 32px;
+                height: 32px;
+            }
+
+            & .fourth-heading {
+                position: relative;
+                margin-bottom: $marbot-4;
+
+                &::before {
+                    content: "";
+                    display: inline-block;
+                    position: absolute;
+                    left: 0;
+                    bottom: -1.5rem;
+                    width: 10rem;
+                    height: 3px;
+                    background-color: currentColor;
+                }
+            }
+
+            &__categories {
+
+                &-list {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 3rem;
+
+                }
+
+                &-items {
+                    list-style: none;
+
+                   /*  &:not(:last-child) {
+
+                        margin-bottom: $marbot-2;
+                    } */
+                }
+
+                &-link {
+                    color: $font-color;
+                    font-size: $normal;
+                    text-decoration: none;
+                    position: relative;
+                    transition: all .3s;
+
+
+
+                    &::after {
+                        content: '';
+                        position: absolute;
+                        bottom: -8px; // Use the variable to set the space
+                        left: 0;
+                        width: 0;
+                        height: 2.5px; // Thickness of the underline
+                        background-color: currentColor; // Use the link's text color for the underline
+                        transition: all .4s ease;
+
+                    }
+
+                    &:hover::after {
+                        width: 80%;
+                    }
+
+                }
+            }
+
+
+            &__tag {
+                margin-top: $martop-5;
+
+                &-list {
+                    display: flex;
+                    justify-content: flex-start;
+                    flex-wrap: wrap;
+                    row-gap: 3.6rem;
+                    column-gap: 7px;
+
+                }
+
+                &-items {
+                    list-style: none;
+
+                }
+
+                &-link {
+                    border-radius: 5px;
+                    transition: all .3s;
+                    padding: .8rem 1.6rem;
+                    font-size: $normal;
+                    text-decoration: none;
+                    color: $font-color;
+                    background: linear-gradient(to bottom right, $primary-color, $color-orange-light);
+
+                    &:hover {
+                        background: linear-gradient(to left, $color-purple, $color-orange-dark);
+                        color: $color-white;
+                    }
+                }
+
+            }
+
+
+        }
+
+
+    }
+}
