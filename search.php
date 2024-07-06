@@ -1,12 +1,18 @@
 <?php
-$headTitle = $pageTitle = "Articles";
-$pageDescription = "Search articles page. Here you can find all articles by typing the title into the search input";
+/* Include menu, functions and database */
 require "includes/header.php";
+/*head title and description for the page */
+pageMetaData(
+  "Articles",
+  "Search articles page. Here you can find all articles by typing 
+  the title into the search input"
+);
+
+/* Include header with default background image */
 require "includes/main.php";
-require "includes/functions.php";
 
-
-$articlesPerPage = 6; // Number of articles per page
+/* Number of articles per page */
+$articlesPerPage = 3;  
 $currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 
 // Initialize search-related variables
@@ -19,15 +25,14 @@ if (isset($_POST["submit"])) {
     $articlesSql = "SELECT * FROM articles WHERE title LIKE '%$search%'";
     $articlesQuery = mysqli_query($con_db, $articlesSql);
 
-    if (!$articlesQuery) {
-        die("Query failed: " . mysqli_error($con_db));
-    }
+    /* Check for query errors */
+    confirmQuery($articlesQuery);
 }
 
 // Use the function to get paginated articles if no search query is active
 if (!$articlesQuery) {
-    $result = getPaginatedArticles($con_db, $currentPage, $articlesPerPage);
-    $articles = $result['articles'];
+    $result = pagination($con_db, 'articles', $currentPage, $articlesPerPage, "status = 'published'", 'published_at DESC');
+    $articles = $result['data'];
     $totalPages = $result['totalPages'];
 } else {
     // When there's a search query, paginate the search results
@@ -36,21 +41,18 @@ if (!$articlesQuery) {
     $offset = ($currentPage - 1) * $articlesPerPage;
     $articlesSql = "SELECT * FROM articles WHERE title LIKE '%$search%' AND status = 'published' LIMIT $offset, $articlesPerPage";
     $articlesQuery = mysqli_query($con_db, $articlesSql);
-
-    if (!$articlesQuery) {
-        die("Query failed: " . mysqli_error($con_db));
-    }
-
+    /* Check for query errors */
+    confirmQuery($articlesQuery);
+    /* Fetch articles data from database */
     $articles = mysqli_fetch_all($articlesQuery, MYSQLI_ASSOC);
 }
-
 ?>
-
+<!-- Page section -->
 <section class="page-section">
   <div class="page-container">
     <div class="grid-page">
       <div class="search-articles">
-
+        <!-- Loop and display articles -->
         <?php if (!empty($articles)) : ?>
           <?php foreach ($articles as $article) :
             $articleId = $article['id'];
@@ -65,19 +67,20 @@ if (!$articlesQuery) {
                   <div>
                     <span class="tag"><?= $articleTitle ?></span>
                   </div>
-                <div>
-                  <span class="published">Published on <?= $articleDate ?></span>
-                </div>
-                  </div>
-                  <h2 class="h2-center"><?= $articleTitle ?></h2>
                   <div>
+                    <span class="published">Published on <?= $articleDate ?></span>
+                  </div>
+                </div>
+                <h2 class="h2-center"><?= $articleTitle ?></h2>
+                <div>
                     <span class="published">Author: <?= $articleAuthor?></span>
                   </div>
-                  <p class="paragraf-description"><?= $articleDescription ?></p>
+                <p class="paragraf-description"><?= $articleDescription ?></p>
                 <a href="article.php?id=<?= $articleId ?>" class="read-more" title="<?= $articleTitle ?>" aria-label="<?= $articleTitle ?>">Read More</a>
               </div>
             </article>
           <?php endforeach; ?>
+          <!-- If no articles -->
         <?php else : ?>
           <?= "<h1 class='fifth-heading'>Articles not found!</h1>" ?>
         <?php endif; ?>
@@ -100,4 +103,7 @@ if (!$articlesQuery) {
     </div>
   </div>
 </section>
-<?php require "includes/footer.php"; ?>
+<!-- Footer -->
+<?php 
+require "includes/footer.php"; 
+?>

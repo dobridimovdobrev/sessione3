@@ -26,16 +26,18 @@
           <a href="" aria-label="rss" title="rss"><img src="./img/social%20media/rss.png" alt="rss" title="social media platform"></a>
         </li>
       </ul>
+      <!-- Copyright -->
       <p class="copyright">
         Copyright © <span class="year">2024</span><br class="copy-trick">
         All rights reserved.
       </p>
+      <!-- Website Logo -->
       <a href="#" title="logo" aria-label="logo">
         <img class="footer-logo" alt="logo" title="logo" src="./img/logo.png">
       </a>
     </div>
-
-    <!-- Footer Navigation -->
+    <!-- Footer navigation -->
+    <!-- Account -->
     <nav class="footer-nav">
       <p class="footer-heading">Account</p>
       <ul class="footer-list">
@@ -45,7 +47,7 @@
         <li><a class="footer-link" title="Android app" aria-label="Android app" href="#">Android app</a></li>
       </ul>
     </nav>
-
+    <!-- Company -->
     <nav class="footer-nav">
       <p class="footer-heading">Company</p>
       <ul class="footer-list">
@@ -55,23 +57,26 @@
         <li><a class="footer-link" title="Careers" aria-label="Careers" href="#">Careers</a></li>
       </ul>
     </nav>
-
+    <!-- Resources -->
     <nav class="footer-nav">
       <p class="footer-heading">Resources</p>
       <ul class="footer-list">
         <li><a class="footer-link" title="Coding info" aria-label="Coding info" href="#">Coding info </a></li>
-        <li><a class="footer-link" title="Help center" aria-label="Help center" href="terms.php">Terms</a></li>
-        <li><a class="footer-link" title="Privacy" aria-label="Privacy" href="terms.php">Privacy</a></li>
+        <li><a class="footer-link" title="Terms and conditions" aria-label="Terms and conditions" href="terms.php">Terms</a></li>
+        <li><a class="footer-link" title="Privacy terms" aria-label="Privacy terms" href="terms.php">Privacy</a></li>
       </ul>
     </nav>
-
+    <!-- Contact us -->
     <div class="footer-address">
       <p class="footer-heading">Contact us</p>
       <address class="footer-contacts">
+        <!-- City -->
         <p>San Francisco</p>
+        <!-- Phone -->
         <p>
           <a class="footer-link" title="phone number" aria-label="Tel: 415-201-6370" href="tel:415-201-6370">Tel: 415-201-6370</a><br>
         </p>
+        <!-- Email adress -->
         <p>
           <a class="footer-link" title="email" aria-label="dobri_dobrev@yahoo.com" href="mailto:dobri_dobrev@yahoo.com">dobri_dobrev@yahoo.com</a>
         </p>
@@ -79,7 +84,7 @@
     </div>
   </div>
 </footer>
+<!-- Javascript source -->
 <script src="/mysite-mysql/js/scripts.js"></script>
 </body>
-
 </html>

@@ -1,5 +1,5 @@
 <?php
-
+/* Database info */
 $db_host = "localhost";
 $db_user = "dobri2";
 $db_pass = "Dobri123!";

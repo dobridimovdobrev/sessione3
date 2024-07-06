@@ -241,4 +241,4 @@ function delete_categories()
 
 
 
-/* Resize images */
+

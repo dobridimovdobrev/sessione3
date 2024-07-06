@@ -3,17 +3,16 @@
 require "includes/mysql-database.php";
 /* include functions */
 require "functions.php";
+/*starts buffering output  */
 ob_start();
+/* Session start */
 session_start();
 
+// Initialize default values for metadata variables
+$headTitle = $pageTitle = $headDescription = "";
+
 // Fetch pages from the database
-$pageSql = "SELECT * FROM pages";
-$pageQuery = mysqli_query($con_db, $pageSql);
-if (!$pageQuery) {
-    die("Page query failed: " . mysqli_error($con_db));
-} else {
-    $pages = mysqli_fetch_all($pageQuery, MYSQLI_ASSOC);
-}
+$pages = fetchData($con_db, 'pages', $condition = '', $orderBy = '', $limit = '' );
 
 /* Set active links for sidebar navigation */
 $activeClass = "navigation__link--active";
@@ -63,6 +62,7 @@ $currentPage = basename($_SERVER['REQUEST_URI']);
                             </a>
                         </li>
                     <?php endforeach; ?>
+                    <!-- If not logged in show login page -->
                     <?php if (!isset($_SESSION["username"])) : ?>
                         <li class="navigation__item">
                             <a href="login.php" class="navigation__link <?= ($currentPage == 'login.php') ? $activeClass : '' ?>" title="login" aria-label="login">
@@ -73,6 +73,7 @@ $currentPage = basename($_SERVER['REQUEST_URI']);
                             </a>
                         </li>
                     <?php endif; ?>
+                    <!-- If user is logged do not show login page -->
                     <?php if (isset($_SESSION["username"])) : ?>
                         <li class="navigation__item">
                             <a href="/mysite-mysql/cms_admin/dashboard.php" class="navigation__login-link" title="dashboard" aria-label="dashboard">

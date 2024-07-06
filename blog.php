@@ -1,9 +1,11 @@
 <?php
-$headTitle = $pageTitle = "Blog Articles";
-$headDescription = "Full stack web developer. Greetings! I'm Dobri Dobrev, a passionate and innovative web developer with a knack for turning ideas into digital reality. Let me take you on a journey through my professional story.";
+/* Include menu, functions and database */
 require "includes/header.php";
-
-
+/* Head title, Description,Page title meta data */
+pageMetaData(
+  "Blog Articles",
+  " This page include all article ordered by new to old with pagination, sidebar and article categories"
+);
 /* Default section with the image after navigation */
 require "includes/main.php";
 
@@ -16,7 +18,6 @@ $articlesPagination = pagination($con_db, 'articles', $currentPage, $articlesPer
 $articles = $articlesPagination['data'];
 $totalPages = $articlesPagination['totalPages'];
 ?>
-
 <!-- Section Blog -->
 <section class="blog-section" id="blog">
   <div class="container">
@@ -51,7 +52,6 @@ $totalPages = $articlesPagination['totalPages'];
         </article>
     <?php endforeach; ?>
     </div>
-
     <!-- Pagination -->
     <div class="pagination">
     <?php if ($currentPage > 1): ?>
@@ -66,7 +66,6 @@ $totalPages = $articlesPagination['totalPages'];
     </div>
   </div>
 </section>
-
 <!-- Footer -->
 <?php
 require "includes/footer.php";

@@ -1,5 +1,22 @@
 <?php
-/* confirmQuery */
+/* Head title, Description,Page title meta data */
+function pageMetaData($headTitleValue, $headDescriptionValue) {
+    global $headTitle, $headDescription, $pageTitle;
+
+    $headTitle = $pageTitle = $headTitleValue; 
+    $headDescription = $headDescriptionValue;
+}
+
+/* errors Query */
+function errorsQuery($query) {
+    global $con_db;
+
+    if (!$query) {
+        die("Query failed: " . mysqli_error($con_db));
+    } 
+}
+
+/* confirm Query */
 function confirmQuery($query) {
     global $con_db;
 

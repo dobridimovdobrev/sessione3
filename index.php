@@ -1,17 +1,12 @@
 <?php
-
-// I set variables from header.php and iclude on each page to set different Title and description 
-
-$headTitle = "Web Developer";
-$headDescription = "Full stack web developer.
-Greetings! I'm Dobri Dobrev , a passionate and innovative web developer
-with a knack for turning ideas into digital reality. 
-Let me take you on a journey through my professional story.";
-
-// include header,navigation and database Mysql
+// include menu navigation, functions and database Mysql
 require "includes/header.php";
 
-
+// I set variables from header.php and iclude on each page to set different Title and description 
+pageMetaData("Web Developer", '', "Full stack web developer.
+Greetings! I'm Dobri Dobrev , a passionate and innovative web developer
+with a knack for turning ideas into digital reality. 
+Let me take you on a journey through my professional story.") ;
 
 //connecting to the database article mysql query and ordering by date
 $articles = fetchData($con_db, 'articles', "status = 'published'", 'published_at DESC', '6' );
@@ -51,12 +46,14 @@ if (isset($_POST["submit"])) {
     $newsletterSql = "INSERT INTO subscribers (name, email, origin, date) VALUES (?, ?, ?, NOW())";
     $newsletterStmt = mysqli_prepare($con_db, $newsletterSql);
     /* Confirm query */
-    confirmQuery($newsletterStmt);
-    /* If no errors prepare stmt will be bind and execute */
-    mysqli_stmt_bind_param($newsletterStmt, "sss", $name, $email, $origin);
-    $execute = mysqli_stmt_execute($newsletterStmt);
-    /* Check for executing errors */
-    if (confirmQuery($execute)) {
+    if(!errorsQuery($newsletterStmt)){
+      /* If no errors prepare stmt will be bind and execute */
+      mysqli_stmt_bind_param($newsletterStmt, "sss", $name, $email, $origin);
+      $execute = mysqli_stmt_execute($newsletterStmt);
+      /* Check for executing errors */
+    }
+    if (!$execute) {
+      die("Executing failed" . mysqli_stmt_error($newsletterStmt));
       /* If no execute errors insert new id into database,close stmt and redirect to thanks page */
     } else {
       $subscribersId = mysqli_insert_id($con_db);
@@ -66,11 +63,7 @@ if (isset($_POST["submit"])) {
     }
   } 
 }
-
-
 ?>
-
-
 <!-- Hero Section that is unique for my homepage-->
 <section class="hero-section" id="#hero">
   <div class="hero-container">
@@ -145,9 +138,7 @@ if (isset($_POST["submit"])) {
     <h2 class="secondary-heading">Web Development Work</h2>
   </div>
   <div class="container">
-
     <!-- First work -->
-
     <div class="box-work ">
       <div class="front-end">
         <p class="work-number">01</p>
@@ -163,11 +154,8 @@ if (isset($_POST["submit"])) {
         <source srcset="./img/works/back-end.png" media="(max-width:37.5em)">
         <img src="./img/works/front-end.png" alt="Front-end development" class="work-images">
       </picture>
-
     </div>
-
     <!-- Second Work -->
-
     <div class="box-work">
       <picture>
         <source srcset="./img/works/back-end.png" media="(max-width:37.5em)">
@@ -185,11 +173,8 @@ if (isset($_POST["submit"])) {
           seamlessly.
         </p>
       </div>
-
     </div>
-
     <!-- Third Work -->
-
     <div class="box-work ">
       <div class="front-end">
         <p class="work-number">03</p>
@@ -210,19 +195,15 @@ if (isset($_POST["submit"])) {
     </div>
   </div>
 </section>
-
 <!-- Section Blog -->
-
 <section class="blog-section" id="blog">
   <div class="container">
     <span class="sub-heading">Blog</span>
     <h2 class="secondary-heading">Latest Articles</h2>
   </div>
   <div class="container">
-
-    <!-- All Articles that i include in json file to generate dynamic data ,
+    <!-- All Articles that i include in database to generate dynamic data ,
   because in this section i will show only the latest 6 articles sorted by date from new to old -->
-
     <div class="blog-articles">
       <?php foreach ($articles as $article) :
         $articleImage = $article['imageurl'];
@@ -252,7 +233,6 @@ if (isset($_POST["submit"])) {
     </div>
   </div>
 </section>
-
 <!-- Service section -->
 <div id="services" class="container martop-big center-text">
   <span class="sub-heading">Services</span>
@@ -260,17 +240,14 @@ if (isset($_POST["submit"])) {
 </div>
 <section class="service-section">
   <div class="container">
-
-    <!-- All services that i include in json file to generate dynamic data.
+    <!-- All services that i include in database to generate dynamic data.
      I decide to give access to each service directly from my homepage-->
-
     <div class="service-box ">
       <?php foreach ($services as $service) :
         $serviceImage = $service['imageurl'];
         $serviceTitle = $service['title'];
         $serviceDescription = strip_tags($service['description']);
         $serviceId = $service['id'];
-
       ?>
         <div class="text-box">
           <h3 class="heading-service">
@@ -285,7 +262,6 @@ if (isset($_POST["submit"])) {
     </div>
   </div>
 </section>
-
 <!-- Subscribe CTA Section -->
 <section class="subscribe-section" id="contacts">
   <div class="container">
@@ -299,7 +275,6 @@ if (isset($_POST["submit"])) {
         <p class="cta__text">
           Get latest news, updates, tips and trics in your inbox.
         </p>
-
         <!-- Newsletter form only in the homepage -->
         <form id="newsletterForm"  class="cta__form" method="post">
           <!-- Name -->
@@ -336,15 +311,10 @@ if (isset($_POST["submit"])) {
       </div>
       <!--Web developer  -->
       <img src="./img/Dobri-Dobrev.png" class="cta__img-box" alt="Dobri Dobrev" title="Dobri Dobrev">
-
     </div>
   </div>
 </section>
-
-
-
 <!-- Footer  -->
-
 <?php
 require "includes/footer.php";
 ?>

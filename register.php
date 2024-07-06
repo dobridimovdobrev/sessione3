@@ -1,13 +1,14 @@
 <?php
-$headTitle = "Registration";
-$headDescription = "Full stack web developer.
-  Greetings! I'm Dobri Dobrev, a passionate and innovative web developer
-   with a knack for turning ideas into digital reality. 
-   Let me take you on a journey through my professional story.";
-
+/* Include menu, functions and database */
 require "includes/header.php";
-$pageTitle = "Registration"; // Title for Blog page
-
+/*head title and description for the page */
+pageMetaData(
+    "Registration",
+    "Full stack web developer.
+     Greetings! I'm Dobri Dobrev, a passionate and innovative web developer
+     with a knack for turning ideas into digital reality. 
+     Let me take you on a journey through my professional story."
+);
 /* Default section with the image after navigation  */
 require "includes/main.php";
 
@@ -68,14 +69,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["submit"])) {
                        VALUES (?, ?, ?, ?, ?, ?, NOW())";
         $newUserStmt = mysqli_prepare($con_db, $newUserSql);
         /* Check for errors */
-        if (!$newUserStmt) {
-            die("MySQL prepare error: " . mysqli_error($con_db));
-        } else {
+        if (!errorsQuery($newUserStmt)) {
             /* If no statement errors password will be crypt */
             $hashedPassword = password_hash($password, PASSWORD_BCRYPT, ["cost" => 12]);
             mysqli_stmt_bind_param($newUserStmt, 'ssssss', $username, $first_name, $last_name, $user_email, $hashedPassword, $role);
-            $user_execute = mysqli_stmt_execute($newUserStmt);
-        }
+            $user_execute = mysqli_stmt_execute($newUserStmt);    
+        } 
+        
         /* Check for execute stmt errors */
         if (!$user_execute) {
             die("Error inserting user: " . mysqli_stmt_error($newUserStmt));
@@ -86,12 +86,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["submit"])) {
             header("Location: login.php");
             exit();
         }
+        /* Error message if form is not filled correctly */
     } else {
         $registrationFailed = "Please fill out the form correctly.";
     }
 }
 ?>
-
+<!-- Register section -->
 <section class="register-section">
     <div class="container">
         <div class="register-form-box">
@@ -149,7 +150,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["submit"])) {
         </div>
     </div>
 </section>
-
+<!-- Footer menu -->
 <?php
 require "includes/footer.php";
 ?>

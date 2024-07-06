@@ -1,26 +1,28 @@
 <?php
-$headTitle = $pageTitle = "Terms and conditions";
-$headDescription = "Full stack web developer.
+/* Include menu, functions and database */
+require "includes/header.php";
+/*head title and description for the page */
+pageMetaData(
+    "Terms and conditions",
+    "Full stack web developer.
         Greetings! I'm Dobri Dobrev , a passionate and innovative web developer
         with a knack for turning ideas into digital reality. 
-        Let me take you on a journey through my professional story.";
-require "includes/header.php";
-
+        Let me take you on a journey through my professional story."
+);
 ?>
-
+<!-- Primary section -->
 <section class="primary-section">
     <div class="container">
-
+        <!-- Page title -->
         <h1 class="primary-heading"><?= $pageTitle ?></h1>
-
     </div>
 </section>
-
+<!-- Page section -->
 <section class="page-section">
-
+    <!-- Page container -->
     <div class="page-container">
         <div class="grid-page">
-            <!--  Cool round viola accordion -->
+            <!--  Cool round accordion -->
             <div class="accordion rounded-corners">
                 <!-- 1 -->
                 <div class="item">
@@ -309,25 +311,20 @@ require "includes/header.php";
                     <div class="hidden-box">
                         <p class="paragraph">
                             This website is owned and operated by Dobri Dimov Dobrev.</p>
-                        <p class="paragraph">You may contact us regarding these Terms and Conditions by writing or emailing us at the 
+                        <p class="paragraph">You may contact us regarding these Terms and Conditions by writing or emailing us at the
                             following address: dobri_dobrev@yahoo.com<br>
                         </p>
                     </div>
                 </div>
-
             </div>
-
             <!-- Sidebar -->
             <?php
             require "includes/sidebar.php";
             ?>
-
         </div>
     </div>
 </section>
-
-<!-- Footer -->
-
+<!-- Footer menu -->
 <?php
 require "includes/footer.php";
 ?>

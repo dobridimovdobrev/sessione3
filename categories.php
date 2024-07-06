@@ -1,11 +1,10 @@
 <?php
-$headTitle = $pageTitle = "Categories";
-$headDescription = "All categories that are connected with all blog articles.";
-/* Menu with database and session included */
+/* Menu with database,functions and session included */
 require "includes/header.php";
+/* Head title, Description,Page title meta data */
+pageMetaData("Categories", "All categories that are connected with all blog articles.");
 /* Default section with the image after navigation  */
 require "includes/main.php";
-require "includes/functions.php";
 
 $articlesPerPage = 6; // Number of articles per page
 $currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
@@ -23,32 +22,28 @@ if (isset($_GET["id"])) {
     // Query to count total articles in the selected category
     $totalRecordsSql = "SELECT COUNT(*) FROM articles WHERE cat_id = $categoryId AND status = 'published' " ;
     $totalRecordsResult = mysqli_query($con_db, $totalRecordsSql);
-
-    if (!$totalRecordsResult) {
-        die("Query failed: " . mysqli_error($con_db));
+    /* If no errors query */
+    if (!errorsQuery($totalRecordsResult)) {
+      $totalRecordsRow = mysqli_fetch_array($totalRecordsResult);
+      $totalRecords = $totalRecordsRow[0];
+      $totalPages = ceil($totalRecords / $articlesPerPage);
     }
-
-    $totalRecordsRow = mysqli_fetch_array($totalRecordsResult);
-    $totalRecords = $totalRecordsRow[0];
-    $totalPages = ceil($totalRecords / $articlesPerPage);
 
     // Query to fetch paginated articles in the selected category
     $articlesSql = "SELECT * FROM articles WHERE cat_id = $categoryId AND status = 'published' LIMIT $offset, $articlesPerPage";
     $articlesQuery = mysqli_query($con_db, $articlesSql);
-
-    if (!$articlesQuery) {
-        die("Query failed: " . mysqli_error($con_db));
+    /* If no errors query */
+    if (!errorsQuery($articlesQuery)) {
+      $articles = mysqli_fetch_all($articlesQuery, MYSQLI_ASSOC);
     }
-
-    $articles = mysqli_fetch_all($articlesQuery, MYSQLI_ASSOC);
 }
 ?>
-
-
+<!-- Page section -->
 <section class="page-section">
   <div class="page-container">
     <div class="grid-page">
       <div class="search-articles">
+        <!-- Display articles if not empty with foreach loop -->
         <?php if (!empty($articles)) : ?>
           <?php foreach ($articles as $article) :
             $articleId = $article['id'];
@@ -76,10 +71,10 @@ if (isset($_GET["id"])) {
               </div>
             </article>
           <?php endforeach; ?>
+          <!-- Show message if no articles -->
         <?php else : ?>
           <h1 class='fifth-heading'>Articles not found!</h1>
         <?php endif; ?>
-
         <!-- Pagination -->
         <div class="pagination">
           <?php if ($currentPage > 1) : ?>
@@ -93,13 +88,12 @@ if (isset($_GET["id"])) {
           <?php endif; ?>
         </div>
       </div>
-
       <!-- Sidebar -->
       <?php require "includes/sidebar.php"; ?>
     </div>
   </div>
 </section>
-
+<!-- Footer menu -->
 <?php
 require "includes/footer.php";
 ?>
