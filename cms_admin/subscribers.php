@@ -1,4 +1,5 @@
 <?php
+/* Header with navigation and database included */
 require "includes/admin_header.php";
 /* If access denied if user is not an admin */
 checkAdminAccess();
@@ -20,17 +21,15 @@ if (!$subscribersQuery) {
 
     $subscribers = mysqli_fetch_all($usersQuery, MYSQLI_ASSOC);
 }
-
 // Delete query
 deleteQuery($con_db, 'subscribers', 'id', 'subscribers.php');
 ?>
-
-
+<!-- Container -->
 <div class="container">
     <div class="admin-page">
         <h1 class="admin-page__title">Subscribers</h1>
     </div>
-
+    <!-- Default table -->
     <div class="default-table">
         <table class="default-table__table">
             <thead>
@@ -42,9 +41,8 @@ deleteQuery($con_db, 'subscribers', 'id', 'subscribers.php');
                     <th>Actions</th>
                 </tr>
             </thead>
-
             <tbody>
-
+                <!-- For each loop for subscribers display data -->
                 <?php foreach ($subscribers as $subscriber) :
                     $id = $subscriber["id"];
                     $name = $subscriber["name"];
@@ -52,16 +50,15 @@ deleteQuery($con_db, 'subscribers', 'id', 'subscribers.php');
                     $origin = $subscriber["origin"];
                     $date =  $subscriber["date"];
                 ?>
-
                     <tr>
                         <td><?= $name ?></td>
                         <td><?= $email ?></td>
                         <td><?= $origin ?></td>
                         <td><?= date("Y-m-d H:i", strtotime($date)) ?></td>
+                        <!-- Action button -->
                         <td>
                             <a href="javascript:void(0);" onclick="showDeleteModal(<?= $id ?>, 'subscribers.php')" class="delete">Delete</a>
                         </td>
-
                     </tr>
                 <?php endforeach; ?>
             </tbody>
@@ -89,6 +86,7 @@ deleteQuery($con_db, 'subscribers', 'id', 'subscribers.php');
         <button id="confirmDeleteBtn" class="btn btn-danger">Delete</button>
     </div>
 </div>
+<!-- Footer -->
 <?php
 require "includes/admin_footer.php";
 ?>

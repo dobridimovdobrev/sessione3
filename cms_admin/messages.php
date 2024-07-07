@@ -1,4 +1,5 @@
 <?php
+/* Header with navigation and database included */
 require "includes/admin_header.php";
 /* If access denied if user is not an admin */
 checkAdminAccess();
@@ -32,12 +33,11 @@ deleteQuery($con_db, 'messages', 'id', 'messages.php');
             <!-- <a href="includes/add_user.php" class="admin-page__crud-link">New message</a> -->
         </div>
     </div>
-
+    <!--Default table  -->
     <div class="default-table">
         <table class="default-table__table">
             <thead>
                 <tr>
-                    <!-- <th>Id</th> -->
                     <th>Subject</th>
                     <th>Name</th>
                     <th>Email</th>
@@ -46,9 +46,8 @@ deleteQuery($con_db, 'messages', 'id', 'messages.php');
                     <th>Actions</th>
                 </tr>
             </thead>
-
             <tbody>
-
+                <!-- For each loop messages -->
                 <?php foreach ($messages as $messageData) :
                     $id = $messageData["id"];
                     $subject = $messageData["subject"];
@@ -57,18 +56,17 @@ deleteQuery($con_db, 'messages', 'id', 'messages.php');
                     $message = $messageData["message"];
                     $date =  $messageData["date"];
                 ?>
-
                     <tr>
                         <td><?= $subject ?></td>
                         <td><?= $name ?></td>
                         <td><?= $email ?></td>
                         <td><?= substr($message, 0, 80) . "..." ?></td>
                         <td><?= date("Y-m-d H:i", strtotime($date)) ?></td>
+                        <!-- Action buttons -->
                         <td>
                             <a href="read_message.php?id=<?= $id ?>" class="default">Read</a>
                             <a href="javascript:void(0);" onclick="showDeleteModal(<?= $id ?>, 'messages.php')" class="delete">Delete</a>
                         </td>
-
                     </tr>
                 <?php endforeach; ?>
             </tbody>
@@ -96,6 +94,7 @@ deleteQuery($con_db, 'messages', 'id', 'messages.php');
         <button id="confirmDeleteBtn" class="btn btn-danger">Delete</button>
     </div>
 </div>
+<!-- Footer -->
 <?php
 require "includes/admin_footer.php";
 ?>

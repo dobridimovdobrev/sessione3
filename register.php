@@ -16,7 +16,7 @@ require "includes/main.php";
 $username = $first_name = $last_name = $user_email = $password = $repeatPassword = $terms = "";
 $usernameError = $passwordError = $repeatPasswordError = $firstnameError = $lastnameError = $emailError = $termsError = "";
 $registrationFailed = "";
-
+    /* Check if form method is post and if the button or unput tupe is submit */
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["submit"])) {
     // trim inputs
     $username = trim(mysqli_real_escape_string($con_db, $_POST["username"]));

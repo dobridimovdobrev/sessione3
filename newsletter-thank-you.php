@@ -8,7 +8,7 @@ require "includes/main.php";
 ?>
 <!-- Thanks image -->
    <div class="container">
-      <img src="uploads/thank-you.jpg" alt="Thank you image" title="Thank you image" class="thx-img">
+      <img src="uploads/thank-you.jpg" alt="Thank you image" title="Thank you subscriber" class="thx-img">
    </div>
 <!-- Footer menu -->
 <?php

@@ -68,7 +68,6 @@ $pageUrl = basename($_SERVER['REQUEST_URI']);
             </ul>
         </nav>
     </header>
-
     <!-- Sidebar Navigation -->
     <div class="content">
         <aside class="admin_sidebar-nav">
@@ -85,7 +84,6 @@ $pageUrl = basename($_SERVER['REQUEST_URI']);
                             </a>
                         </li>
                     <?php endif; ?>
-
                     <!-- Dashboard visible for admin -->
                     <?php if ($_SESSION["role"] === "admin") : ?>
                         <li class="admin_sidebar-nav__item <?= ($pageUrl === 'dashboard.php') ? $activeClass : ''; ?>">
@@ -97,7 +95,6 @@ $pageUrl = basename($_SERVER['REQUEST_URI']);
                             </a>
                         </li>
                     <?php endif; ?>
-
                     <!-- Services (admin and subscribers) -->
                     <li class="admin_sidebar-nav__item <?= ($pageUrl === 'services.php') ? $activeClass : ''; ?>">
                         <a href="/mysite-mysql/cms_admin/services.php" class="admin_sidebar-nav__link" aria-label="Services" title="Services">
@@ -107,7 +104,6 @@ $pageUrl = basename($_SERVER['REQUEST_URI']);
                             <span class="admin_sidebar-nav__span">Services</span>
                         </a>
                     </li>
-
                     <!-- Articles (admin and subscribers) -->
                     <li class="admin_sidebar-nav__item <?= ($pageUrl === 'articles.php') ? $activeClass : ''; ?>">
                         <a href="/mysite-mysql/cms_admin/articles.php" class="admin_sidebar-nav__link" aria-label="Articles" title="Articles">
@@ -117,7 +113,6 @@ $pageUrl = basename($_SERVER['REQUEST_URI']);
                             <span class="admin_sidebar-nav__span">Articles</span>
                         </a>
                     </li>
-
                     <!-- Categories (admin only) -->
                     <?php if ($_SESSION["role"] === "admin") : ?>
                         <li class="admin_sidebar-nav__item <?= ($pageUrl === 'categories.php') ? $activeClass : ''; ?>">
@@ -129,7 +124,6 @@ $pageUrl = basename($_SERVER['REQUEST_URI']);
                             </a>
                         </li>
                     <?php endif; ?>
-
                     <!-- Users (admin only) -->
                     <?php if ($_SESSION["role"] === "admin") : ?>
                         <li class="admin_sidebar-nav__item <?= ($pageUrl === 'users.php') ? $activeClass : ''; ?>">
@@ -141,7 +135,6 @@ $pageUrl = basename($_SERVER['REQUEST_URI']);
                             </a>
                         </li>
                     <?php endif; ?>
-
                     <!-- Newsletter (admin only) -->
                     <?php if ($_SESSION["role"] === "admin") : ?>
                         <li class="admin_sidebar-nav__item <?= ($pageUrl === 'subscribers.php') ? $activeClass : ''; ?>">
@@ -153,7 +146,6 @@ $pageUrl = basename($_SERVER['REQUEST_URI']);
                             </a>
                         </li>
                     <?php endif; ?>
-
                     <!-- Messages (admin only) -->
                     <?php if ($_SESSION["role"] === "admin") : ?>
                         <li class="admin_sidebar-nav__item <?= ($pageUrl === 'messages.php') ? $activeClass : ''; ?>">

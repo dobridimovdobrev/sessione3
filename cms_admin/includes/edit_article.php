@@ -12,20 +12,14 @@ unset($_SESSION['editSuccess']);
 /* Initialize variables */
 $editArticleId = $_GET["edit"];
 
+/* Message if no article found */
 if (!$editArticleId) {
     die("<h1 class='echo-errors'>No article found</h1>");
 }
+/* Fetch article single row data from database */
+$article = fetchSingleData($con_db, 'articles', "id = $editArticleId");
 
-$articlesSql = "SELECT * FROM articles WHERE id = $editArticleId";
-$articlesQuery = mysqli_query($con_db, $articlesSql);
-
-if (!$articlesQuery) {
-    die("Article query failed: " . mysqli_error($con_db));
-} else {
-    $article = mysqli_fetch_assoc($articlesQuery);
-}
-
-/* Fetching data from database */
+/* Initialize variables with existing article data */
 $title = $article["title"];
 $description = $article["description"];
 $content =  $article["content"];
@@ -36,21 +30,15 @@ $image = $article["imageurl"];
 $articleCat_id = $article["cat_id"];
 $status = $article["status"];
 
-// Retrieve categories
-$selectCategoriesSql = "SELECT * FROM categories";
-$selectCategoriesQuery = mysqli_query($con_db, $selectCategoriesSql);
+// Fetch all data from database and Retrieve categories
+$selectCategories = fetchData($con_db, 'categories');
 
-if (!$selectCategoriesQuery) {
-    die("Select query failed: " . mysqli_error($con_db));
-} else {
-    $selectCategories = mysqli_fetch_all($selectCategoriesQuery, MYSQLI_ASSOC);
-}
 
 /* Initialize variables */
 $articleTitleError = $articleDescriptionError = $articleContentError = $articleAuthorError = $articleTagsError =
-    $articlePublished_atError = $articleCat_idError = $articleImageError = $fileError = $articleStatusError = "";
+    $articlePublished_atError = $articleCat_idError = $articleImageError = $articleStatusError = "";
 
-if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["submit"])) {
+if (isset($_POST["update"])) {
     /* Assign values from POST to variables */
     $title = trim(mysqli_real_escape_string($con_db, $_POST["title"]));
     $description = trim($_POST["description"]);
@@ -72,8 +60,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["submit"])) {
         if (!move_uploaded_file($temp_image, $upload_image)) {
             die("Error uploading file");
         }
-    } elseif (empty($image)) {
-        $articleImageError = "Image is required";
+        /* Validate image */
     } else {
         // Use the existing image if no new image is uploaded
         $image = $article["imageurl"];
@@ -99,49 +86,45 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["submit"])) {
     if (empty($tags)) {
         $articleTagsError = "Tags are required";
     }
-
     /* Validate date (I found that the error message is not showing on empty date if both conditions are not set into if statement)*/
     if (empty($published_at) || $_POST['published_at'] === '1970-01-01T01:00') {
         $articlePublished_atError = "Date is required";
     }
-
     /* Validate category */
     if (empty($articleCat_id)) {
         $articleCat_idError = "Select a category";
     }
-
     if (empty($status)) {
         $articleStatusError = "Select a status";
     }
-
     /* Check for input form errors */
     if (
         empty($articleTitleError) && empty($articleDescriptionError) && empty($articleContentError) && empty($articleAuthorError) &&
         empty($articleTagsError) && empty($articlePublished_atError) && empty($articleCat_idError) && empty($articleImageError) && empty($articleStatusError)
     ) {
-
+        /* Update database query if no errors */
         $editArticleSql = "UPDATE articles SET title = ?, description = ?, content = ?, author = ?, tags = ?, published_at = ?, cat_id = ?, imageurl = ?, status = ? WHERE id = ?";
         $editArticleStmt = mysqli_prepare($con_db, $editArticleSql);
-
-        if (!$editArticleStmt) {
-            die("Edit article query failed: " . mysqli_error($con_db));
-        } else {
+        /* Check for query errors */
+        if (!errorsQuery($editArticleStmt)) {
             mysqli_stmt_bind_param($editArticleStmt, 'ssssssissi', $title, $description, $content, $author, $tags, $published_at, $articleCat_id, $image, $status, $editArticleId);
             $execute = mysqli_stmt_execute($editArticleStmt);
         }
-
+        /* Check for execute stmt errors */
         if (!$execute) {
-            die("Executing: " . mysqli_stmt_error($editArticleStmt));
+            die("Execute statement failed: " . mysqli_stmt_error($editArticleStmt));
         } else {
+            // Close statement after execution
             mysqli_stmt_close($editArticleStmt);
-            $_SESSION['editSuccess'] = "Edit article successfully";
+            /* Redirect to service page after successful insert */
             header("Location: edit_article.php?edit=" . $editArticleId);
+            $_SESSION['editSuccess'] = "Edit article successfully !";
             exit();
         }
     }
 }
 ?>
-
+<!-- Container -->
 <div class="container">
     <div class="admin-page">
         <div class="admin-page__box">
@@ -194,9 +177,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["submit"])) {
         </div>
         <!-- Select category -->
         <div class="form-group">
-            <label class="form-group__label" for="published_at">Select Category</label>
-            <select class="form-group__input" name="cat_id" id="cat_id ">
-
+            <label class="form-group__label" for="cat_id">Select Category</label>
+            <select class="form-group__input" name="cat_id" id="cat_id">
                 <?php foreach ($selectCategories as $selectCategory) : ?>
                     <option value="<?= $selectCategory["cat_id"] ?>" <?= ($articleCat_id == $selectCategory["cat_id"]) ? 'selected' : '' ?>>
                         <?= $selectCategory["cat_title"] ?>
@@ -209,10 +191,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["submit"])) {
         <div class="form-group">
             <label class="form-group__label" for="imageurl">Image</label>
             <input class="form-group__input" type="file" id="imageurl" name="imageurl">
-            <img src="../../uploads/<?= $image; ?>" alt="<?= htmlspecialchars($title); ?>" title="<?= htmlspecialchars($title); ?>" width="100" height="60">    
-            <span class="form-group__error"><?= $articleImageError ?></span>
+            <span id="articleImageError" class="form-group__error"><?= $articleImageError ?></span>
+            <img id="existingImage" src="../../uploads/<?= $image; ?>" alt="<?= htmlspecialchars($title); ?>" title="<?= htmlspecialchars($title); ?>" width="100" height="60">
         </div>
-
         <!-- Status -->
         <div class="form-group">
             <label class="form-group__label" for="status">Status</label>
@@ -226,11 +207,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["submit"])) {
             </select>
             <span id="articleStatusError" class="form-group__error"><?= $articleStatusError ?></span>
         </div>
-          <!-- Submit button -->          
-        <input class="form-group__btn-form" type="submit" name="submit" value="Update">
+        <!-- Submit button -->
+        <input class="form-group__btn-form" type="submit" name="update" value="Update">
     </form>
 </div>
-
+<!-- Footer -->
 <?php
 require "admin_footer.php";
 ?>

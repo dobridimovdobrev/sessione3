@@ -2,7 +2,12 @@
 /* Include menu, functions and database */
 require "includes/header.php";
 /*head title and description for the page */
-pageMetaData("Contact Us", "In this page you will find contact form and my contact details, please feel free to contact me." );
+pageMetaData(
+  "Contact Us",
+   "In this page you will find contact form and
+    my contact details, please feel free to contact me." 
+  );
+
 /* Include header with default background image */
 require "includes/main.php";
 
@@ -10,10 +15,8 @@ require "includes/main.php";
 $subject = $name = $email = $message = "";
 $subjectError = $nameError = $emailError = $messageError = "";
 
-
 // Check if the form is submited
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
-
 
   // Validate subject
   if (empty($_POST["subject"])) {
@@ -44,7 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
   } else {
     $message = trim($_POST["message"]);
   }
-
+  /* If no validation errors proceed with database query */
   if (empty($subjectError) && empty($nameError) && empty($emailError) && empty($messageError)) {
 
     $sql = "INSERT INTO messages (subject, name, email, message , date)
@@ -112,7 +115,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
     </div>
   </div>
 </section>
-
 <!-- Footer -->
 <?php
 require "includes/footer.php";

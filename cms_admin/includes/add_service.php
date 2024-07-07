@@ -1,4 +1,5 @@
 <?php
+/* Menu with database,functions and session included */
 require "admin_header.php";
 /* If access denied if user is not an admin */
 checkAdminAccess();
@@ -6,7 +7,7 @@ checkAdminAccess();
 $title = $description = $content = $tags = $published_at = $image = "";
 $serviceTitleError = $serviceDescriptionError = $serviceContentError =
     $serviceTagsError = $servicePublished_atError = $serviceImageError = "";
-
+/* Form post method */
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["submit"])) {
 
     $title = trim(mysqli_real_escape_string($con_db, $_POST["title"]));
@@ -26,7 +27,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["submit"])) {
     } else {
         $serviceImageError = "Image is required";
     }
-
     /* Validate title */
     if (empty($title)) {
         $serviceTitleError = "Title is required";
@@ -43,48 +43,42 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["submit"])) {
     if (empty($tags)) {
         $serviceTagsError = "Tags are required";
     }
-
     /* Validate date (I found that the error message is not showing on emtpy date if both conditions are not set into if statement)*/
     if (empty($published_at) || $_POST['published_at'] === '1970-01-01T01:00') {
         $servicePublished_atError = "Date is required";
     }
-
     /* Check for input form errors */
     if (
         empty($serviceTitleError) && empty($serviceDescriptionError) && empty($serviceContentError) &&
         empty($serviceTagsError) && empty($servicePublished_atError) && empty($serviceImageError)
     ) {
-
+         /* Proceed with inserting service if no errors with prepare stmt to avoid sql injection */
         $newServiceSql = "INSERT INTO services (title, description, content,tags, published_at, imageurl)
                          VALUES (?, ?, ?, ?, ?, ?)";
 
         $newServiceStmt = mysqli_prepare($con_db, $newServiceSql);
-
-        if (!$newServiceStmt) {
-            die("MySQL prepare error: " . mysqli_error($con_db));
-        } else {
+        /* Check for query errors */
+        if (!errorsQuery($newServiceStmt)) {
             mysqli_stmt_bind_param($newServiceStmt, 'ssssss', $title, $description, $content, $tags, $published_at, $image);
-            $service_execute = mysqli_stmt_execute($newServiceStmt);
-        }
-
+            $service_execute = mysqli_stmt_execute($newServiceStmt);  
+        } 
+      
         if (!$service_execute) {
-            die("Error inserting service: " . mysqli_stmt_error($newServiceStmt));
-        } else {
-            $serviceId = mysqli_insert_id($con_db);
-            mysqli_stmt_close($newServiceStmt);
-            header("Location: ../services.php");
-            exit();
+            die("Execute statement failed: " . mysqli_stmt_error($newServiceStmt));
         }
+        mysqli_stmt_close($newServiceStmt); // Close statement after execution
+        $serviceId = mysqli_insert_id($con_db);  //Insert new id
+        /* Redirect to service page after successful insert */
+        header("Location: ../services.php");
+        exit();
     }
 }
-
 ?>
-
 <!-- Page heading -->
 <div class="container">
+    <!-- Page title -->
     <div class="admin-page">
         <h1 class="admin-page__title">New Service</h1>
-
     </div>
     <!-- Service form -->
     <form id="serviceForm" class="max-width-80" action="" method="post" enctype="multipart/form-data">
@@ -127,12 +121,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["submit"])) {
             <input class="form-group__input" type="datetime-local" id="published_at" name="published_at" value="<?= htmlspecialchars($published_at) ?>">
             <span id="servicePublished_atError" class="form-group__error"><?= $servicePublished_atError ?></span>
         </div>
+        <!-- Submit button form -->
         <input class="form-group__btn-form" type="submit" name="submit" value="Add Service">
-
     </form>
 </div>
-
-
 <!-- Footer -->
 <?php
 require "admin_footer.php";

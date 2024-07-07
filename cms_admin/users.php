@@ -1,4 +1,5 @@
 <?php
+/* Header with navigation and database included */
 require "includes/admin_header.php";
 /* If access denied if user is not an admin */
 checkAdminAccess();
@@ -44,8 +45,7 @@ if (!$usersQuery) {
 // Handle user deletion
 deleteQuery($con_db, 'users', 'user_id', 'users.php');
 ?>
-
-
+<!-- Container -->
 <div class="container">
     <div class="admin-page">
         <div class="admin-page__box">
@@ -64,12 +64,11 @@ deleteQuery($con_db, 'users', 'user_id', 'users.php');
             </form>
         </div>
     </div>
-
+    <!-- Default table -->
     <div class="default-table">
         <table class="default-table__table">
             <thead>
                 <tr>
-                    <!-- Table -->
                     <th>Username</th>
                     <th>First name</th>
                     <th>Last name</th>
@@ -79,7 +78,6 @@ deleteQuery($con_db, 'users', 'user_id', 'users.php');
                     <th>Actions</th>
                 </tr>
             </thead>
-
             <tbody>
                 <!-- For each loop asign user variables -->
                 <?php if (!empty($users)) : ?>
@@ -105,7 +103,6 @@ deleteQuery($con_db, 'users', 'user_id', 'users.php');
                                 <a href="includes/edit_user.php?edit=<?= $user_id ?>" class="default">Edit</a>
                                 <a href="javascript:void(0);" onclick="showDeleteModal(<?= $user_id ?>, 'users.php')" class="delete">Delete</a>
                             </td>
-
                         </tr>
                     <?php endforeach; ?>
                 <?php else : ?>
@@ -116,7 +113,6 @@ deleteQuery($con_db, 'users', 'user_id', 'users.php');
                 <?php endif; ?>
             </tbody>
         </table>
-
     </div>
     <!-- Pagination -->
     <div class="pagination">
@@ -142,6 +138,7 @@ deleteQuery($con_db, 'users', 'user_id', 'users.php');
         <button id="confirmDeleteBtn" class="btn btn-danger">Delete</button>
     </div>
 </div>
+<!-- Footer -->
 <?php
 require "includes/admin_footer.php";
 ?>

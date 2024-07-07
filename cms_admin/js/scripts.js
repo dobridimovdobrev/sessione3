@@ -134,7 +134,6 @@ function validateEmail(email) {
 }
 
 /* Validate article form */
-
 document.addEventListener('DOMContentLoaded', function () {
     if (document.getElementById('articleForm') !== null) {
         document.getElementById('articleForm').addEventListener('submit', function (event) {
@@ -158,6 +157,7 @@ document.addEventListener('DOMContentLoaded', function () {
             var published_at = document.getElementById('published_at').value.trim();
             var cat_id = document.getElementById('cat_id').value.trim();
             var imageurl = document.getElementById('imageurl').value.trim();
+            var existingImage = document.getElementById('existingImage');
             var status = document.getElementById('status').value.trim();
 
             var validation = true;
@@ -173,7 +173,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 validation = false;
             }
             /* Validate content */
-            if (content === "") {
+            if (content === "" || content === "<p><br></p>") {  // This check is needed because sometimes Summernote returns an empty paragraph)
                 document.getElementById('articleContentError').textContent = "AContent is required";
                 validation = false;
             }
@@ -198,7 +198,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 validation = false;
             }
             /* Validate image */
-            if (imageurl === "") {
+            if (imageurl === "" && existingImage === null) {
                 document.getElementById('articleImageError').textContent = "AAImage is required";
                 validation = false;
             }
@@ -216,8 +216,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 
-
-/* Validate service form */
+/* Validate Service form */
 document.addEventListener('DOMContentLoaded', function () {
     if (document.getElementById('serviceForm') !== null) {
         document.getElementById('serviceForm').addEventListener('submit', function (event) {
@@ -236,37 +235,37 @@ document.addEventListener('DOMContentLoaded', function () {
             var tags = document.getElementById('tags').value.trim();
             var imageurl = document.getElementById('imageurl').value.trim();
             var published_at = document.getElementById('published_at').value.trim();
-
+            var existingImage = document.getElementById('existingImage');
 
             var validation = true;
             /* Validate title */
             if (title === "") {
-                document.getElementById('serviceTitleError').textContent = "SsTitle is required";
+                document.getElementById('serviceTitleError').textContent = "AATitle is required";
                 validation = false;
             }
             /* Validate description */
             if (description === "") {
-                document.getElementById('serviceDescriptionError').textContent = "SsDescription is required";
+                document.getElementById('serviceDescriptionError').textContent = "AADescription is required";
                 validation = false;
             }
             /* Validate content */
-            if (content === "" || content === "<p><br></p>") {  // This check is needed because sometimes Summernote returns an empty paragraph) {
-                document.getElementById('serviceContentError').textContent = "SsContent is required";
+            if (content === "" || content === "<p><br></p>") {  // This check is needed because sometimes Summernote returns an empty paragraph) 
+                document.getElementById('serviceContentError').textContent = "AAContent is required";
                 validation = false;
             }
             /* Validate tags */
             if (tags === "") {
-                document.getElementById('serviceTagsError').textContent = "SsTags are required";
+                document.getElementById('serviceTagsError').textContent = "AATags are required";
                 validation = false;
             }
             /* Validate image */
-            if (imageurl === 0) {
-                document.getElementById('serviceImageError').textContent = "SsImage is required";
+            if (imageurl === "" && existingImage === null) {
+                document.getElementById('serviceImageError').textContent = "AAImage is required";
                 validation = false;
             }
             /* Validate published date */
             if (published_at === "") {
-                document.getElementById('servicePublished_atError').textContent = "SsDate is required";
+                document.getElementById('servicePublished_atError').textContent = "AADate is required";
                 validation = false;
             }
             /* Prevent submit if not validation */
@@ -278,6 +277,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 
+/* User form */
 document.addEventListener('DOMContentLoaded', function () {
     if (document.getElementById('userForm') !== null) {
         document.getElementById('userForm').addEventListener('submit', function (event) {

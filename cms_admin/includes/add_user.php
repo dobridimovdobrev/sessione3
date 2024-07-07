@@ -50,12 +50,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["submit"])) {
     /* Validate repeat password */
     if (empty($repeatPassword)) {
         $repeatPasswordError = "Repeat password is required.";
-    /* Validate password match */
+        /* Validate password match */
     } elseif ($password !== $repeatPassword) {
         $repeatPasswordError = "Passwords do not match.";
     }
 
-    // Check if there are no validation errors
+    // Check if there are no validation errors and proceed with inserting new user
     if (
         empty($usernameError) && empty($firstnameError) && empty($lastnameError) && empty($emailError) &&
         empty($regDateError) && empty($passwordError) && empty($repeatPasswordError)
@@ -67,34 +67,30 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["submit"])) {
 
         $newUserStmt = mysqli_prepare($con_db, $newUserSql);
         /* Ckeck for stmt errors */
-        if (!$newUserStmt) {
-            die("MySQL prepare error: " . mysqli_error($con_db));
+        if (!errorsQuery($newUserStmt)) {
+            // Crypt the password if stmt
+            $hashedPassword = password_hash($password, PASSWORD_BCRYPT, ["cost" => 10]);
+
+            // Bind parameters and execute 
+            mysqli_stmt_bind_param($newUserStmt, 'sssssss', $username, $first_name, $last_name, $user_email, $reg_date, $hashedPassword, $role);
+            $user_execute = mysqli_stmt_execute($newUserStmt);
         }
-
-        // Crypt the password if stmt
-        $hashedPassword = password_hash($password, PASSWORD_BCRYPT, ["cost" => 10]);
-
-        // Bind parameters and execute 
-        mysqli_stmt_bind_param($newUserStmt, 'sssssss', $username, $first_name, $last_name, $user_email, $reg_date, $hashedPassword, $role);
-        $user_execute = mysqli_stmt_execute($newUserStmt);
-        /* Check execute errors */
+        /* Check for execute errors */
         if (!$user_execute) {
-            die("Error inserting user: " . mysqli_stmt_error($newUserStmt));
-        } else {
-            /* If execute insert new id into database, close the stmt and redirect to users page */
-            $userId = mysqli_insert_id($con_db);
-            mysqli_stmt_close($newUserStmt);
-            header("Location: ../users.php");
-            exit();
+            die("Execute statement failed: " . mysqli_stmt_error($newUserStmt));
         }
+
+        mysqli_stmt_close($newUserStmt); // Close statement after execution
+        $userId = mysqli_insert_id($con_db);
+        /* Redirect to service page after successful insert */
+        header("Location: ../users.php");
+        exit();
         /* Showing error if form not filled correctly */
     } else {
         $registrationFailed = "Please fill out the form correctly.";
     }
 }
-
 ?>
-
 <!-- HTML Form -->
 <div class="container">
     <div class="admin-page">
@@ -103,7 +99,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["submit"])) {
             <span class="form-group__error"><?= $registrationFailed ?></span>
         </div>
     </div>
-
+    <!-- User form -->
     <form id="userForm" class="max-width-50" action="add_user.php" method="post" enctype="multipart/form-data">
         <!-- Username -->
         <div class="form-group">
@@ -160,7 +156,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["submit"])) {
         <input class="form-group__btn-form" type="submit" name="submit" value="Add User">
     </form>
 </div>
-
+<!-- Footer -->
 <?php
 require "admin_footer.php";
 ?>

@@ -2,26 +2,22 @@
 require "admin_header.php";
 /* If access denied if user is not an admin */
 checkAdminAccess();
+
 /* Initialize variables */
 $editSuccess = isset($_SESSION['editSuccess']) ? $_SESSION['editSuccess'] : '';
 
 /* Clear the session variable */
 unset($_SESSION['editSuccess']);
 
+/* Assign variable */
 $editServiceId = $_GET["edit"];
 
+/* Check if service id exist */
 if (!$editServiceId) {
     die("<h1 class='echo-errors'>No service found</h1>");
 }
-
-$servicesSql = "SELECT * FROM services WHERE id = $editServiceId";
-$servicesQuery = mysqli_query($con_db, $servicesSql);
-
-if (!$servicesQuery) {
-    die("Service query failed: " . mysqli_error($con_db));
-} else {
-    $service = mysqli_fetch_assoc($servicesQuery);
-}
+/* Fetch service single row data from database */
+$service = fetchSingleData($con_db, 'services', "id = $editServiceId");
 
 /* Initialize variables with existing service data */
 $title = $service["title"];
@@ -31,6 +27,7 @@ $tags = $service["tags"];
 $published_at = $service["published_at"];
 $image = $service["imageurl"];
 
+/* Initialize variables */
 $serviceTitleError = $serviceDescriptionError = $serviceContentError =
     $serviceTagsError = $servicePublished_atError = $serviceImageError = "";
 
@@ -52,9 +49,7 @@ if (isset($_POST["update"])) {
         if (!move_uploaded_file($temp_image, $upload_image)) {
             die("Error uploading file");
         }
-    } elseif (empty($image)) {
-        // Check if no new image is uploaded
-        $serviceImageError = "Image is required";
+        /* Validate image */
     } else {
         // Use the existing image if no new image is uploaded
         $image = $service["imageurl"];
@@ -76,12 +71,10 @@ if (isset($_POST["update"])) {
     if (empty($tags)) {
         $serviceTagsError = "Tags are required";
     }
-
     /* Validate date */
     if (empty($published_at) || $_POST['published_at'] === '1970-01-01T01:00') {
         $servicePublished_atError = "Date is required";
     }
-
     /* Check for input form errors */
     if (
         empty($serviceTitleError) && empty($serviceDescriptionError) && empty($serviceContentError) &&
@@ -89,26 +82,24 @@ if (isset($_POST["update"])) {
     ) {
         $editServiceSql = "UPDATE services SET title = ?, description = ?, content = ?, tags = ?, published_at = ?,  imageurl = ? WHERE id = ?";
         $editServiceStmt = mysqli_prepare($con_db, $editServiceSql);
-
-        if (!$editServiceStmt) {
-            die("Edit Service query failed: " . mysqli_error($con_db));
-        } else {
+        /* Check for query errors */
+        if (!errorsQuery($editServiceStmt)) {
             mysqli_stmt_bind_param($editServiceStmt, 'ssssssi', $title, $description, $content, $tags, $published_at, $image, $editServiceId);
-            $execute = mysqli_stmt_execute($editServiceStmt);
-        }
-
+            $execute = mysqli_stmt_execute($editServiceStmt);  
+        } 
+        /* Check for execute stmt errors */
         if (!$execute) {
-            die("Executing: " . mysqli_stmt_error($editServiceStmt));
-        } else {
-            mysqli_stmt_close($editServiceStmt);
-            $_SESSION['editSuccess'] = "Edit service successfully !";
-            header("Location: edit_service.php?edit=" . $editServiceId);
-            exit();
+            die("Execution failed" . mysqli_stmt_error($editServiceStmt));
+        }else{ 
+        mysqli_stmt_close($editServiceStmt);
+        header("Location: edit_service.php?edit=" . $editServiceId);
+        $_SESSION['editSuccess'] = "Edit service successfully !";
+        exit();
         }
     }
 }
 ?>
-
+<!-- Container -->
 <div class="container">
     <div class="admin-page">
         <div class="admin-page__box">
@@ -151,7 +142,7 @@ if (isset($_POST["update"])) {
             <label class="form-group__label" for="imageurl">Image</label>
             <input class="form-group__input" type="file" id="imageurl" name="imageurl">
             <span id="serviceImageError" class="form-group__error"><?= $serviceImageError ?></span>
-            <img src="../../uploads/<?= $image; ?>" alt="<?= htmlspecialchars($title); ?>" width="100" height="60">
+            <img id="existingImage" src="../../uploads/<?= $image; ?>" alt="<?= htmlspecialchars($title); ?>" title="<?= htmlspecialchars($title); ?>" width="100" height="60">
         </div>
         <!-- Service published date -->
         <div class="form-group">
@@ -163,7 +154,7 @@ if (isset($_POST["update"])) {
         <input class="form-group__btn-form" type="submit" name="update" value="Update">
     </form>
 </div>
-
+<!-- Footer -->
 <?php
 require "admin_footer.php";
 ?>

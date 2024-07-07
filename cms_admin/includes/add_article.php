@@ -1,17 +1,13 @@
 <?php
+/* Menu with database,functions and session included */
 require "admin_header.php";
 /* If access denied if user is not an admin */
 checkAdminAccess();
-// Retrieve categories
-$selectCategoriesSql = "SELECT * FROM categories";
-$selectCategoriesQuery = mysqli_query($con_db, $selectCategoriesSql);
 
-if (!$selectCategoriesQuery) {
-    die("Select query failed: " . mysqli_error($con_db));
-} else {
-    $selectCategories = mysqli_fetch_all($selectCategoriesQuery, MYSQLI_ASSOC);
-}
+/* Check for errors query and Retrieve categories */
+$selectCategories = fetchData($con_db, 'categories');
 
+/* Initialize variables */
 $title = $description = $content = $author = $tags = $published_at = $articleCat_id = $image = $status = "";
 
 /* Assign a empty string on variables for valaidation */
@@ -41,8 +37,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["submit"])) {
     }
 
     $status = trim(mysqli_real_escape_string($con_db, $_POST["status"] ?? ''));
-
-
 
     /* Validate title */
     if (empty($title)) {
@@ -75,7 +69,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["submit"])) {
         $articleCat_idError = "Select a category";
     }
 
-
+    /* Validate status */
     if (empty($status)) {
         $articleStatusError = "Select a status";
     }
@@ -88,24 +82,25 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["submit"])) {
         /* If no errors, insert article into database */
         $newArticleSql = "INSERT INTO articles (title, description, content, author, tags, published_at, cat_id, imageurl, status)
                      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
+        /* Using prepare stmt instead query to avoid sql injection */
         $newArticleStmt = mysqli_prepare($con_db, $newArticleSql);
 
-        if (!$newArticleStmt) {
-            die("MySQL prepare error: " . mysqli_error($con_db));
-        } else {
+        /* Check for query errors, if not proceed with bind and execute */
+        if (!errorsQuery($newArticleStmt)) {
             mysqli_stmt_bind_param($newArticleStmt, 'ssssssiss', $title, $description, $content, $author, $tags, $published_at, $articleCat_id, $image, $status);
             $article_execute = mysqli_stmt_execute($newArticleStmt);
         }
 
+        /* Check for execute errors */
         if (!$article_execute) {
-            die("Error inserting article: " . mysqli_stmt_error($newArticleStmt));
-        } else {
-            $articleId = mysqli_insert_id($con_db);
-            mysqli_stmt_close($newArticleStmt);
-            header("Location: ../articles.php");
-            exit();
+            die("Execute statement failed: " . mysqli_stmt_error($newArticleStmt));
         }
+
+        mysqli_stmt_close($newArticleStmt); // Close statement after execution
+        $articleId = mysqli_insert_id($con_db);
+        /* Redirect to service page after successful insert */
+        header("Location: ../articles.php");
+        exit();
     }
 }
 ?>
@@ -175,7 +170,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["submit"])) {
             <input class="form-group__input" type="file" id="imageurl" name="imageurl">
             <span id="articleImageError" class="form-group__error"><?= $articleImageError ?></span>
         </div>
-
         <!-- Article status -->
         <div class="form-group">
             <label class="form-group__label" for="status">Status</label>
@@ -186,11 +180,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["submit"])) {
             </select>
             <span id="articleStatusError" class="form-group__error"><?= $articleStatusError ?></span>
         </div>
-
+         <!-- Submit button -->           
         <input class="form-group__btn-form" type="submit" name="submit"  value="Add Article">
     </form>
 </div>
-
 <!-- Footer -->
 <?php
 require "admin_footer.php";

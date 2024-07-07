@@ -1,3 +1,4 @@
+/* Styles for action buttons */
 .default {
     @extend %default-button;
     @include action-button($color-blue);

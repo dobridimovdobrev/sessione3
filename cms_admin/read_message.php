@@ -1,4 +1,5 @@
 <?php
+/* Header with navigation and database included */
 require "includes/admin_header.php";
 /* If access denied if user is not an admin */
 checkAdminAccess();
@@ -18,14 +19,11 @@ if (isset($_GET["id"])) {
         $messageSql = "SELECT * FROM messages WHERE id = $messageId";
         $messageQuery = mysqli_query($con_db, $messageSql);
     }
-
-    if (!$messageQuery) {
-        die("Message query failed: " . mysqli_error($con_db));
-    } 
+    /* Check for query errors */
+    confirmQuery($messageQuery);
 }
-
 ?>
-
+<!-- Container -->
 <div class="container">
     <div class="admin-page">
     <div class="admin-page__box">
@@ -60,7 +58,6 @@ if (isset($_GET["id"])) {
                 <span class="form-group__label">Subject:</span>
                 <p class="paragraph"><?= $subject ?></p>
             </div>
-
             <!-- Email -->
             <div class="read-message">
                 <span class="form-group__label">Email:</span>
@@ -82,6 +79,7 @@ if (isset($_GET["id"])) {
             <button id="confirmDeleteBtn" class="btn btn-danger">Delete</button>
         </div>
     </div>
+    <!-- Footer -->
     <?php
     require "includes/admin_footer.php";
     ?>

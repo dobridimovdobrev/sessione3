@@ -1,10 +1,10 @@
 <?php
+/* Include menu, functions and database */
 require "includes/admin_header.php";
+/* Verify user ip adress */
 $user_ip_adress = verify_user_ip();
 ?>
-
 <!--Content  -->
-
 <div class="container">
     <?php if ($_SESSION["role"] === 'admin') : ?>
         <h1>Welcome <?= ucfirst($_SESSION["username"])  ?> </h1>
@@ -112,9 +112,8 @@ $user_ip_adress = verify_user_ip();
             </div>
         </div>
     </div>
-
 </div>
-
+<!-- Footer -->
 <?php
 require "includes/admin_footer.php";
 ?>

@@ -52,7 +52,7 @@ function checkAdminAccess()
     }
 }
 
-/* confirmQuery */
+/* confirm Query */
 function confirmQuery($query) {
     global $con_db;
 
@@ -61,7 +61,16 @@ function confirmQuery($query) {
     } 
 }
 
-/* Fetch Data from database */
+/* errors Query */
+function errorsQuery($query) {
+    global $con_db;
+
+    if (!$query) {
+        die("Query failed: " . mysqli_error($con_db));
+    } 
+}
+
+/* Fetch ALL Data from database */
 function fetchData($con_db, $tableName, $condition = '', $orderBy = '', $limit = '') {
     $sql = "SELECT * FROM $tableName";
     
@@ -84,6 +93,31 @@ function fetchData($con_db, $tableName, $condition = '', $orderBy = '', $limit =
     }
     
     return mysqli_fetch_all($query, MYSQLI_ASSOC);
+}
+
+/* Fetch Single row data from database */
+function fetchSingleData($con_db, $tableName, $condition = '', $orderBy = '', $limit = '') {
+    $sql = "SELECT * FROM $tableName";
+    
+    if (!empty($condition)) {
+        $sql .= " WHERE $condition";
+    }
+    
+    if (!empty($orderBy)) {
+        $sql .= " ORDER BY $orderBy";
+    }
+    
+    if (!empty($limit)) {
+        $sql .= " LIMIT $limit";
+    }
+    
+    $query = mysqli_query($con_db, $sql);
+    
+    if (!$query) {
+        die("Query failed: " . mysqli_error($con_db));
+    }
+    
+    return mysqli_fetch_assoc($query);
 }
 
 /* Delete data from database */

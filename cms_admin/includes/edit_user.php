@@ -11,17 +11,15 @@ $repeatPasswordError = "";
 /* Clear the session variable */
 unset($_SESSION['editSuccess']);
 
-/* Fetch data from the database into the form */
-if (isset($_GET["edit"])) {
-    $editUserId = $_GET["edit"];
-    $sql = "SELECT * FROM users WHERE user_id = $editUserId";
-    $query = mysqli_query($con_db, $sql);
-    if (!$query) {
-        die("Edit user query failed: " . mysqli_error($con_db));
-    } else {
-        $users = mysqli_fetch_assoc($query);
-    }
+/* Assign variable */
+$editUserId = $_GET["edit"];
+
+/* Check if User id exist */
+if (!$editUserId) {
+    die("<h1 class='echo-errors'>No User found</h1>");
 }
+/* Fetch User single row data from database */
+$users = fetchSingleData($con_db, 'users', "user_id = $editUserId");
 
 /* Initialize variables with existing user data */
 $username = $users["username"];
@@ -31,6 +29,7 @@ $user_email = $users["user_email"];
 $reg_date = $users["user_date"];
 $role = $users["user_role"];
 
+/* Initialize vaiables */
 $usernameError = $passwordError = $repeatPasswordError = $firstnameError =
     $lastnameError = $emailError = $regDateError = "";
 /* Update the form to the database */
@@ -43,29 +42,30 @@ if (isset($_POST["submit"])) {
     $password = trim(mysqli_real_escape_string($con_db, $_POST["password"]));
     $repeatPassword = trim(mysqli_real_escape_string($con_db, $_POST["repeat_password"]));
     $role = trim(mysqli_real_escape_string($con_db, $_POST["role"]));
+
     // Validate form fields
     if (empty($username)) {
         $usernameError = "Username is required.";
     }
-
+    // Validate first name
     if (empty($first_name)) {
         $firstnameError = "First name is required.";
     }
-
+    // Validate last name
     if (empty($last_name)) {
         $lastnameError = "Last name is required.";
     }
-
+    // Validate email and format
     if (empty($user_email)) {
         $emailError = "Email is required.";
     } elseif (!filter_var($user_email, FILTER_VALIDATE_EMAIL)) {
         $emailError = "Email is not valid.";
     }
-
+    // Validate registration date
     if (empty($reg_date)) {
         $regDateError = "Registration date is required.";
     }
-
+    // Validate password,repeat password,minimum chars requirments and if match
     if (!empty($password)) {
         if (strlen($password) < 8) {
             $passwordError = "The password must be at least 8 characters.";
@@ -78,29 +78,25 @@ if (isset($_POST["submit"])) {
             }
         }
     }
-
     // Check if there are no validation errors
     if (
         empty($usernameError) && empty($firstnameError) && empty($lastnameError) && empty($emailError) &&
         empty($regDateError) && empty($passwordError) && empty($repeatPasswordError)
     ) {
-
         // Prepare  update query
         $updateUsersSql = "UPDATE users SET username = ?, user_firstname = ?, user_lastname = ?, user_email = ?, user_date = ?, password = ?, user_role = ? WHERE user_id = ? ";
         $updateUsersStmt = mysqli_prepare($con_db, $updateUsersSql);
-
-        if (!$updateUsersStmt) {
-            die("User query preparation failed: " . mysqli_error($con_db));
+        /* Check for query errors */
+        if (!errorsQuery($updateUsersStmt)) {
+            //execute the statement
+            mysqli_stmt_bind_param($updateUsersStmt, "sssssssi", $username, $first_name, $last_name, $user_email, $reg_date, $password, $role, $editUserId);
+            $updateUserExecute = mysqli_stmt_execute($updateUsersStmt);
         }
-
-        //execute the statement
-        mysqli_stmt_bind_param($updateUsersStmt, "sssssssi", $username, $first_name, $last_name, $user_email, $reg_date, $password, $role, $editUserId);
-        $updateUserExecute = mysqli_stmt_execute($updateUsersStmt);
-
+        /* Check for execut stmt errors */
         if (!$updateUserExecute) {
-            die("Update user executing failed: " . mysqli_error($con_db));
+            die("Execute failed" . mysqli_stmt_error($updateUsersStmt));
         } else {
-            // Close statement and set success message in session
+            // Close statement,redirect and set success message in session 
             mysqli_stmt_close($updateUsersStmt);
             $_SESSION['editSuccess'] = "Edit user successfully !";
             header("Location: edit_user.php?edit=$editUserId");
@@ -109,7 +105,7 @@ if (isset($_POST["submit"])) {
     }
 }
 ?>
-
+<!-- Container -->
 <div class="container">
     <div class="admin-page">
         <div class="admin-page__box">
@@ -120,6 +116,8 @@ if (isset($_POST["submit"])) {
     </div>
     <!-- User form -->
     <form id="userForm" class="max-width-50" action="" method="post" enctype="multipart/form-data"> <!-- Ensure action points to the PHP file location if separate -->
+        <!-- Hidden input for editUserId -->
+        <input type="hidden" id="editUserId" name="editUserId" value="<?= $editUserId ?>">
         <!-- Username -->
         <div class="form-group">
             <label class="form-group__label" for="username">Username</label>
@@ -183,17 +181,11 @@ if (isset($_POST["submit"])) {
                 <?php endif; ?>
             </select>
         </div>
-
-
         <!-- Submit -->
         <input class="form-group__btn-form" type="submit" name="submit" value="Update User">
-
     </form>
 </div>
-
-
-
-
+<!-- Footer -->
 <?php
 require "admin_footer.php";
 ?>

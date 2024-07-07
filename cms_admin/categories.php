@@ -1,5 +1,5 @@
 <?php
-/* require __DIR__ . "/../../includes/mysql-database.php"; */
+/* Header with navigation and database included */
 require "./includes/admin_header.php";
 /* If access denied if user is not an admin */
 checkAdminAccess();
@@ -8,22 +8,20 @@ all_categories();
 update_categories();
 delete_categories();
 ?>
-
+<!-- Container -->
 <div class="container">
     <div class="category">
-
         <!-- Create categories -->
-
         <div class="category__left-side">
             <span id="categoryTitleError" class="cms_admin-error"><?= $error ?></span>
             <h1 class="admin-page__title">Categories</h1>
+            <!-- Category form -->
             <form id="categoryForm" action="categories.php" method="post">
                 <input class="category-input" type="text" name="cat_title" id="cat_title" placeholder="Add New Category">
                 <button type="submit" class="admin-page__crud-link" name="submit">Add Category</button>
             </form>
         </div>
-
-
+        <!-- Category table with button actions -->
         <div class="category__right-side">
             <table class="category__table">
                 <thead>
@@ -33,9 +31,7 @@ delete_categories();
                     </tr>
                 </thead>
                 <tbody>
-
                     <!-- View All categories -->
-
                     <?php foreach ($categories as $category) : ?>
                         <tr>
                             <td><?= $category["cat_title"] ?></td>
@@ -72,6 +68,7 @@ delete_categories();
         <button id="confirmDeleteBtn" class="btn btn-danger">Delete</button>
     </div>
 </div>
+<!-- Footer -->
 <?php
 require "./includes/admin_footer.php";
 ?>

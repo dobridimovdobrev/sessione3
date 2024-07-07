@@ -25,11 +25,11 @@ if (isset($_POST["submit"])) {
   } else {
     $password = mysqli_real_escape_string($con_db, $password);
   }
-
+  /* If no validating errors proceed with database query */
   if (empty($usernameError) && empty($passwordError)) {
     $sql = "SELECT * FROM users WHERE username = '$username'";
     $query = mysqli_query($con_db, $sql);
-
+    /* Fetch data if no query errors */
     if (!errorsQuery($query)) {
       if ($row = mysqli_fetch_assoc($query)) {
         $db_username = $row["username"];
@@ -38,7 +38,7 @@ if (isset($_POST["submit"])) {
         $db_lastname = $row["user_lastname"];
         $db_email = $row["user_email"];
         $db_role = $row["user_role"];
-
+        /* If user password is verifyed user can login */
         if (password_verify($password, $db_password)) {
           $_SESSION["username"] = $db_username;
           $_SESSION["firstname"] = $db_firstname;

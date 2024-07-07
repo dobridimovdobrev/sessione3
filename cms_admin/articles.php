@@ -1,7 +1,6 @@
 <?php
+/* Header with navigation and database included */
 require_once "includes/admin_header.php";
-// Include the functions file
-require_once "includes/functions.php";
 
 $articlesPerPage = 10; // Number of articles per page
 $currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
@@ -23,7 +22,7 @@ if (isset($_POST["submit"])) {
 
 // Use the function to get paginated articles if no search query is active
 if (!$articlesQuery) {
-    $articlesPagination = pagination($con_db, 'articles', $currentPage, $articlesPerPage, "status = 'published'", 'published_at DESC');
+    $articlesPagination = pagination($con_db, 'articles', $currentPage, $articlesPerPage, $condition = '', 'published_at DESC');
     $articles = $articlesPagination['data'];
     $totalPages = $articlesPagination['totalPages'];
 } else {
@@ -31,6 +30,7 @@ if (!$articlesQuery) {
     $totalPages = ceil($totalRecords / $articlesPerPage);
     $offset = ($currentPage - 1) * $articlesPerPage;
     $articlesSql = "SELECT * FROM articles WHERE title LIKE '%$search%' AND status = 'published' ORDER BY published_at DESC LIMIT $offset, $articlesPerPage";
+
     $articlesQuery = mysqli_query($con_db, $articlesSql);
 
     if (!$articlesQuery) {
@@ -43,8 +43,7 @@ if (!$articlesQuery) {
 /* Delete query*/
 deleteQuery($con_db, 'articles', 'id', 'articles.php');
 ?>
-
-
+<!-- Container -->
 <div class="container">
     <div class="admin-page">
         <div class="admin-page__box">
@@ -86,9 +85,7 @@ deleteQuery($con_db, 'articles', 'id', 'articles.php');
                 <?php if (!empty($articles)) : ?>
                     <!-- For each loop to display articles -->
                     <?php foreach ($articles as $article) :
-
                         // I want to see my articles if draft, but subscribers shouldn't see articles if draft
-
                         $articleId = $article["id"];
                         $articleTitle = $article["title"];
                         $articleCategory = $article["cat_id"];
@@ -136,7 +133,6 @@ deleteQuery($con_db, 'articles', 'id', 'articles.php');
                 <?php endif; ?>
             </tbody>
         </table>
-
         <!-- Pagination -->
         <div class="pagination">
             <?php if ($currentPage > 1) : ?>
@@ -151,7 +147,6 @@ deleteQuery($con_db, 'articles', 'id', 'articles.php');
         </div>
     </div>
 </div>
-
 <!-- Delete Confirmation Modal -->
 <div id="deleteModal" class="modal">
     <div class="modal-content">
@@ -161,7 +156,7 @@ deleteQuery($con_db, 'articles', 'id', 'articles.php');
         <button id="confirmDeleteBtn" class="btn btn-danger">Delete</button>
     </div>
 </div>
-
+<!-- Footer -->
 <?php
 require "includes/admin_footer.php";
 ?>
