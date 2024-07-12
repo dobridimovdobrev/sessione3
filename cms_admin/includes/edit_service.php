@@ -31,6 +31,9 @@ $image = $service["imageurl"];
 $serviceTitleError = $serviceDescriptionError = $serviceContentError =
     $serviceTagsError = $servicePublished_atError = $serviceImageError = "";
 
+$maxFileSize = 11 * 1024 * 1024; // 11MB in bytes
+$maxFileSizeMB = $maxFileSize / 1024 / 1024; // Convert bytes to MB for user display
+
 if (isset($_POST["update"])) {
     $title = trim(mysqli_real_escape_string($con_db, $_POST["title"]));
     $description = trim($_POST["description"]);
@@ -39,17 +42,28 @@ if (isset($_POST["update"])) {
     $tags = trim(mysqli_real_escape_string($con_db, $_POST["tags"]));
     $published_at = trim(mysqli_real_escape_string($con_db, $_POST['published_at']));
 
-    // Check if a new image is uploaded
+    // Check if a new image is uploaded,resize,compress and save it
     if ($_FILES["imageurl"]["error"] === UPLOAD_ERR_OK) {
         $image = $_FILES["imageurl"]["name"];
         $temp_image = $_FILES["imageurl"]["tmp_name"];
+        $fileSize = $_FILES["imageurl"]["size"];
+        $imageType = mime_content_type($temp_image);
+
+        // Directory where images will be uploaded
         $upload_image = realpath(__DIR__ . "../../../uploads") . "/" . $image;
 
-        // Move the uploaded file to the desired directory
-        if (!move_uploaded_file($temp_image, $upload_image)) {
-            die("Error uploading file");
+        /* Validate image file type and size on the server-side */
+        $allowedImageTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+
+        if ($fileSize > $maxFileSize) {
+            $serviceImageError = "Upload image file must be less than {$maxFileSizeMB} MB.";
+        } elseif (!in_array($imageType, $allowedImageTypes)) {
+            $serviceImageError = "Invalid image type. Only JPG, JPEG, and PNG are allowed.";
+        } else {
+            if (!resizeImage($temp_image, $upload_image, 810, 470)) {
+                $serviceImageError = "Failed to resize image.";
+            }
         }
-        /* Validate image */
     } else {
         // Use the existing image if no new image is uploaded
         $image = $service["imageurl"];
@@ -85,16 +99,16 @@ if (isset($_POST["update"])) {
         /* Check for query errors */
         if (!errorsQuery($editServiceStmt)) {
             mysqli_stmt_bind_param($editServiceStmt, 'ssssssi', $title, $description, $content, $tags, $published_at, $image, $editServiceId);
-            $execute = mysqli_stmt_execute($editServiceStmt);  
-        } 
+            $execute = mysqli_stmt_execute($editServiceStmt);
+        }
         /* Check for execute stmt errors */
         if (!$execute) {
             die("Execution failed" . mysqli_stmt_error($editServiceStmt));
-        }else{ 
-        mysqli_stmt_close($editServiceStmt);
-        header("Location: edit_service.php?edit=" . $editServiceId);
-        $_SESSION['editSuccess'] = "Edit service successfully !";
-        exit();
+        } else {
+            mysqli_stmt_close($editServiceStmt);
+            header("Location: edit_service.php?edit=" . $editServiceId);
+            $_SESSION['editSuccess'] = "Edit service successfully !";
+            exit();
         }
     }
 }

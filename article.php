@@ -1,18 +1,19 @@
 <?php
-/* Include menu, functions and database */
-require "includes/header.php";
+/* Database */
+require "includes/mysql-database.php";
+/* include functions */
+require "includes/functions.php";
 /* Initialize variables */
-$pageTitle = $pageDescription = $articleDate = $articleAuthor = $headTitle =
-    $headDescription = $articleImage = $articleContent = $articleTags = "";
+$pageTitle = $pageDescription = $articleDate = $articleAuthor
+ = $articleImage = $articleContent = $articleTags = "";
 
 if (isset($_GET["id"])) {
     /*  type casting (int) for integer and security against sql inj attacks */
     $articleId = (int)$_GET["id"];
-
     /* Views query */
     $viewsSql = "UPDATE articles SET views = views + 1 WHERE id = $articleId";
     $viewsQuery = mysqli_query($con_db, $viewsSql);
-
+    
     /* Check for errors query */
     if (!errorsQuery($viewsQuery)) {
         /* Articles query */
@@ -28,16 +29,21 @@ if (isset($_GET["id"])) {
         if ($articleId) {
             $pageTitle = $articleId["title"];
             $pageDescription = $articleId["description"];
-            /*head title and description for the page */
-            pageMetaData($pageTitle,$pageDescription);
+            $articleTags = $articleId['tags'];
+            /*head title and description,keywords for the page */
+            pageMetaData($pageTitle, $pageDescription, $articleTags);
             $articleDate = date("Y-m-d H:i", strtotime($articleId["published_at"]));
             $articleAuthor = $articleId['author'];
             $articleImage = $articleId['imageurl'];
             $articleContent = $articleId['content'];
-            $articleTags = $articleId['tags'];
+            // After fetching $articleContent from the database, clean it up
+            
         }
-    }    
+    }
+
 }
+/* Include menu*/
+require "includes/header.php";
 ?>
 <!-- Primary section -->
 <section class="primary-section">
@@ -47,14 +53,13 @@ if (isset($_GET["id"])) {
     </div>
 </section>
 <!-- Page section -->
-<section class="page-section">
+<div class="page-section">
     <!-- Page container -->
     <div class="page-container">
         <div class="grid-page">
             <article class="article">
                 <?php if (isset($articleId) && $articleId != null) : ?>
-                    <!-- For now this part is only for the articles because i need of dynamic data
-                for the name of the article the date and the author -->
+                    <!-- Breadcrumb -->
                     <div class="breadcrumb">
                         <div class="breadcrumb__heading">
                             <h2 class="fourth-heading"><?= $pageTitle ?></h2>
@@ -79,7 +84,7 @@ if (isset($_GET["id"])) {
                         </svg>
                         <p class="tags__label"> Tags: <?= $articleTags ?></p>
                     </div>
-                 <!-- Redirect to blog page if aricle id is not exist --> 
+                    <!-- Redirect to blog page if aricle id is not exist -->
                 <?php else : ?>
                     <?= header("Location: blog.php"); ?>
                 <?php endif; ?>
@@ -90,7 +95,7 @@ if (isset($_GET["id"])) {
             ?>
         </div>
     </div>
-</section>
+</div>
 <!-- Footer menu-->
 <?php
 require "includes/footer.php";

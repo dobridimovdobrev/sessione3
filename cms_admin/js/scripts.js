@@ -73,59 +73,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
-// Function to update the content counter
-function updateContentLength() {
-    const content = $('#summernote').summernote('code');
 
-    // trim spaces
-    const plainText = $(content).text().trim();
-
-    // Count the characters 
-    const contentLength = plainText.length;
-
-    // Update the content counter
-    const contentLengthCounter = document.getElementById('contentLength');
-    if (contentLengthCounter) { // Ensure element exists
-        contentLengthCounter.textContent = `Content length: ${contentLength} characters`;
-    }
-}
-
-/* Styles and functionality for summernote editor from their documentationAA */
-$(document).ready(function () {
-    $('#summernote').summernote({
-        height: 500, // set editor height
-        callbacks: {
-            onInit: function () {
-                // Initial update of content length counter
-                updateContentLength();
-            },
-            onKeyup: function () {
-                // Update content length on key up
-                updateContentLength();
-            },
-            onChange: function () {
-                // Update content length on change
-                updateContentLength();
-            }
-        },
-        minHeight: null, // set minimum height of editor
-        maxHeight: null, // set maximum height of editor
-        focus: true,
-        toolbar: [
-            ['style', ['style']], // Add this line for heading options
-            ['font', ['bold', 'italic', 'underline', 'clear']],
-            ['fontname', ['fontname']],
-            ['fontsize', ['fontsize']],
-            ['color', ['color']],
-            ['para', ['ul', 'ol', 'paragraph']],
-            ['height', ['height']],
-            ['table', ['table']],
-            ['insert', ['link', 'picture', 'video', 'hr']],
-            ['view', ['fullscreen', 'codeview', 'help']],
-            ['misc', ['undo', 'redo']]
-        ]
-    });
-});
 
 // Helper function to validate email format
 function validateEmail(email) {
@@ -133,11 +81,61 @@ function validateEmail(email) {
     return re.test(String(email).toLowerCase());
 }
 
-/* Validate article form */
+$(function () {
+    $('#summernote').summernote({
+        tabsize: 2,
+        height: 500,
+        enterHtml: '<br>', // Ensure Enter key creates <br> tags instead of <p>
+        dialogsInBody: true,
+        callbacks: {
+            onInit: function () {
+                updateContentLength();
+            },
+            onKeyup: function () {
+                updateContentLength();
+            },
+            onChange: function () {
+                updateContentLength();
+            },
+            onPaste: function () {
+                updateContentLength();
+            }
+        },
+        // Remove empty <p> tags on paste
+        clipboard: {
+            matchVisual: false
+        }
+    });
+});
+
+// Function to update the content counter
+function updateContentLength() {
+    const content = $('#summernote').summernote('code');
+    const plainText = $(content).text().trim();
+    const contentLength = plainText.length;
+    const contentLengthCounter = document.getElementById('contentLength');
+    if (contentLengthCounter) {
+        contentLengthCounter.textContent = `Content length: ${contentLength} characters`;
+    }
+}
+/* For summernote behavior */
+function sanitizeHTML(html) {
+    // Remove any <p> tags wrapping <h1>, <h2>, etc.
+    html = html.replace(/<p>\s*(<h[1-6][^>]*>[^<]*<\/h[1-6]>)\s*<\/p>/g, '$1');
+
+    // Ensure <h1>, <h2>, etc., are not within <p> tags
+    html = html.replace(/<p>\s*(<h[1-6][^>]*>[^<]*<\/h[1-6]>)\s*<\/p>/g, '$1');
+
+    // Optionally, handle other sanitization rules if needed
+    return html;
+}
+
+
+/* Validate Article form */
 document.addEventListener('DOMContentLoaded', function () {
     if (document.getElementById('articleForm') !== null) {
         document.getElementById('articleForm').addEventListener('submit', function (event) {
-            /* clean inputs from previous errors */
+            // Clean inputs from previous errors
             document.getElementById('articleTitleError').textContent = "";
             document.getElementById('articleDescriptionError').textContent = "";
             document.getElementById('articleContentError').textContent = "";
@@ -148,69 +146,84 @@ document.addEventListener('DOMContentLoaded', function () {
             document.getElementById('articleImageError').textContent = "";
             document.getElementById('articleStatusError').textContent = "";
 
-            /* Initialize variables */
+            // Initialize variables
             var title = document.getElementById('title').value.trim();
             var description = document.getElementById('description').value.trim();
-            var content = document.getElementById('summernote').value.trim();
+            var content = $('#summernote').summernote('code').trim();
             var author = document.getElementById('author').value.trim();
             var tags = document.getElementById('tags').value.trim();
             var published_at = document.getElementById('published_at').value.trim();
             var cat_id = document.getElementById('cat_id').value.trim();
-            var imageurl = document.getElementById('imageurl').value.trim();
+            var imageurl = document.getElementById('imageurl').files[0];
             var existingImage = document.getElementById('existingImage');
             var status = document.getElementById('status').value.trim();
 
             var validation = true;
 
-            /* Validate title */
+            // Validate title
             if (title === "") {
-                document.getElementById('articleTitleError').textContent = "AATitle is required";
+                document.getElementById('articleTitleError').textContent = "Title is required";
                 validation = false;
             }
-            /* Validate description */
+            // Validate description
             if (description === "") {
-                document.getElementById('articleDescriptionError').textContent = "ADescription is required";
+                document.getElementById('articleDescriptionError').textContent = "Description is required";
                 validation = false;
             }
-            /* Validate content */
-            if (content === "" || content === "<p><br></p>") {  // This check is needed because sometimes Summernote returns an empty paragraph)
-                document.getElementById('articleContentError').textContent = "AContent is required";
+            // Validate content
+            if (content === "" || content === "<p><br></p>") { // This check is needed because sometimes summernote returns an empty paragraph
+                document.getElementById('articleContentError').textContent = "Content is required";
                 validation = false;
             }
-            /* Validate author */
+            // Validate author
             if (author === "") {
-                document.getElementById('articleAuthorError').textContent = "AAuthor is required";
+                document.getElementById('articleAuthorError').textContent = "Author is required";
                 validation = false;
             }
-            /* Validate tags */
+            // Validate tags
             if (tags === "") {
-                document.getElementById('articleTagsError').textContent = "AATags are required";
+                document.getElementById('articleTagsError').textContent = "Tags are required";
                 validation = false;
             }
-            /* Validate published date */
+            // Validate published date
             if (published_at === "") {
-                document.getElementById('articlePublished_atError').textContent = "AADate is required";
+                document.getElementById('articlePublished_atError').textContent = "Date is required";
                 validation = false;
             }
-            /* Validate category */
+            // Validate category
             if (cat_id === "" || cat_id === "Select option") {
-                document.getElementById('articleCat_idError').textContent = "AACategory is required";
+                document.getElementById('articleCat_idError').textContent = "Category is required";
                 validation = false;
             }
-            /* Validate image */
-            if (imageurl === "" && existingImage === null) {
-                document.getElementById('articleImageError').textContent = "AAImage is required";
+            // Validate image
+            if (imageurl === undefined && existingImage === null) {
+                document.getElementById('articleImageError').textContent = "AAAImage is required";
                 validation = false;
+            } else if (imageurl !== undefined) {
+                var allowedTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+                var maxSize = 10 * 1024 * 1024; // 10MB in bytes
+                if (!allowedTypes.includes(imageurl.type)) {
+                    document.getElementById('articleImageError').textContent = "Invalid image type. Only JPG, JPEG, and PNG are allowed.";
+                    validation = false;
+                } else if (imageurl.size > maxSize) {
+                    document.getElementById('articleImageError').textContent = "AAImage file size must be less than 10MB.";
+                    validation = false;
+                }
             }
-            /* Validate status */
+            // Validate status
             if (status === "" || status === "Select option") {
-                document.getElementById('articleStatusError').textContent = "AAStatus is required";
+                document.getElementById('articleStatusError').textContent = "Status is required";
                 validation = false;
             }
-            /* Prevent submit if not validation */
+            // Prevent submit if not valid
             if (!validation) {
                 event.preventDefault();
+                return;
             }
+
+            // Sanitize the content before setting it to the textarea
+            content = sanitizeHTML(content);
+            document.getElementById('summernote').value = content;
         });
     }
 });
@@ -233,7 +246,7 @@ document.addEventListener('DOMContentLoaded', function () {
             var description = document.getElementById('description').value.trim();
             var content = document.getElementById('summernote').value.trim();
             var tags = document.getElementById('tags').value.trim();
-            var imageurl = document.getElementById('imageurl').value.trim();
+            var imageurl = document.getElementById('imageurl').files[0];
             var published_at = document.getElementById('published_at').value.trim();
             var existingImage = document.getElementById('existingImage');
 
@@ -259,9 +272,19 @@ document.addEventListener('DOMContentLoaded', function () {
                 validation = false;
             }
             /* Validate image */
-            if (imageurl === "" && existingImage === null) {
+            if (imageurl === undefined && existingImage === null) {
                 document.getElementById('serviceImageError').textContent = "AAImage is required";
                 validation = false;
+            } else if (imageurl !== undefined) {
+                var allowedTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+                var maxSize = 10 * 1024 * 1024; // 10MB in bytes
+                if (!allowedTypes.includes(imageurl.type)) {
+                    document.getElementById('serviceImageError').textContent = "Invalid image type. Only JPG, JPEG, and PNG are allowed.";
+                    validation = false;
+                } else if (imageurl.size > maxSize) {
+                    document.getElementById('serviceImageError').textContent = "Image file size must be less than 10MB.";
+                    validation = false;
+                }
             }
             /* Validate published date */
             if (published_at === "") {
@@ -271,7 +294,12 @@ document.addEventListener('DOMContentLoaded', function () {
             /* Prevent submit if not validation */
             if (!validation) {
                 event.preventDefault();
+                return;
             }
+
+            // Sanitize the content before setting it to the textarea
+            content = sanitizeHTML(content);
+            document.getElementById('summernote').value = content;
         });
     }
 });
@@ -349,7 +377,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     validation = false;
                 }
             }
-            
+
             // Prevent submission if validation fails
             if (!validation) {
                 event.preventDefault();

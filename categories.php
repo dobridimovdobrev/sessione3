@@ -1,8 +1,18 @@
 <?php
-/* Menu with database,functions and session included */
+/* Database */
+require "includes/mysql-database.php";
+/* include functions */
+require "includes/functions.php";
+
+/* Head title, Description,Page title meta data,keywords */
+pageMetaData(
+  "Categories", 
+  "All categories that are connected with all blog articles.",
+  "web development, facebook Marketing, designing, seo optimization, marketing, business consulting"
+);
+
+/* Menu  */
 require "includes/header.php";
-/* Head title, Description,Page title meta data */
-pageMetaData("Categories", "All categories that are connected with all blog articles.");
 /* Default section with the image after navigation  */
 require "includes/main.php";
 
@@ -16,26 +26,26 @@ $totalPages = 1;
 // Check if a category is selected
 if (isset($_GET["id"])) {
   /*  type casting (int) for integer and security against sql inj attacks */
-    $categoryId = (int)$_GET["id"];
-    $offset = ($currentPage - 1) * $articlesPerPage;
-
-    // Query to count total articles in the selected category
-    $totalRecordsSql = "SELECT COUNT(*) FROM articles WHERE cat_id = $categoryId AND status = 'published' " ;
-    $totalRecordsResult = mysqli_query($con_db, $totalRecordsSql);
-    /* If no errors query */
-    if (!errorsQuery($totalRecordsResult)) {
-      $totalRecordsRow = mysqli_fetch_array($totalRecordsResult);
-      $totalRecords = $totalRecordsRow[0];
-      $totalPages = ceil($totalRecords / $articlesPerPage);
-    }
-
-    // Query to fetch paginated articles in the selected category
-    $articlesSql = "SELECT * FROM articles WHERE cat_id = $categoryId AND status = 'published' LIMIT $offset, $articlesPerPage";
-    $articlesQuery = mysqli_query($con_db, $articlesSql);
-    /* If no errors query */
-    if (!errorsQuery($articlesQuery)) {
-      $articles = mysqli_fetch_all($articlesQuery, MYSQLI_ASSOC);
-    }
+  $categoryId = (int)$_GET["id"];
+  $offset = ($currentPage - 1) * $articlesPerPage;
+  
+  // Query to count total articles in the selected category
+  $totalRecordsSql = "SELECT COUNT(*) FROM articles WHERE cat_id = $categoryId AND status = 'published' " ;
+  $totalRecordsResult = mysqli_query($con_db, $totalRecordsSql);
+  /* If no errors query */
+  if (!errorsQuery($totalRecordsResult)) {
+    $totalRecordsRow = mysqli_fetch_array($totalRecordsResult);
+    $totalRecords = $totalRecordsRow[0];
+    $totalPages = ceil($totalRecords / $articlesPerPage);
+  }
+  
+  // Query to fetch paginated articles in the selected category
+  $articlesSql = "SELECT * FROM articles WHERE cat_id = $categoryId AND status = 'published' LIMIT $offset, $articlesPerPage";
+  $articlesQuery = mysqli_query($con_db, $articlesSql);
+  /* If no errors query */
+  if (!errorsQuery($articlesQuery)) {
+    $articles = mysqli_fetch_all($articlesQuery, MYSQLI_ASSOC);
+  }
 }
 ?>
 <!-- Page section -->

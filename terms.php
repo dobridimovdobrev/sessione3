@@ -1,13 +1,17 @@
 <?php
-/* Include menu, functions and database */
+/* Database */
+require "includes/mysql-database.php";
+/* include functions */
+require "includes/functions.php";
+
+/* Include menu */
 require "includes/header.php";
+
 /*head title and description for the page */
 pageMetaData(
     "Terms and conditions",
-    "Full stack web developer.
-        Greetings! I'm Dobri Dobrev , a passionate and innovative web developer
-        with a knack for turning ideas into digital reality. 
-        Let me take you on a journey through my professional story."
+    "In this page you can find all terms and conditions, privacy for my website",
+    "terms,conditions,privacy, rules,cookies, sessions, agree terms and conditions"
 );
 ?>
 <!-- Primary section -->

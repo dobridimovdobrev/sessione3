@@ -1,24 +1,38 @@
 <?php
+/* Database */
+require "includes/mysql-database.php";
+/* include functions */
+require "includes/functions.php";
+
+/*head title ,keywords and description for the page */
+pageMetaData(
+  "Login", 
+  "In this page you will find contact form and my contact details, please feel free to contact me.", 
+  "login,user account,profile,backend access"
+);
+
+/* Menu */
 require "includes/header.php";
-/*head title and description for the page */
-pageMetaData("Login", "In this page you will find contact form and my contact details, please feel free to contact me.", "");
+/* Background image and title */
 require "includes/main.php";
+
 // Check if the form is submitted
 $usernameError = "";
 $passwordError = "";
 $loginFailed = "";
-if (isset($_POST["submit"])) {
 
+if (isset($_POST["submit"])) {
+  
   $username = $_POST["username"];
   $password = $_POST["password"];
-
+  
   // Validate username
   if (empty($username)) {
     $usernameError = "Username is required";
   } else {
     $username = mysqli_real_escape_string($con_db, $username);
   }
-
+  
   // Validate password
   if (empty($password)) {
     $passwordError = "Password is required";
@@ -38,14 +52,24 @@ if (isset($_POST["submit"])) {
         $db_lastname = $row["user_lastname"];
         $db_email = $row["user_email"];
         $db_role = $row["user_role"];
+        
         /* If user password is verifyed user can login */
         if (password_verify($password, $db_password)) {
           $_SESSION["username"] = $db_username;
           $_SESSION["firstname"] = $db_firstname;
           $_SESSION["lastname"] = $db_lastname;
           $_SESSION["role"] = $db_role;
-          header("Location: cms_admin/index.php");
-          exit();
+          
+          /* Redirecting on specified page base on user role */
+          if($_SESSION['role'] === 'admin'){
+            header("Location: /mysite-mysql/cms_admin/dashboard.php");
+            exit();
+            /* Subscribers are redirected to profile page */
+          }else{
+            header("Location: /mysite-mysql/cms_admin/index.php");
+            exit();
+          }
+          
         } else {
           $loginFailed = "Username or Password is incorrect!";
         }

@@ -1,18 +1,27 @@
 <?php
-// include menu navigation, functions and database Mysql
+/* Database */
+require "includes/mysql-database.php";
+/* include functions */
+require "includes/functions.php";
+
+// I set variables from header.php and iclude on each page to set different Title and description, keywords
+pageMetaData(
+  "Web Developer",
+  "Full stack web developer.
+  Greetings! I'm Dobri Dobrev , a passionate and innovative web developer
+  with a knack for turning ideas into digital reality. 
+  Let me take you on a journey through my professional story.",
+  "web developer, full stack web developer, Dobri Dobrev, digital reality, professional story"
+);
+
+// include menu navigation,
 require "includes/header.php";
 
-// I set variables from header.php and iclude on each page to set different Title and description 
-pageMetaData("Web Developer", '', "Full stack web developer.
-Greetings! I'm Dobri Dobrev , a passionate and innovative web developer
-with a knack for turning ideas into digital reality. 
-Let me take you on a journey through my professional story.") ;
-
 //connecting to the database article mysql query and ordering by date
-$articles = fetchData($con_db, 'articles', "status = 'published'", 'published_at DESC', '6' );
+$articles = fetchData($con_db, 'articles', "status = 'published'", 'published_at DESC', '6');
 
 /* Displaying services */
-$services = fetchData($con_db, 'services', $condition = '', 'published_at DESC', '6' );
+$services = fetchData($con_db, 'services', $condition = '', 'published_at DESC', '6');
 
 
 /* Newsletter form  */
@@ -25,7 +34,7 @@ if (isset($_POST["submit"])) {
   if (empty($name)) {
     $nameError = "Name is required";
   }
-
+  
   // Validate and sanitize email
   $email = trim(mysqli_real_escape_string($con_db, $_POST["email"]));
   if (empty($email)) {
@@ -33,20 +42,20 @@ if (isset($_POST["submit"])) {
   } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     $emailError = "Invalid email format";
   }
-
+  
   // Validate origin
   $origin = trim(mysqli_real_escape_string($con_db, $_POST["origin"]));
   if (empty($origin)) {
     $originError = "Please select an option";
   }
-
+  
   // Check if there are any errors before proceeding
   if (empty($nameError) && empty($emailError) && empty($originError)) {
     // Prepare and execute the SQL statement
     $newsletterSql = "INSERT INTO subscribers (name, email, origin, date) VALUES (?, ?, ?, NOW())";
     $newsletterStmt = mysqli_prepare($con_db, $newsletterSql);
     /* Confirm query */
-    if(!errorsQuery($newsletterStmt)){
+    if (!errorsQuery($newsletterStmt)) {
       /* If no errors prepare stmt will be bind and execute */
       mysqli_stmt_bind_param($newsletterStmt, "sss", $name, $email, $origin);
       $execute = mysqli_stmt_execute($newsletterStmt);
@@ -61,7 +70,7 @@ if (isset($_POST["submit"])) {
       header("Location: newsletter-thank-you.php");
       exit();
     }
-  } 
+  }
 }
 ?>
 <!-- Hero Section that is unique for my homepage-->
@@ -118,11 +127,11 @@ if (isset($_POST["submit"])) {
   <div class="container">
     <h2 class="heading-featured-in">As featured in</h2>
     <div class="logos">
-      <img src="./img/logos/techcrunch.png" alt="Techcrunch logo">
-      <img src="./img/logos/business-insider.png" alt="Business Insider logo">
-      <img src="./img/logos/the-new-york-times.png" alt="The New York Times logo">
-      <img src="./img/logos/forbes.png" alt="Forbes logo">
-      <img src="./img/logos/usa-today.png" alt="USA Today logo">
+    <img src="./img/logos/techcrunch.png" alt="Techcrunch logo" title="Techcrunch logo">
+      <img src="./img/logos/business-insider.png" alt="Business Insider logo" title="Business Insider logo">
+      <img src="./img/logos/the-new-york-times.png" alt="The New York Times logo" title="The New York Times logo">
+      <img src="./img/logos/forbes.png" alt="Forbes logo" title="Forbes logo">
+      <img src="./img/logos/usa-today.png" alt="USA Today logo" title="USA Today logo">
     </div>
   </div>
 </section>
@@ -152,14 +161,14 @@ if (isset($_POST["submit"])) {
       </div>
       <picture>
         <source srcset="./img/works/back-end.png" media="(max-width:37.5em)">
-        <img src="./img/works/front-end.png" alt="Front-end development" class="work-images">
+        <img src="./img/works/front-end.png" alt="Front-end development" title="Front-end development" class="work-images">
       </picture>
     </div>
     <!-- Second Work -->
     <div class="box-work">
       <picture>
         <source srcset="./img/works/back-end.png" media="(max-width:37.5em)">
-        <img src="./img/works/back-end.png" alt="Back-end development" class="work-images">
+        <img src="./img/works/back-end.png" alt="Back-end development" title="Back-end development" class="work-images">
       </picture>
 
       <div class="front-end">
@@ -189,7 +198,7 @@ if (isset($_POST["submit"])) {
       </div>
       <picture class="picture">
         <source srcset="./img/works/full-stack.png" media="(max-width:37.5em)">
-        <img src="./img/works/full-stack.png" alt="Fullstack development" class="work-images">
+        <img src="./img/works/full-stack.png" alt="Fullstack development" title="Fullstack development" class="work-images">
       </picture>
 
     </div>
@@ -213,7 +222,7 @@ if (isset($_POST["submit"])) {
         $articleId = $article['id'];
       ?>
         <article class="article">
-          <img src="uploads/<?= $articleImage ?>" alt="<?= $articleTitle ?>" class="blog-imgs">
+          <img src="uploads/<?= $articleImage ?>" alt="<?= $articleTitle ?>" title="<?= $articleTitle ?>" class="blog-imgs">
           <div class="blog-box">
             <div class="blog-tags">
               <div>
@@ -255,7 +264,7 @@ if (isset($_POST["submit"])) {
           </h3>
           <p class="service-description"><?= substr($serviceDescription, 0, 180) . '...' ?></p>
           <picture>
-            <img src="uploads/<?= $serviceImage ?>" alt="<?= $serviceTitle ?>" class="gallery-img">
+            <img src="uploads/<?= $serviceImage ?>" alt="<?= $serviceTitle ?>" title="<?= $serviceTitle ?>" class="gallery-img">
           </picture>
         </div>
       <?php endforeach; ?>
@@ -268,7 +277,7 @@ if (isset($_POST["submit"])) {
     <div class="cta">
 
       <div class="cta__box">
-      
+
         <h2 class="secondary-heading">
           Newsletter
         </h2>
@@ -276,23 +285,23 @@ if (isset($_POST["submit"])) {
           Get latest news, updates, tips and trics in your inbox.
         </p>
         <!-- Newsletter form only in the homepage -->
-        <form id="newsletterForm"  class="cta__form" method="post">
+        <form id="newsletterForm" class="cta__form" method="post">
           <!-- Name -->
           <div>
-            <label class="cta__label" for="name">Full Name</label>
+            <label class="cta__label" for="newsletterName">Full Name</label>
             <input id="newsletterName" class="cta__input" name="name" type="text" placeholder="John Wick" value="<?= htmlspecialchars($name) ?>">
             <span id="newsletterNameError" class="form__error"><?= $nameError ?></span>
           </div>
           <!-- Email -->
           <div>
-            <label class="cta__label" for="email">Email address</label>
-            <input id="newsletterEmail" class="cta__input" name="email" type="email" placeholder="your-email@example.com" value="<?= htmlspecialchars($email) ?>" >
+            <label class="cta__label" for="newsletterEmail">Email address</label>
+            <input id="newsletterEmail" class="cta__input" name="email" type="email" placeholder="your-email@example.com" value="<?= htmlspecialchars($email) ?>">
             <span id="newsletterEmailError" class="form__error"><?= $emailError ?></span>
           </div>
           <!-- Select origin -->
           <div>
-            <label class="cta__label" for="origin">Learn for me from?</label>
-            <select id="newsletterOrigin" class="cta__select" name="origin" value="<?= htmlspecialchars($origin) ?>" >
+            <label class="cta__label" for="newsletterOrigin">Learn for me from?</label>
+            <select id="newsletterOrigin" class="cta__select" name="origin">
               <option value="">Please choose one option</option>
               <option value="Google Search">Google Search</option>
               <option value="Facebook">Facebook</option>
@@ -304,8 +313,8 @@ if (isset($_POST["submit"])) {
             <span id="newsletterOriginError" class="form__error"><?= $originError ?></span>
           </div>
           <!-- Submit Button -->
-          <div> 
-          <button type="submit" name="submit" class="cta__btn">Subscribe Now</button>
+          <div>
+            <button type="submit" name="submit" class="cta__btn">Subscribe Now</button>
           </div>
         </form>
       </div>

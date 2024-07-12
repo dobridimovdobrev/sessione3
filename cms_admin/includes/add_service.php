@@ -4,7 +4,13 @@ require "admin_header.php";
 /* If access denied if user is not an admin */
 checkAdminAccess();
 /* Initialize variables */
-$title = $description = $content = $tags = $published_at = $image = "";
+$title = $description = $content = $tags = $published_at =
+    $image = $temp_image = $upload_image = "";
+
+$maxFileSize = 10 * 1024 * 1024; // 10MB in bytes
+$maxFileSizeMB = $maxFileSize / 1024 / 1024; // Convert bytes to MB for user display
+
+/* Initialize variables */
 $serviceTitleError = $serviceDescriptionError = $serviceContentError =
     $serviceTagsError = $servicePublished_atError = $serviceImageError = "";
 /* Form post method */
@@ -13,20 +19,49 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["submit"])) {
     $title = trim(mysqli_real_escape_string($con_db, $_POST["title"]));
     $description = trim($_POST["description"]);
     /* Do not use mysqli real escape string for summernote editor because it not applying your styles and have issues !important */
-    $content = trim($_POST["content"]);
+    $content = $_POST["content"];
     $tags = trim(mysqli_real_escape_string($con_db, $_POST["tags"]));
     $published_at = trim(mysqli_real_escape_string($con_db, $_POST['published_at']));
-    $fileError = $_FILES["imageurl"]["error"];
-    $image = $_FILES["imageurl"]["name"];
-    $temp_image = $_FILES["imageurl"]["tmp_name"];
-    $upload_image = realpath(__DIR__ . "../../../uploads") . "/" . $image;
-
-    /* Check for file upload error */
-    if (!empty($image) && $fileError === UPLOAD_ERR_OK) {
-        move_uploaded_file($temp_image, $upload_image);
+    
+    //validate,resize,compress and save image
+    if ($_FILES["imageurl"]["error"] === UPLOAD_ERR_NO_FILE) {
+        $serviceImageError = "Image is required.";
     } else {
-        $serviceImageError = "Image is required";
+        $image = $_FILES["imageurl"]["name"];
+        $temp_image = $_FILES["imageurl"]["tmp_name"];
+        $fileSize = $_FILES["imageurl"]["size"];
+
+        // Get file extension
+        $fileExt = pathinfo($image, PATHINFO_EXTENSION);
+        $allowedExtensions = ['jpg', 'jpeg', 'png'];
+
+        // Check for valid file extension
+        if (!in_array(strtolower($fileExt), $allowedExtensions)) {
+            $serviceImageError = "Invalid image type. Only JPG, JPEG, and PNG are allowed.";
+        } else {
+            $imageType = mime_content_type($temp_image);
+            $allowedImageTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+
+            // Check for valid image type
+            if (!in_array($imageType, $allowedImageTypes)) {
+                $serviceImageError = "Invalid image type. Only JPG, JPEG, and PNG are allowed.";
+            } elseif ($fileSize > $maxFileSize) {
+                // Check for valid file size
+                $serviceImageError = "Upload image file must be less than {$maxFileSizeMB} MB.";
+            } else {
+                // Proceed with upload if no errors
+                $upload_image = realpath(__DIR__ . "../../../uploads") . "/" . basename($image);
+
+                // Check if the target directory exists and is writable
+                if (!is_dir(dirname($upload_image)) || !is_writable(dirname($upload_image))) {
+                    $serviceImageError = "Upload directory is not writable.";
+                } elseif (!resizeImage($temp_image, $upload_image, 810, 470)) {
+                    $serviceImageError = "Failed to resize image.";
+                }
+            }
+        }
     }
+
     /* Validate title */
     if (empty($title)) {
         $serviceTitleError = "Title is required";
@@ -47,12 +82,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["submit"])) {
     if (empty($published_at) || $_POST['published_at'] === '1970-01-01T01:00') {
         $servicePublished_atError = "Date is required";
     }
+
     /* Check for input form errors */
     if (
         empty($serviceTitleError) && empty($serviceDescriptionError) && empty($serviceContentError) &&
         empty($serviceTagsError) && empty($servicePublished_atError) && empty($serviceImageError)
     ) {
-         /* Proceed with inserting service if no errors with prepare stmt to avoid sql injection */
+        /* Proceed with inserting service if no errors with prepare stmt to avoid sql injection */
         $newServiceSql = "INSERT INTO services (title, description, content,tags, published_at, imageurl)
                          VALUES (?, ?, ?, ?, ?, ?)";
 
@@ -60,9 +96,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["submit"])) {
         /* Check for query errors */
         if (!errorsQuery($newServiceStmt)) {
             mysqli_stmt_bind_param($newServiceStmt, 'ssssss', $title, $description, $content, $tags, $published_at, $image);
-            $service_execute = mysqli_stmt_execute($newServiceStmt);  
-        } 
-      
+            $service_execute = mysqli_stmt_execute($newServiceStmt);
+        }
+
         if (!$service_execute) {
             die("Execute statement failed: " . mysqli_stmt_error($newServiceStmt));
         }

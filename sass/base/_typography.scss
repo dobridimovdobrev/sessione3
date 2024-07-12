@@ -17,13 +17,12 @@ $small-font:1.4rem;
 /* Hero section */
 
 .big-hero-title {
-    font-family: rubik;
     font-size: $extra-big-font;
     line-height: 1.05;
     margin-bottom: 4.8rem;
     letter-spacing: -0.5px;
     font-weight: 700;
-    color: $text-color;
+    @extend %same-font;
 
     @include responsive(desktop){
         font-size: $big-font-4;
@@ -36,10 +35,9 @@ $small-font:1.4rem;
 }
 
 .hero-description {
-    font-family: rubik;
     font-size: $md-font;
+    @extend %same-font;
     line-height: 1.6;
-    color: $color-black;
     margin-bottom: $marbot-5;
     @include responsive(phone){
         font-size: $normal;
@@ -48,6 +46,7 @@ $small-font:1.4rem;
 
 .social-text {
     font-size: $md-font;
+    @extend %same-font;
     font-style: italic;
     text-transform: uppercase;
     transition: .3s;
@@ -67,35 +66,33 @@ $small-font:1.4rem;
     font-weight: 500;
     text-align: center;
     margin-bottom: $marbot-2;
-    color: $color-dark-grey;
+    @extend %same-font;
 }
 
 /* General Title and subtitle for the sections */
 
 .sub-heading {
-    font-family: rubik;
-    display: block;
     font-size: $normal;
     font-weight: 600;
+    display: block;
     color: $color-orange-dark;
     text-transform: uppercase;
     margin-top: $martop-3;
     margin-bottom: $marbot-2;
     letter-spacing: 0.75px;
+    @extend %same-font;
 }
 
 .primary-heading{
-    font-family: rubik;
     font-size: $big-font-4;
-    color: $color-dark-grey;
+    @extend %same-font;
 }
 
 .secondary-heading {
-    font-family: rubik;
     font-size: $big-font;
     line-height: 1.2;
     margin-bottom: $marbot-5;
-    color: $color-dark-grey;
+    @extend %same-font;
 
     @include responsive(desktop){
         font-size: $big-font-4;
@@ -111,32 +108,36 @@ $small-font:1.4rem;
 }
 
 .third-heading{
-    font-size: $md-font-3;
-    font-weight: 700;
-    color: $color-dark-grey;
+    font-size: $md-font;
+    @extend %same-font;
     
 }
 
 .fourth-heading{
-    font-size: $md-font;
-    color: $color-dark-grey;
+    font-size: $normal-font-2;
+    @extend %same-font;
 }
 
 .fifth-heading{
+    font-size: $normal;
     @extend %same-font;
 }
 
 .article-heading{
+    font-size: 2.2rem;
     @extend %same-font;
 }
 
 .service-heading{
+    font-size: $md-font;
     @extend %same-font;
 }
 
 .paragraph{
+    font-family: Verdana;
     font-size: $normal;
-    font-weight: 400 !important;
+    font-weight: 400;
+    line-height: 1.7;
     &:not(:last-child){
         margin-bottom: $marbot-2;
     }
@@ -148,6 +149,5 @@ $small-font:1.4rem;
     font-size: $md-font-3;
     line-height: 1.2;
     margin-bottom: $margin-5;
-    color: #555;
-
+    @extend %same-font;
 }

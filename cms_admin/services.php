@@ -46,7 +46,7 @@ deleteQuery($con_db, 'services', 'id', 'services.php');
                     <tr>
                         <td><?= $serviceTitle ?></td>   
                         <td><?= $serviceTags ?></td>
-                        <td><img src="../uploads/<?= $serviceImage ?>" alt="<?= $serviceTitle ?>" width="100" height="60"></td>                     
+                        <td><img src="../uploads/<?= $serviceImage ?>" alt="<?= $serviceTitle ?>" title="<?= $serviceTitle ?>" class="default-table__image"></td>                     
                         <td><?= $serviceViews ?></td>
                         <td><?= $serviceDate ?></td>
                         <td>

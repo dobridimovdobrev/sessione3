@@ -1,8 +1,18 @@
 <?php
-/* Menu,functions,database */
+/* Database */
+require "includes/mysql-database.php";
+/* include functions */
+require "includes/functions.php";
+
+/*head title,keywords and description for the page */
+pageMetaData(
+   "Message is sent!",
+    "This page is for thanks when message is sent.",
+   "Successfully sent message"
+   );
+
+/* Menu */
 require "includes/header.php";
-/*head title and description for the page */
-pageMetaData("Message is sent!", "This page is for thanks when message is sent.");
 /* Header with background image */
 require "includes/main.php";
 ?>

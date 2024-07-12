@@ -3,6 +3,7 @@
 .google-map{
     width: 100%;
     height: 100%;
+    border: none;
 
     @include responsive(780px){
        height: 30rem;

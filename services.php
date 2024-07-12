@@ -1,19 +1,23 @@
 <?php
-/* Include menu, functions and database */
-require "includes/header.php";
+/* Database */
+require "includes/mysql-database.php";
+/* include functions */
+require "includes/functions.php";
 
-/*head title and description for the page */
+/*head title,keywords and description for the page */
 pageMetaData(
   "Services",
-  "In this page I will show you all my services with details. 
-  Please check and feel free to contact me."
+  "In this page I will show you all my services with details.Please check and feel free to contact me.", 
+  "custom web design, responsive websites, support and maintenance, web development"
 );
 
+/* Include menu */
+require "includes/header.php";
 /* Default section with the image after navigation  */
 require "includes/main.php";
 
 /* Database service fetching data */
-  $services = fetchData($con_db, 'services', 'id');
+$services = fetchData($con_db, 'services', 'id');
 ?>
 <!-- Page section -->
 <section class="page-section">
@@ -40,7 +44,7 @@ require "includes/main.php";
           <p class="service-description"><?= substr($serviceDescription, 0, 180) . '...' ?></p>
           <!-- Image -->
           <picture>
-            <img src="uploads/<?= $serviceImage ?>" alt="<?= $serviceTitle ?>" class="gallery-img">
+            <img src="uploads/<?= $serviceImage ?>" alt="<?= $serviceTitle ?>" title="<?= $serviceTitle ?>" class="gallery-img">
           </picture>
         </div>
       <?php endforeach; ?>

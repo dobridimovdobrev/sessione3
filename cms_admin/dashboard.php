@@ -8,6 +8,7 @@ $user_ip_adress = verify_user_ip();
 <div class="container">
     <?php if ($_SESSION["role"] === 'admin') : ?>
         <h1>Welcome <?= ucfirst($_SESSION["username"])  ?> </h1>
+        <?= "Your ip adress is : " . $user_ip_adress; ?>
     <?php else : header("Location: index.php") ?>
     <?php endif; ?>
     <div class="dashboard-box">

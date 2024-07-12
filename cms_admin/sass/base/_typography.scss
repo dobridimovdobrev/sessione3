@@ -17,11 +17,13 @@ $small-font:1.4rem;
 }
 
 .primary-heading{
+    font-family: 'rubik';
     font-size: $big-font-4;
     color: $color-dark-grey;
 }
 
 .secondary-heading {
+    font-family: 'rubik';
     font-size: $big-font;
     line-height: 1.2;
     margin-bottom: $marbot-8;
@@ -30,23 +32,28 @@ $small-font:1.4rem;
 }
 
 .third-heading{
-    font-size: $md-font-3;
+    font-family: 'rubik';
+    font-size: $md-font;
     font-weight: 700;
     color: $color-dark-grey;
     
 }
 
 .fourth-heading{
-    font-size: $md-font-2;
+    font-family: 'rubik';
+    font-size: $normal-font-2;
     color: $color-dark-grey;
 }
 
 .fifth-heading{
-    @extend %same-font;
+    font-family: 'rubik';
+    font-size: $normal;
 }
 
 .article-heading{
-    @extend %same-font;
+    font-family: 'rubik';
+    font-size: $md-font-2;
+    color: $color-dark-grey;
 }
 
 .service-heading{

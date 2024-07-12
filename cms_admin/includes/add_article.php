@@ -1,44 +1,74 @@
 <?php
-/* Menu with database,functions and session included */
+/* Include necessary files and start session if needed */
 require "admin_header.php";
-/* If access denied if user is not an admin */
+
+/* Function to check if user is admin */
 checkAdminAccess();
 
-/* Check for errors query and Retrieve categories */
+/* Fetch categories from database */
 $selectCategories = fetchData($con_db, 'categories');
 
 /* Initialize variables */
-$title = $description = $content = $author = $tags = $published_at = $articleCat_id = $image = $status = "";
-
-/* Assign a empty string on variables for valaidation */
+$title = $description = $content = $author = $tags = $published_at = $articleCat_id = $status = "";
+$image = $temp_image = $upload_image = "";
+$maxFileSize = 10 * 1024 * 1024; // 10MB in bytes
+$maxFileSizeMB = $maxFileSize / 1024 / 1024; // Convert bytes to MB for user display
+/* Initialize error variables */
 $articleTitleError = $articleDescriptionError = $articleContentError = $articleAuthorError = $articleTagsError =
-    $articlePublished_atError = $articleCat_idError = $articleImageError = $fileError = $articleStatusError = "";
+    $articlePublished_atError = $articleCat_idError = $articleImageError = $articleStatusError = "";
 
+/* Handle form submission */
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["submit"])) {
-    /* Assign values from POST to variables */
+    // Retrieve and sanitize input
     $title = trim(mysqli_real_escape_string($con_db, $_POST["title"]));
     $description = trim($_POST["description"]);
-    /* Do not use mysqli real escape string for summernote editor because it not applying your styles and have issues !important */
-    $content = trim($_POST["content"]);
+    $content = $_POST["content"];
     $author = trim(mysqli_real_escape_string($con_db, $_POST["author"]));
     $tags = trim(mysqli_real_escape_string($con_db, $_POST["tags"]));
     $published_at = trim(mysqli_real_escape_string($con_db, $_POST['published_at']));
     $articleCat_id = trim(mysqli_real_escape_string($con_db, $_POST["cat_id"] ?? ''));
-    $image = $_FILES["imageurl"]["name"];
-    $temp_image = $_FILES["imageurl"]["tmp_name"];
-    $fileError = $_FILES["imageurl"]["error"];
-    $upload_image = realpath(__DIR__ . "../../../uploads") . "/" . $image;
+    $status = trim($_POST["status"] ?? ''); // Default value if not set
 
-    /* Check for file upload error */
-    if (!empty($image) && $fileError === UPLOAD_ERR_OK) {
-        move_uploaded_file($temp_image, $upload_image);
+    // Validate image, filesize,file extension, file type
+    if ($_FILES["imageurl"]["error"] === UPLOAD_ERR_NO_FILE) {
+        $articleImageError = "Image is required.";
     } else {
-        $articleImageError = "Image is required ";
+        $image = $_FILES["imageurl"]["name"];
+        $temp_image = $_FILES["imageurl"]["tmp_name"];
+        $fileSize = $_FILES["imageurl"]["size"];
+
+        // Get file extension
+        $fileExt = pathinfo($image, PATHINFO_EXTENSION);
+        $allowedExtensions = ['jpg', 'jpeg', 'png'];
+
+        // Check for valid file extension
+        if (!in_array(strtolower($fileExt), $allowedExtensions)) {
+            $articleImageError = "Invalid image type. Only JPG, JPEG, and PNG are allowed.";
+        } else {
+            $imageType = mime_content_type($temp_image);
+            $allowedImageTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+
+            // Check for valid image type
+            if (!in_array($imageType, $allowedImageTypes)) {
+                $articleImageError = "Invalid image type. Only JPG, JPEG, and PNG are allowed.";
+            } elseif ($fileSize > $maxFileSize) {
+                // Check for valid file size
+                $articleImageError = "Upload image file must be less than {$maxFileSizeMB} MB.";
+            } else {
+                // Proceed with upload if no errors
+                $upload_image = realpath(__DIR__ . "../../../uploads") . "/" . basename($image);
+
+                // Check if the target directory exists and is writable
+                if (!is_dir(dirname($upload_image)) || !is_writable(dirname($upload_image))) {
+                    $articleImageError = "Upload directory is not writable.";
+                } elseif (!resizeImage($temp_image, $upload_image, 810, 470)) {
+                    $articleImageError = "Failed to resize image.";
+                }
+            }
+        }
     }
 
-    $status = trim(mysqli_real_escape_string($con_db, $_POST["status"] ?? ''));
-
-    /* Validate title */
+    /* Validate other fields */
     if (empty($title)) {
         $articleTitleError = "Title is required";
     }
@@ -58,52 +88,51 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["submit"])) {
     if (empty($tags)) {
         $articleTagsError = "Tags are required";
     }
-    
-    /* Validate date (I found that the error message is not showing on emtpy date if both conditions are not set into if statement)*/
-    if (empty($published_at) || $_POST['published_at'] === '1970-01-01T01:00') {
+    /* Validate publish date */
+    if (empty($published_at)) {
         $articlePublished_atError = "Date is required";
-    } 
-
+    }
     /* Validate category */
     if (empty($articleCat_id)) {
         $articleCat_idError = "Select a category";
     }
-
     /* Validate status */
     if (empty($status)) {
         $articleStatusError = "Select a status";
     }
 
-    /* Check for input form errors */
+
+    /* If no errors, proceed to insert into database */
     if (
         empty($articleTitleError) && empty($articleDescriptionError) && empty($articleContentError) && empty($articleAuthorError) &&
         empty($articleTagsError) && empty($articlePublished_atError) && empty($articleCat_idError) && empty($articleImageError) && empty($articleStatusError)
     ) {
-        /* If no errors, insert article into database */
+
+        // Insert into database
         $newArticleSql = "INSERT INTO articles (title, description, content, author, tags, published_at, cat_id, imageurl, status)
-                     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        /* Using prepare stmt instead query to avoid sql injection */
+                             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $newArticleStmt = mysqli_prepare($con_db, $newArticleSql);
 
-        /* Check for query errors, if not proceed with bind and execute */
         if (!errorsQuery($newArticleStmt)) {
             mysqli_stmt_bind_param($newArticleStmt, 'ssssssiss', $title, $description, $content, $author, $tags, $published_at, $articleCat_id, $image, $status);
             $article_execute = mysqli_stmt_execute($newArticleStmt);
         }
 
-        /* Check for execute errors */
+        /* Check for execution errors */
         if (!$article_execute) {
             die("Execute statement failed: " . mysqli_stmt_error($newArticleStmt));
         }
 
         mysqli_stmt_close($newArticleStmt); // Close statement after execution
-        $articleId = mysqli_insert_id($con_db);
-        /* Redirect to service page after successful insert */
+
+        // Redirect after successful insertion
         header("Location: ../articles.php");
         exit();
     }
 }
 ?>
+
+
 
 <!-- Page heading -->
 <div class="container">
@@ -111,7 +140,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["submit"])) {
         <h1 class="admin-page__title">New Article</h1>
     </div>
     <!-- Article form -->
-    <form id="articleForm" class="max-width-80" action="" method="post" enctype="multipart/form-data">
+    <form id="articleForm" class="max-width-80" method="post" enctype="multipart/form-data">
         <!-- Article title -->
         <div class="form-group">
             <label class="form-group__label" for="title">Title</label>
@@ -125,10 +154,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["submit"])) {
             <span id="articleDescriptionError" class="form-group__error"><?= $articleDescriptionError ?></span>
             <small class="counter" id="descriptionCounter">180 characters remaining</small>
         </div>
-        <!--Article content  -->
+        <!-- Article content -->
         <div class="form-group">
             <label class="form-group__label" for="summernote">Content</label>
-            <textarea class="form-group__form-content" id="summernote" name="content" cols="30" rows="20" oninput="updateContentLength()"><?= htmlspecialchars($content)?></textarea>
+            <textarea class="form-group__form-content" id="summernote" name="content" cols="30" rows="20" oninput="updateContentLength()"><?= htmlspecialchars($content) ?></textarea>
             <span id="articleContentError" class="form-group__error"><?= $articleContentError ?></span>
             <small id="contentLength">Content length: 0 characters</small>
         </div>
@@ -138,7 +167,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["submit"])) {
             <input class="form-group__input" type="text" id="author" name="author" value="<?= htmlspecialchars($author) ?>">
             <span id="articleAuthorError" class="form-group__error"><?= $articleAuthorError ?></span>
         </div>
-        <!-- Artilce tags -->
+        <!-- Article tags -->
         <div class="form-group">
             <label class="form-group__label" for="tags">Tags</label>
             <input class="form-group__input" type="text" id="tags" name="tags" maxlength="84" oninput="updateTagsLength()" value="<?= htmlspecialchars($tags) ?>">
@@ -166,7 +195,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["submit"])) {
         </div>
         <!-- Article image -->
         <div class="form-group">
-            <label class="form-group__label" for="imageurl">Image</label>
+            <label class="form-group__label" for="imageurl">Image (max upload size &lt; <?= $maxFileSizeMB ?> MB)</label>
             <input class="form-group__input" type="file" id="imageurl" name="imageurl">
             <span id="articleImageError" class="form-group__error"><?= $articleImageError ?></span>
         </div>
@@ -180,11 +209,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["submit"])) {
             </select>
             <span id="articleStatusError" class="form-group__error"><?= $articleStatusError ?></span>
         </div>
-         <!-- Submit button -->           
-        <input class="form-group__btn-form" type="submit" name="submit"  value="Add Article">
+        <!-- Submit button -->
+        <input class="form-group__btn-form" type="submit" name="submit" value="Add Article">
     </form>
 </div>
+
 <!-- Footer -->
-<?php
-require "admin_footer.php";
-?>
+<?php require "admin_footer.php"; ?>

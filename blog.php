@@ -1,11 +1,18 @@
 <?php
-/* Include menu, functions and database */
-require "includes/header.php";
-/* Head title, Description,Page title meta data */
+/* Database */
+require "includes/mysql-database.php";
+/* include functions */
+require "includes/functions.php";
+
+/* Head title, Description,Keywords,Page title meta data */
 pageMetaData(
   "Blog Articles",
-  " This page include all article ordered by new to old with pagination, sidebar and article categories"
+  " This page include all article ordered by new to old with pagination, sidebar and article categories",
+  "web developer blog, web development articles, programming, web design"
 );
+
+/* Include menu */
+require "includes/header.php";
 /* Default section with the image after navigation */
 require "includes/main.php";
 
@@ -35,7 +42,7 @@ $totalPages = $articlesPagination['totalPages'];
         $articleId = $article['id'];
     ?>
         <article class="article">
-          <img src="uploads/<?= htmlspecialchars($articleImage) ?>" alt="<?= htmlspecialchars($articleTitle) ?>" class="blog-imgs">
+          <img src="uploads/<?= htmlspecialchars($articleImage) ?>" alt="<?= htmlspecialchars($articleTitle) ?>" title="<?= htmlspecialchars($articleTitle) ?>" class="blog-imgs">
           <div class="blog-box">
             <div class="blog-tags">
               <div>

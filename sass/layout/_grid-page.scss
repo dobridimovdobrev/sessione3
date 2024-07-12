@@ -12,7 +12,7 @@
     align-items: start;
     
     @include responsive(tablet){
-        @include grid-col(65fr 30fr);
+        @include grid-col(67fr 28fr);
     gap: 5rem;
     }
 
@@ -57,8 +57,7 @@
     & .right-sidebar {
         display: flex;
         flex-direction: column;
-        gap: 4rem;
-        flex: 0 0 300px;
+        gap: 2.5rem;
 
         & .widget {
             background: linear-gradient(to left, $primary-color-2, $primary-color);
@@ -74,6 +73,7 @@
 
             &__search{
                 position: relative;
+                height:4rem;
 
             }
 
@@ -100,8 +100,8 @@
                 right: 2px;
                 fill: #5D5D5D;
                 stroke: ghostwhite;
-                width: 32px;
-                height: 32px;
+                width: 28px;
+                height: 28px;
             }
 
             & .fourth-heading {

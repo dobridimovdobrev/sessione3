@@ -1,8 +1,18 @@
 <?php
-/* Menu, functions, database */
+/* Database */
+require "includes/mysql-database.php";
+/* include functions */
+require "includes/functions.php";
+
+/* Head title,keywords, head description */
+pageMetaData(
+   "You are subscribed!",
+    "This page is for thanks when user is subscribed on my newsletter form.",
+   "Successfully subscribed, newsletter"
+   );
+
+/* Menu */
 require "includes/header.php";
-/* Head title, page title, head description */
-pageMetaData("You are subscribed!", "This page is for thanks when user is subscribed on my newsletter form." );
 /* Header with background image */
 require "includes/main.php";
 ?>

@@ -1,14 +1,19 @@
 <?php
-/* Include menu, functions and database */
-require "includes/header.php";
-/*head title and description for the page */
+/* Database */
+require "includes/mysql-database.php";
+/* include functions */
+require "includes/functions.php";
+
+/*head title,keywords and description for the page */
 pageMetaData(
     "Registration",
-    "Full stack web developer.
-     Greetings! I'm Dobri Dobrev, a passionate and innovative web developer
-     with a knack for turning ideas into digital reality. 
-     Let me take you on a journey through my professional story."
+    "On this page users could register and create an acount.
+    After registration the user will be redirect to the login page",
+    "register, account, backend profile"
 );
+
+/* Include menu, functions and database */
+require "includes/header.php";
 /* Default section with the image after navigation  */
 require "includes/main.php";
 
@@ -16,7 +21,8 @@ require "includes/main.php";
 $username = $first_name = $last_name = $user_email = $password = $repeatPassword = $terms = "";
 $usernameError = $passwordError = $repeatPasswordError = $firstnameError = $lastnameError = $emailError = $termsError = "";
 $registrationFailed = "";
-    /* Check if form method is post and if the button or unput tupe is submit */
+
+/* Check if form method is post and if the button or unput tupe is submit */
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["submit"])) {
     // trim inputs
     $username = trim(mysqli_real_escape_string($con_db, $_POST["username"]));
@@ -27,10 +33,21 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["submit"])) {
     $repeatPassword = trim(mysqli_real_escape_string($con_db, $_POST["repeat_password"]));
     $terms = isset($_POST["terms"]);
     $role = "subscriber";
-
+    
     // Validate username
     if (empty($username)) {
         $usernameError = "Username is required.";
+    } else {
+        // Check if username already exists
+        $usernameCheckSql = "SELECT username FROM users WHERE username = ?";
+        $stmt = mysqli_prepare($con_db, $usernameCheckSql);
+        mysqli_stmt_bind_param($stmt, 's', $username);
+        mysqli_stmt_execute($stmt);
+        mysqli_stmt_store_result($stmt);
+        if (mysqli_stmt_num_rows($stmt) > 0) {
+            $usernameError = "Username already exists.";
+        }
+        mysqli_stmt_close($stmt);
     }
     /* Validate first name */
     if (empty($first_name)) {
@@ -43,7 +60,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["submit"])) {
     /* Validate email */
     if (empty($user_email)) {
         $emailError = "Email is required.";
-    /* Validate email format */
+        /* Validate email format */
     } elseif (!filter_var($user_email, FILTER_VALIDATE_EMAIL)) {
         $emailError = "Email is not valid.";
     }
@@ -54,12 +71,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["submit"])) {
     /*  Validate repeat password */
     if (empty($repeatPassword)) {
         $repeatPasswordError = "Repeat the password.";
-    /* Validate password if match with repeat password */
+        /* Validate password if match with repeat password */
     } elseif ($password !== $repeatPassword) {
         $repeatPasswordError = "Passwords do not match.";
     }
     /* Validate terms and conditions */
-    if(empty($terms)){
+    if (empty($terms)) {
         $termsError = "You must agree to the terms and conditions.";
     }
     /* If no form errors can proceed with inserting data into the database */
@@ -73,8 +90,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["submit"])) {
             /* If no statement errors password will be crypt */
             $hashedPassword = password_hash($password, PASSWORD_BCRYPT, ["cost" => 12]);
             mysqli_stmt_bind_param($newUserStmt, 'ssssss', $username, $first_name, $last_name, $user_email, $hashedPassword, $role);
-            $user_execute = mysqli_stmt_execute($newUserStmt);    
-        } 
+            $user_execute = mysqli_stmt_execute($newUserStmt);
+        }
         
         /* Check for execute stmt errors */
         if (!$user_execute) {

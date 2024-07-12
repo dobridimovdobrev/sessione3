@@ -1,7 +1,11 @@
 <?php
-/* Include menu, functions and database */
-require "includes/header.php";
+/* Database */
+require "includes/mysql-database.php";
+/* include functions */
+
+require "includes/functions.php";
 /* Initializa variables */
+
 $pageTitle = $pageDescription = $serviceImage = $serviceContent =
     $serviceTags = $headTitle = $headDescription = "";
 
@@ -16,7 +20,7 @@ if (isset($_GET["id"])) {
         /* Services query and fetch data */
         $sql = "SELECT * FROM services WHERE id = $serviceId";
         $serviceQuery = mysqli_query($con_db, $sql);
-        /* Check errors for service query */ 
+        /* Check errors for service query */
     }
     if (!errorsQuery($serviceQuery)) {
         /* Fetch service data from database */
@@ -24,15 +28,17 @@ if (isset($_GET["id"])) {
         if ($serviceId) {
             $pageTitle = $serviceId["title"];
             $pageDescription = $serviceId["description"];
-            /*head title and description for the page */
-            pageMetaData($pageTitle, $pageDescription);
+            $serviceTags = $serviceId["tags"];
+            $serviceDate = $serviceId["published_at"];
+            /*head title and description,keywords for the page */
+            pageMetaData($pageTitle, $pageDescription, $serviceTags);
             $serviceImage = $serviceId['imageurl'];
             $serviceContent = $serviceId['content'];
-            $serviceTags = $serviceId["tags"];
-        }   
+        }
     }
 }
-/* require "includes/main.php"; */
+/* Include menu,sessions */
+require "includes/header.php";
 ?>
 <!-- Primary section -->
 <section class="primary-section">
@@ -41,12 +47,22 @@ if (isset($_GET["id"])) {
     </div>
 </section>
 <!-- Page section -->
-<section class="page-section">
+<div class="page-section">
     <div class="page-container">
         <div class="grid-page">
             <article class="article">
                 <!-- Display service from database -->
                 <?php if (isset($serviceId) && $serviceId != null) : ?>
+                    <!-- Breadcrumb -->
+                    <div class="breadcrumb">
+                        <div class="breadcrumb__heading">
+                            <h2 class="fourth-heading"><?= $pageTitle ?></h2>
+                        </div>
+                        <!-- Published date -->
+                        <div>
+                            <p class="paragraph"><i>Published on <?= $serviceDate ?></i></p>
+                        </div>
+                    </div>
                     <img src="uploads/<?= $serviceImage ?>" alt="<?= $pageTitle ?>" title="<?= $pageTitle ?>" class="article__image">
                     <p class="paragraph"><?= $serviceContent ?></p>
                     <div class=" tags">
@@ -65,7 +81,7 @@ if (isset($_GET["id"])) {
             ?>
         </div>
     </div>
-</section>
+</div>
 <!-- Footer -->
 <?php
 require "includes/footer.php";

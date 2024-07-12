@@ -31,43 +31,19 @@ html {
 
 body {
     overflow-x: hidden;
-    line-height: 1.6;
+    line-height: 1.7;
     font-weight: 400;
     font-family: "Verdana", sans-serif;
     color: $font-color;
+    font-size: 1.6rem;
 }
 
 p{
-    
+    font-family: verdana;
+    font-size: 1.6rem;
     font-weight: 400;
-    line-height: 1.6;
-}
-/* h1,h2,h3,h4,h5,h6{
-    font-family: Rubik;
-    font-weight: 700;
-    
+    line-height: 1.7;
 }
 
-
-h1{
-    font-size:2.6rem;
-    color: $color-dark-grey;
-}
-
-h2{
-    font-size: 2rem;
-    color: $color-dark-grey;
-}
-
-h3{
-    font-size: 1.8rem;
-    color: $color-dark-grey;
-}
-
-span{
-    font-family: Rubik;
-    font-weight: 500;
-    
-} */
 
 

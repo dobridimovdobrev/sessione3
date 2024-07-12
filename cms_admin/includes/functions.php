@@ -22,20 +22,6 @@ function verify_user_ip()
     }
 }
 
-/* Count tables from database (services,articles,users,subscribers,messages) */
-function countTable($table)
-{
-    global $con_db;
-    $dashboardSql = "SELECT * FROM $table ";
-    $dashboardQuery = mysqli_query($con_db, $dashboardSql);
-    if (!$dashboardQuery) {
-        die("Query failed" . mysqli_error($con_db));
-    }else{
-        $result = mysqli_num_rows($dashboardQuery);
-    } 
-        return $result;
-}
-
 /* Admin access function */
 function checkAdminAccess()
 {
@@ -51,6 +37,21 @@ function checkAdminAccess()
         exit();
     }
 }
+
+/* Count tables from database (services,articles,users,subscribers,messages) */
+function countTable($table)
+{
+    global $con_db;
+    $dashboardSql = "SELECT * FROM $table ";
+    $dashboardQuery = mysqli_query($con_db, $dashboardSql);
+    if (!$dashboardQuery) {
+        die("Query failed" . mysqli_error($con_db));
+    }else{
+        $result = mysqli_num_rows($dashboardQuery);
+    } 
+        return $result;
+}
+
 
 /* confirm Query */
 function confirmQuery($query) {
@@ -69,6 +70,7 @@ function errorsQuery($query) {
         die("Query failed: " . mysqli_error($con_db));
     } 
 }
+
 
 /* Fetch ALL Data from database */
 function fetchData($con_db, $tableName, $condition = '', $orderBy = '', $limit = '') {
@@ -122,13 +124,10 @@ function fetchSingleData($con_db, $tableName, $condition = '', $orderBy = '', $l
 
 /* Delete data from database */
 function deleteQuery($con_db, $tableName, $columnName, $redirectUrl) {
-    if (!isset($_SESSION["role"]) || $_SESSION["role"] !== 'admin') {
-        die("You do not have permission to delete.");
-    }
-
-    if (isset($_GET["delete"])) {
+    //Only admins have permission to delete
+    if (isset($_GET["delete"]) && $_SESSION["role"] === 'admin') {
         $deleteId = mysqli_real_escape_string($con_db, $_GET["delete"]);
-        $deleteSql = "DELETE FROM $tableName WHERE $columnName = $deleteId";
+        $deleteSql = "DELETE FROM $tableName WHERE $columnName = '$deleteId'";
         $deleteQuery = mysqli_query($con_db, $deleteSql);
 
         if (!$deleteQuery) {
@@ -273,6 +272,50 @@ function delete_categories()
     }
 }
 
+/* Resize,compress Image for Article and Service */
+function resizeImage($temp_image, $upload_image, $width, $height) {
+    // original dimensions of the image
+    list($orig_width, $orig_height) = getimagesize($temp_image);
+    
+    // new true color image with the desired dimensions
+    $image_p = imagecreatetruecolor($width, $height);
+    
+    // MIME type of the image
+    $image_type = mime_content_type($temp_image);
+    
+    // Create an image resource from the original image based 
+    switch ($image_type) {
+        case 'image/jpeg':
+        case 'image/jpg':
+            $image = imagecreatefromjpeg($temp_image);
+            break;
+        case 'image/png':
+            $image = imagecreatefrompng($temp_image);
+            break;
+        default:
+            return false; // Unsupported image type
+    }
+
+    // Resample the original image into the new true color image
+    imagecopyresampled($image_p, $image, 0, 0, 0, 0, $width, $height, $orig_width, $orig_height);
+    
+    // Save the new image to the specified file path 
+    switch ($image_type) {
+        case 'image/jpeg':
+        case 'image/jpg':
+            imagejpeg($image_p, $upload_image, 75); // Quality set to 75
+            break;
+        case 'image/png':
+            imagepng($image_p, $upload_image, 6); // Compression level set to 6
+            break;
+    }
+
+    // Free up memory
+    imagedestroy($image_p);
+    imagedestroy($image);
+    
+    return true; // Indicate that the resizing was successful
+}
 
 
 

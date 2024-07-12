@@ -1,44 +1,40 @@
 <?php
 // include database
-require "includes/mysql-database.php";
-/* include functions */
-require "functions.php";
+require_once "mysql-database.php";
+/* Include functions */
+require_once "functions.php";
 /*starts buffering output  */
 ob_start();
 /* Session start */
 session_start();
 
-// Initialize default values for metadata variables
-$headTitle = $pageTitle = $headDescription = "";
-
 // Fetch pages from the database
-$pages = fetchData($con_db, 'pages', $condition = '', $orderBy = '', $limit = '' );
+$pages = fetchData($con_db, 'pages', $condition = '', $orderBy = '', $limit = '');
 
 /* Set active links for sidebar navigation */
 $activeClass = "navigation__link--active";
 // Get the current page name
 $currentPage = basename($_SERVER['REQUEST_URI']);
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="<?= $headDescription ?>"> <!-- SEO description -->
+    <!-- SEO description -->
+    <meta name="description" content="<?= $headDescription?>"> 
+    <!-- SEO keywords -->
+    <meta name="keywords" content="<?= $headKeywords ?>"> 
+    <meta name="author" content="Dobri Dobrev"> <!-- SEO author -->
     <link rel="stylesheet" href="./sass/style.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Rubik:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <!-- use google fonts with the link below inserting the font after cssapi/ to avoid w3c validation warning -->
+    <link rel="stylesheet" href="https://fast.fonts.net/cssapi/Rubik:400,500,600,700&display=swap">
     <link rel="icon" href="./img/favicon.png">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <title><?= $headTitle ?></title> <!-- SEO title -->
+    <!-- SEO title -->
+    <title><?= $headTitle ?></title> 
 </head>
-
 <body>
     <!-- Default header with navigation for all pages including hamburger menu on 900px -->
     <header class="primary-header">
@@ -68,7 +64,7 @@ $currentPage = basename($_SERVER['REQUEST_URI']);
                             <a href="login.php" class="navigation__link <?= ($currentPage == 'login.php') ? $activeClass : '' ?>" title="login" aria-label="login">
                                 Login
                                 <svg class="login-icon">
-                                    <use href="/mysite-mysql/assets/front-icons/symbol-defs.svg#icon-user-tie"></use>   
+                                    <use href="/mysite-mysql/assets/front-icons/symbol-defs.svg#icon-user-tie"></use>
                                 </svg>
                             </a>
                         </li>

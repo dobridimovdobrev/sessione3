@@ -5,14 +5,21 @@ require_once "includes/admin_header.php";
 $articlesPerPage = 10; // Number of articles per page
 $currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 
-// Initialize search-related variables
+//  search variables
 $search = '';
 $articlesQuery = null;
+
+//  user role
+$isAdmin = isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
+
+// condition based on user role
+$condition = $isAdmin ? "1" : "status = 'published'";
 
 // Check if the search form was submitted
 if (isset($_POST["submit"])) {
     $search = trim(mysqli_real_escape_string($con_db, $_POST["search"]));
-    $articlesSql = "SELECT * FROM articles WHERE title LIKE '%$search%' AND status = 'published'";
+    $condition .= ($condition ? " AND " : "") . "title LIKE '%$search%'";
+    $articlesSql = "SELECT * FROM articles WHERE $condition";
     $articlesQuery = mysqli_query($con_db, $articlesSql);
 
     if (!$articlesQuery) {
@@ -22,14 +29,14 @@ if (isset($_POST["submit"])) {
 
 // Use the function to get paginated articles if no search query is active
 if (!$articlesQuery) {
-    $articlesPagination = pagination($con_db, 'articles', $currentPage, $articlesPerPage, $condition = '', 'published_at DESC');
+    $articlesPagination = pagination($con_db, 'articles', $currentPage, $articlesPerPage, $condition, 'published_at DESC');
     $articles = $articlesPagination['data'];
     $totalPages = $articlesPagination['totalPages'];
 } else {
     $totalRecords = mysqli_num_rows($articlesQuery);
     $totalPages = ceil($totalRecords / $articlesPerPage);
     $offset = ($currentPage - 1) * $articlesPerPage;
-    $articlesSql = "SELECT * FROM articles WHERE title LIKE '%$search%' AND status = 'published' ORDER BY published_at DESC LIMIT $offset, $articlesPerPage";
+    $articlesSql = "SELECT * FROM articles WHERE $condition ORDER BY published_at DESC LIMIT $offset, $articlesPerPage";
 
     $articlesQuery = mysqli_query($con_db, $articlesSql);
 
@@ -48,7 +55,7 @@ deleteQuery($con_db, 'articles', 'id', 'articles.php');
     <div class="admin-page">
         <div class="admin-page__box">
             <h1 class="admin-page__title">Articles</h1>
-            <?php if ($_SESSION['role'] === 'admin') : ?>
+            <?php if ($isAdmin) : ?>
                 <a href="includes/add_article.php" class="admin-page__crud-link">Add New Article</a>
             <?php endif; ?>
         </div>
@@ -85,14 +92,12 @@ deleteQuery($con_db, 'articles', 'id', 'articles.php');
                 <?php if (!empty($articles)) : ?>
                     <!-- For each loop to display articles -->
                     <?php foreach ($articles as $article) :
-                        // I want to see my articles if draft, but subscribers shouldn't see articles if draft
                         $articleId = $article["id"];
                         $articleTitle = $article["title"];
                         $articleCategory = $article["cat_id"];
                         $articleAuthor = $article["author"];
                         $articleTags = $article["tags"];
                         $articleImage = $article["imageurl"];
-                        $articleComments = $article["comment_count"]; //future update
                         $articleViews = $article["views"];
                         $articleStatus = $article["status"];
                         $articleDate = date("Y-m-d H:i", strtotime($article["published_at"]));
@@ -109,17 +114,17 @@ deleteQuery($con_db, 'articles', 'id', 'articles.php');
                     ?>
                         <!-- Displaying articles into the table -->
                         <tr>
-                            <td><?= htmlspecialchars($articleTitle) ?></td>
-                            <td><?= htmlspecialchars($catTitle) ?></td>
-                            <td><?= htmlspecialchars($articleAuthor) ?></td>
-                            <td><?= htmlspecialchars(substr($articleTags, 0, 70)) . "..." ?></td>
-                            <td><img src="../uploads/<?= htmlspecialchars($articleImage) ?>" alt="<?= htmlspecialchars($articleTitle) ?>" width="100" height="60"></td>
-                            <td><?= htmlspecialchars($articleViews) ?></td>
-                            <td><?= htmlspecialchars($articleStatus) ?></td>
-                            <td><?= htmlspecialchars($articleDate) ?></td>
+                            <td><?= $articleTitle ?></td>
+                            <td><?= $catTitle ?></td>
+                            <td><?= $articleAuthor ?></td>
+                            <td><?= substr($articleTags, 0, 70) . "..." ?></td>
+                            <td><img src="../uploads/<?= $articleImage ?>" alt="<?= $articleTitle ?>" title="<?= $articleTitle ?>" class="default-table__image"></td>
+                            <td><?= $articleViews ?></td>
+                            <td><?= $articleStatus ?></td>
+                            <td><?= $articleDate ?></td>
                             <td>
                                 <a href="../article.php?id=<?= $articleId ?>" class="default" target="_blank">View</a>
-                                <?php if ($_SESSION['role'] === 'admin') : ?>
+                                <?php if ($isAdmin) : ?>
                                     <a href="includes/edit_article.php?edit=<?= $articleId ?>" class="default" target="_blank">Edit</a>
                                     <a href="javascript:void(0);" onclick="showDeleteModal(<?= $articleId ?>, 'articles.php')" class="delete">Delete</a>
                                 <?php endif; ?>
@@ -150,7 +155,7 @@ deleteQuery($con_db, 'articles', 'id', 'articles.php');
 <!-- Delete Confirmation Modal -->
 <div id="deleteModal" class="modal">
     <div class="modal-content">
-        <span class="close">&times;</span>
+        <span class="close"></span>
         <p class="confirmDeleteparagraph">Are you sure you want to delete this article?</p>
         <button id="cancelBtn" class="btn">Cancel</button>
         <button id="confirmDeleteBtn" class="btn btn-danger">Delete</button>

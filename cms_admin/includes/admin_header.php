@@ -75,8 +75,8 @@ $pageUrl = basename($_SERVER['REQUEST_URI']);
                 <ul>
                     <!-- User Profile visible for subscribers -->
                     <?php if ($_SESSION["role"] === "subscriber") : ?>
-                        <li class="admin_sidebar-nav__item <?= ($pageUrl === 'profile.php') ? $activeClass : ''; ?>">
-                            <a href="/mysite-mysql/cms_admin/profile.php" class="admin_sidebar-nav__link" aria-label="profile" title="profile">
+                        <li class="admin_sidebar-nav__item <?= ($pageUrl === 'index.php') ? $activeClass : ''; ?>">
+                            <a href="/mysite-mysql/cms_admin/index.php" class="admin_sidebar-nav__link" aria-label="profile" title="profile">
                                 <svg class="admin_sidebar-nav__icons">
                                     <use href="/mysite-mysql/assets/back-icons/symbol-defs.svg#icon-gauge"></use>
                                 </svg>
