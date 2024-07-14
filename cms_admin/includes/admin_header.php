@@ -20,7 +20,6 @@ $pageUrl = basename($_SERVER['REQUEST_URI']);
     <link rel="stylesheet" href="/mysite-mysql/cms_admin/css/summernote-bs4.css">
     <link rel="stylesheet" href="/mysite-mysql/cms_admin/css/bootstrap.css">
     <link rel="stylesheet" href="/mysite-mysql/cms_admin/sass/main.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Rubik:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
     <link rel="icon" href="../../img/favicon.png">
     <title>Cms Admin</title>
 </head>

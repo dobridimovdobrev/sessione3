@@ -28,6 +28,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["submit"])) {
         $serviceImageError = "Image is required.";
     } else {
         $image = $_FILES["imageurl"]["name"];
+        // Sanitize the image filename
+        $image = preg_replace('/[^a-zA-Z0-9\-_\.]/', '', str_replace(' ', '-', $image));
         $temp_image = $_FILES["imageurl"]["tmp_name"];
         $fileSize = $_FILES["imageurl"]["size"];
 
