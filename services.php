@@ -17,7 +17,7 @@ require "includes/header.php";
 require "includes/main.php";
 
 /* Database service fetching data */
-$services = fetchData($con_db, 'services', 'id');
+$services = fetchData($con_db, 'services', 'id', 'published_at');
 ?>
 <!-- Page section -->
 <section class="page-section">

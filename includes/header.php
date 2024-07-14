@@ -27,10 +27,6 @@ $currentPage = basename($_SERVER['REQUEST_URI']);
     <meta name="keywords" content="<?= $headKeywords ?>"> 
     <meta name="author" content="Dobri Dobrev"> <!-- SEO author -->
     <link rel="stylesheet" href="./sass/style.min.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <!-- use google fonts with the link below inserting the font after cssapi/ to avoid w3c validation warning -->
-    <link rel="stylesheet" href="https://fast.fonts.net/cssapi/Rubik:400,500,600,700&display=swap">
     <link rel="icon" href="./img/favicon.png">
     <!-- SEO title -->
     <title><?= $headTitle ?></title> 

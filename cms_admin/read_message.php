@@ -71,8 +71,8 @@ if (isset($_GET["id"])) {
             <?php endif; ?>
     </div>
     <!-- Delete Confirmation Modal -->
-    <div id="deleteModal" class="modal">
-        <div class="modal-content">
+    <div id="deleteModal" class="delete-modal">
+    <div class="delete-modal-content">
             <span class="close"></span>
             <p class="confirmDeleteparagraph">Are you sure you want to delete this message?</p>
             <button id="cancelBtn" class="btn">Cancel</button>

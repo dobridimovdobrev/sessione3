@@ -44,7 +44,7 @@ if (!$articlesQuery) {
   $totalRecords = mysqli_num_rows($articlesQuery);
   $totalPages = ceil($totalRecords / $articlesPerPage);
   $offset = ($currentPage - 1) * $articlesPerPage;
-  $articlesSql = "SELECT * FROM articles WHERE title LIKE '%$search%' AND status = 'published' LIMIT $offset, $articlesPerPage";
+  $articlesSql = "SELECT * FROM articles WHERE title LIKE '%$search%' AND status = 'published' ORDER BY published_at DESC LIMIT $offset, $articlesPerPage";
   $articlesQuery = mysqli_query($con_db, $articlesSql);
   /* Check for query errors */
   confirmQuery($articlesQuery);

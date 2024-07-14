@@ -30,7 +30,7 @@ if (isset($_GET["id"])) {
   $offset = ($currentPage - 1) * $articlesPerPage;
   
   // Query to count total articles in the selected category
-  $totalRecordsSql = "SELECT COUNT(*) FROM articles WHERE cat_id = $categoryId AND status = 'published' " ;
+  $totalRecordsSql = "SELECT COUNT(*) FROM articles  WHERE cat_id = $categoryId  AND status = 'published' " ;
   $totalRecordsResult = mysqli_query($con_db, $totalRecordsSql);
   /* If no errors query */
   if (!errorsQuery($totalRecordsResult)) {
@@ -40,7 +40,7 @@ if (isset($_GET["id"])) {
   }
   
   // Query to fetch paginated articles in the selected category
-  $articlesSql = "SELECT * FROM articles WHERE cat_id = $categoryId AND status = 'published' LIMIT $offset, $articlesPerPage";
+  $articlesSql = "SELECT * FROM articles WHERE cat_id = $categoryId AND status = 'published' ORDER BY published_at DESC LIMIT $offset, $articlesPerPage";
   $articlesQuery = mysqli_query($con_db, $articlesSql);
   /* If no errors query */
   if (!errorsQuery($articlesQuery)) {

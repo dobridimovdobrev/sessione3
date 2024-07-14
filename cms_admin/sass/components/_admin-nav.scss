@@ -139,6 +139,7 @@
 
         &__link {
             display: grid;
+            align-items: center;
             gap: 1rem;
             grid-template-columns: 2.2rem 1fr;
             font-size: $normal;

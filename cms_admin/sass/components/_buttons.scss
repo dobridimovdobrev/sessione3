@@ -11,7 +11,7 @@
 
 /* Modal window for delete confirmation */
 
-.modal {
+.delete-modal {
     display: none;
     position: fixed;
     z-index: 1;
@@ -24,7 +24,7 @@
     background-color: rgba(0, 0, 0, 0.4);
 
     /* Modal Content */
-    .modal-content {
+    .delete-modal-content {
         
         background-color: #fefefe;
         margin: 15% auto;
@@ -42,6 +42,7 @@
     /* Buttons */
     .btn {
         margin-bottom: 1rem;
+        width: 100%;
         font-size: $normal;
         padding: 10px 20px;
         border: none;

@@ -85,7 +85,7 @@ $(function () {
     $('#summernote').summernote({
         tabsize: 2,
         height: 500,
-        enterHtml: '<br>', // Ensure Enter key creates <br> tags instead of <p>
+        enterHtml: '<br>',
         dialogsInBody: true,
         callbacks: {
             onInit: function () {
@@ -101,13 +101,20 @@ $(function () {
                 updateContentLength();
             }
         },
-        // Remove empty <p> tags on paste
         clipboard: {
             matchVisual: false
-        }
+        },
+        toolbar: [
+            ['style', ['bold', 'italic', 'underline', 'clear']],
+            ['font', ['fontsize', 'fontname']],
+            ['para', ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'paragraph']],
+            ['insert', ['link', 'video']], // Picture button is excluded
+            ['view', ['fullscreen', 'codeview', 'help']]
+        ]
     });
 });
-
+        
+ 
 // Function to update the content counter
 function updateContentLength() {
     const content = $('#summernote').summernote('code');
