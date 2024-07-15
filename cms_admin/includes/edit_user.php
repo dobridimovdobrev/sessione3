@@ -14,10 +14,11 @@ unset($_SESSION['editSuccess']);
 /* Assign variable */
 $editUserId = $_GET["edit"];
 
-/* Check if User id exist */
+/* Check if User id exists */
 if (!$editUserId) {
     die("<h1 class='echo-errors'>No User found</h1>");
 }
+
 /* Fetch User single row data from database */
 $users = fetchSingleData($con_db, 'users', "user_id = $editUserId");
 
@@ -29,16 +30,17 @@ $user_email = $users["user_email"];
 $reg_date = $users["user_date"];
 $role = $users["user_role"];
 
-/* Initialize vaiables */
+/* Initialize variables */
 $usernameError = $passwordError = $repeatPasswordError = $firstnameError =
     $lastnameError = $emailError = $regDateError = "";
+
 /* Update the form to the database */
 if (isset($_POST["submit"])) {
     $username = trim(mysqli_real_escape_string($con_db, $_POST["username"]));
     $first_name = trim(mysqli_real_escape_string($con_db, $_POST["first_name"]));
     $last_name = trim(mysqli_real_escape_string($con_db, $_POST["last_name"]));
     $user_email = trim(mysqli_real_escape_string($con_db, $_POST["email"]));
-    $reg_date = trim(mysqli_real_escape_string($con_db, $_POST["date"]));
+    $reg_date = date("Y-m-d H:i", strtotime($_POST["date"]));
     $password = trim(mysqli_real_escape_string($con_db, $_POST["password"]));
     $repeatPassword = trim(mysqli_real_escape_string($con_db, $_POST["repeat_password"]));
     $role = trim(mysqli_real_escape_string($con_db, $_POST["role"]));
@@ -47,58 +49,60 @@ if (isset($_POST["submit"])) {
     if (empty($username)) {
         $usernameError = "Username is required.";
     }
-    // Validate first name
     if (empty($first_name)) {
         $firstnameError = "First name is required.";
     }
-    // Validate last name
     if (empty($last_name)) {
         $lastnameError = "Last name is required.";
     }
-    // Validate email and format
     if (empty($user_email)) {
         $emailError = "Email is required.";
     } elseif (!filter_var($user_email, FILTER_VALIDATE_EMAIL)) {
         $emailError = "Email is not valid.";
     }
-    // Validate registration date
-    if (empty($reg_date)) {
+    if (empty($reg_date) || $_POST['user_date'] === '1970-01-01T01:00') {
         $regDateError = "Registration date is required.";
     }
-    // Validate password,repeat password,minimum chars requirments and if match
     if (!empty($password)) {
         if (strlen($password) < 8) {
             $passwordError = "The password must be at least 8 characters.";
-        } else {
-            if ($password !== $repeatPassword) {
-                $repeatPasswordError = "Passwords do not match.";
-            } else {
-                // Hash the password
-                $password = password_hash($password, PASSWORD_BCRYPT, ["cost" => 10]);
-            }
+        } elseif ($password !== $repeatPassword) {
+            $repeatPasswordError = "Passwords do not match.";
         }
     }
-    // Check if there are no validation errors
+
+    // Check for no validation errors
     if (
         empty($usernameError) && empty($firstnameError) && empty($lastnameError) && empty($emailError) &&
         empty($regDateError) && empty($passwordError) && empty($repeatPasswordError)
     ) {
-        // Prepare  update query
-        $updateUsersSql = "UPDATE users SET username = ?, user_firstname = ?, user_lastname = ?, user_email = ?, user_date = ?, password = ?, user_role = ? WHERE user_id = ? ";
-        $updateUsersStmt = mysqli_prepare($con_db, $updateUsersSql);
+        // Prepare update query
+        if (empty($password)) {
+            // Update without changing the password
+            $updateUsersSql = "UPDATE users SET username = ?, user_firstname = ?, user_lastname = ?, user_email = ?, user_date = ?, user_role = ? WHERE user_id = ?";
+            $updateUsersStmt = mysqli_prepare($con_db, $updateUsersSql);
+            mysqli_stmt_bind_param($updateUsersStmt, "ssssssi", $username, $first_name, $last_name, $user_email, $reg_date, $role, $editUserId);
+        } else {
+            // Hash the password if provide it
+            $password = password_hash($password, PASSWORD_BCRYPT);
+            // Update if new password
+            $updateUsersSql = "UPDATE users SET username = ?, user_firstname = ?, user_lastname = ?, user_email = ?, user_date = ?, password = ?, user_role = ? WHERE user_id = ?";
+            $updateUsersStmt = mysqli_prepare($con_db, $updateUsersSql);
+            mysqli_stmt_bind_param($updateUsersStmt, "sssssssi", $username, $first_name, $last_name, $user_email, $reg_date, $password, $role, $editUserId);
+        }
+
         /* Check for query errors */
         if (!errorsQuery($updateUsersStmt)) {
-            //execute the statement
-            mysqli_stmt_bind_param($updateUsersStmt, "sssssssi", $username, $first_name, $last_name, $user_email, $reg_date, $password, $role, $editUserId);
             $updateUserExecute = mysqli_stmt_execute($updateUsersStmt);
         }
-        /* Check for execut stmt errors */
+
+        /* Check for execution errors */
         if (!$updateUserExecute) {
-            die("Execute failed" . mysqli_stmt_error($updateUsersStmt));
+            die("Execute failed: " . mysqli_stmt_error($updateUsersStmt));
         } else {
-            // Close statement,redirect and set success message in session 
+            // Close statement, redirect, and set success message in session 
             mysqli_stmt_close($updateUsersStmt);
-            $_SESSION['editSuccess'] = "Edit user successfully !";
+            $_SESSION['editSuccess'] = "Edit user successfully!";
             header("Location: edit_user.php?edit=$editUserId");
             exit();
         }
@@ -149,7 +153,7 @@ if (isset($_POST["submit"])) {
         <!-- Registration Date -->
         <div class="form-group">
             <label class="form-group__label" for="date">Date</label>
-            <input class="form-group__input" type="date" id="date" name="date" value="<?= $reg_date ?>">
+            <input class="form-group__input" type="datetime-local" id="date" name="date" value="<?= $reg_date ?>">
             <span id="regDateError" class="form-group__error"><?= $regDateError ?></span>
         </div>
         <!-- Password -->

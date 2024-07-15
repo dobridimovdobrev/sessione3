@@ -46,6 +46,7 @@ if (isset($_POST["submit"])) {
     /* Fetch data if no query errors */
     if (!errorsQuery($query)) {
       if ($row = mysqli_fetch_assoc($query)) {
+        $db_id = $row["user_id"];
         $db_username = $row["username"];
         $db_password = $row["password"];
         $db_firstname = $row["user_firstname"];
@@ -55,6 +56,7 @@ if (isset($_POST["submit"])) {
         
         /* If user password is verifyed user can login */
         if (password_verify($password, $db_password)) {
+          $_SESSION["id"] = $db_id;
           $_SESSION["username"] = $db_username;
           $_SESSION["firstname"] = $db_firstname;
           $_SESSION["lastname"] = $db_lastname;

@@ -394,6 +394,63 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 
+/* Validate profile form */
+document.addEventListener('DOMContentLoaded', function () {
+    if (document.getElementById('profileForm') !== null) {
+        document.getElementById('profileForm').addEventListener('submit', function (event) {
+            // Clean previous error messages
+            document.getElementById('firstNameError').textContent = "";
+            document.getElementById('lastNameError').textContent = "";
+            document.getElementById('emailError').textContent = "";
+            document.getElementById('passwordError').textContent = "";
+            document.getElementById('repeatPasswordError').textContent = "";
+
+            // Get form values
+            var firstName = document.getElementById('first_name').value.trim();
+            var lastName = document.getElementById('last_name').value.trim();
+            var email = document.getElementById('email').value.trim();
+            var password = document.getElementById('password').value.trim();
+            var repeatPassword = document.getElementById('repeat_password').value.trim();
+
+            var validation = true;
+
+            // Validate first name
+            if (firstName === '') {
+                document.getElementById('firstNameError').textContent = "QQFirst name is required";
+                validation = false;
+            }
+            // Validate last name
+            if (lastName === '') {
+                document.getElementById('lastNameError').textContent = "QQLast name is required";
+                validation = false;
+            }
+            // Validate email
+            if (email === '') {
+                document.getElementById('emailError').textContent = "QQEmail is required";
+                validation = false;
+            } else if (!validateEmail(email)) {
+                document.getElementById('emailError').textContent = "QQInvalid email format";
+                validation = false;
+            }
+            // Validate password
+            if (password !== '') {
+                if (password.length < 8) {
+                    document.getElementById('passwordError').textContent = "QQPassword must be at least 8 characters";
+                    validation = false;
+                }
+                if (password !== repeatPassword) {
+                    document.getElementById('repeatPasswordError').textContent = "QQPasswords do not match";
+                    validation = false;
+                }
+            }
+
+            // Prevent submission if validation fails
+            if (!validation) {
+                event.preventDefault();
+            }
+        });
+    }
+});
 /* Validate category form */
 document.addEventListener('DOMContentLoaded', function () {
     if (document.getElementById('categoryForm') !== null) {

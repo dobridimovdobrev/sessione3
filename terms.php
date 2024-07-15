@@ -189,7 +189,7 @@ pageMetaData(
                 <div class="item">
                     <input type="checkbox" id="item13-checkbox" class="accordion-checkbox" hidden>
                     <label for="item13-checkbox" class="item-link">
-                        <span class="accordion-span">13. Export restrictions / Legal compliance</span>
+                        <span class="accordion-span">13. Legal compliance</span>
                         <div class="icon">&#9660;</div>
                     </label>
                     <div class="hidden-box">
@@ -225,7 +225,7 @@ pageMetaData(
                 <div class="item">
                     <input type="checkbox" id="item16-checkbox" class="accordion-checkbox" hidden>
                     <label for="item16-checkbox" class="item-link">
-                        <span class="accordion-span">16. Breaches of these Terms and conditions</span>
+                        <span class="accordion-span">16. Breaches Terms and conditions</span>
                         <div class="icon">&#9660;</div>
                     </label>
                     <div class="hidden-box">
@@ -285,7 +285,7 @@ pageMetaData(
                 <div class="item">
                     <input type="checkbox" id="item21-checkbox" class="accordion-checkbox" hidden>
                     <label for="item21-checkbox" class="item-link">
-                        <span class="accordion-span">21. Updating of these Terms and conditions</span>
+                        <span class="accordion-span">21. Updating Terms and conditions</span>
                         <div class="icon">&#9660;</div>
                     </label>
                     <div class="hidden-box">

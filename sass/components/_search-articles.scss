@@ -22,7 +22,7 @@
         }
 
         .blog-box {
-            padding: 1rem 3rem 2.6rem 3rem;   
+            padding: 1rem 1.6rem 1.6rem 1.6rem;   
         }
 
         .blog-tags {
@@ -79,19 +79,6 @@
                 padding: 1rem;
                 
             }    
-        }
-
-        .paragraf-description {
-            color: $text-color;
-            /* text-align:justify; */
-            font-size: $normal;
-            line-height: 1.7;
-
-            @include responsive(780px){
-                
-            margin-bottom: $martop-2;
-                
-            }
         }
 
         .h2-center {

@@ -1,79 +1,51 @@
-/* Nice modern accordion styles */
 .accordion {
-  display: flex;
-  /*   background: linear-gradient(to right, #6a11cb 0%, #2575fc 100%);
- */
-  flex-direction: column;
-  width: 100%;
-  max-width: 700px;
-  margin: 50px auto;
-  padding: 10px;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  gap: 30px;
-}
+  &.rounded-corners {
+    .item {
+      border-radius: 10px;
+      overflow: hidden;
+      background: #e6bf91;
+      color: $text-color;
+      margin-bottom: 1rem;
 
-.item {
-  /* background:transparent; */
-  background: linear-gradient(to right, #6a11cb 0%, #2575fc 100%);
-  border-radius: 5px;
-  padding: 0 20px;
-  position: relative;
-  
-}
+      &:hover{
+        background: #5D5D5D;
+        color: #ffdab9;
+      }
 
-.item-link {
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  gap: 15px;
-  text-decoration: none;
-  color: inherit;
-  align-items: center;
-  width: 100%;
-  column-gap: 30px;
-  cursor: pointer;
-  
-}
+      .item-link {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
+        cursor: pointer;
+        background: inherit; // Inherit background from parent .item
 
-.icon {
-  color: #fff;
-  transition: transform 0.3s ease;
-}
+        .icon {
+          transition: transform 0.3s ease;
+        }
 
-.accordion-checkbox:checked + .item-link .icon {
-  transform: rotate(180deg);
-}
+        .accordion-span{
+          font-family: Verdana;
+          font-size: 1.6rem;
+          font-weight: 600;
+        }
+      }
 
-.hidden-box {
-  grid-column: 1 / -1;
-  max-height: 0;
-  opacity: 0;
-  visibility: hidden;  /* Ensure element is not interactable when closed */
-  overflow: hidden;
-  transition: opacity 0.5s, visibility 0s 0.7s, max-height 0.5s ; /* Delay visibility transition to after opacity */
-  padding: 0 20px;  /* Adjust padding as needed */
-}
+      .hidden-box {
+        display: none;
+        background: #fff;
+        color: #333;
+        padding: 10px;
+      }
 
-.accordion-checkbox:checked + .item-link + .hidden-box {
-  display: block;
-  max-height: 500px;  /* Adjust based on content size */
-  opacity: 1;
-  visibility: visible;
-  transition: opacity 0.7s, max-height 0.7s , visibility 0s 0s; /* Apply visibility transition immediately */
-}
+      .accordion-checkbox:checked + .item-link + .hidden-box {
+        display: block;
+      }
 
-.hidden-text li {
-  padding: 5px 0;
-}
+      .accordion-checkbox:checked + .item-link .icon {
+        transform: rotate(-180deg);
+      }
+    }
+  }
 
-span {
-  font-size: 32px;
-  color: #fff;
-  font-weight: bold;
 }
-
-.sub-item {
-  font-size: 24px;
-  color: #fff;
-}
-

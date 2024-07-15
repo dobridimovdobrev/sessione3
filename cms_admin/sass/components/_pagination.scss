@@ -1,36 +1,47 @@
 /* Pagination reusable*/
-
 .pagination {
     display: flex;
     justify-content: center;
-    padding: $padding-5 0;
+    align-items: center; // Center align items to prevent height issues
+    padding: 10px 0;
+    gap: 5px;
 
-    & a {
-        margin: 0 5px;
-        font-size: $small-font;
-        padding: 10px 15px;
+    @include responsive(small-phone) {
+        gap: 2px; 
+    }
+
+    a, span {
+        margin: 0;
+        font-size: 14px;
+        padding: 5px 10px; 
         text-decoration: none;
-        color: $text-color;
-        background-color: #fff;
+        color: $color-black;
+        background-color: $color-white;
         border: 1px solid #dee2e6;
         border-radius: 4px;
         transition: background-color 0.3s, color 0.3s;
     }
 
-    & a:hover {
-        background-color: $primary-color;
+    a:hover {
+        background-color:$primary-color;
         color: $color-white;
     }
 
-    & a.active {
+    a.active {
         background-color: $primary-color;
         color: $color-white;
         border-color: $color-white;
         pointer-events: none;
     }
 
-    & a.prev,
-    & a.next {
+    a.prev,
+    a.next {
         font-weight: bold;
+        padding: 5px 15px; 
+    }
+
+    span {
+        padding: 5px 10px; 
+        color: #999;
     }
 }

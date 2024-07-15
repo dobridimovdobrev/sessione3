@@ -141,18 +141,18 @@ $small-font:1.4rem;
 }
 
 .third-heading{
-    font-size: $md-font;
+    font-size: $md-font-2;
     @extend %same-font;
     
 }
 
 .fourth-heading{
-    font-size: $normal-font-2;
+    font-size: $md-font;
     @extend %same-font;
 }
 
 .fifth-heading{
-    font-size: $normal;
+    font-size: $normal-font-2;
     @extend %same-font;
 }
 
@@ -165,7 +165,7 @@ $small-font:1.4rem;
     font-size: $md-font;
     @extend %same-font;
 }
-
+/* Paragraph by default */
 .paragraph{
     font-family: Verdana;
     font-size: $normal;
@@ -173,6 +173,19 @@ $small-font:1.4rem;
     line-height: 1.7;
     &:not(:last-child){
         margin-bottom: $marbot-2;
+    }
+}
+/* For article, work and search article description */
+.paragraf-description {
+    color: $text-color;
+    font-family: tahoma;
+    font-size: $normal;
+    line-height: 1.7;
+
+    @include responsive(780px){
+        
+    margin-bottom: $martop-2;
+        
     }
 }
 

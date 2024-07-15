@@ -128,7 +128,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["submit"])) {
         <!-- Registration Date -->
         <div class="form-group">
             <label class="form-group__label" for="date">Registration Date</label>
-            <input class="form-group__input" type="date" id="date" name="date" value="<?= htmlspecialchars($reg_date) ?>">
+            <input class="form-group__input" type="datetime-local" id="date" name="date" value="<?= htmlspecialchars($reg_date) ?>">
             <span id="regDateError" class="form-group__error"><?= $regDateError ?></span>
         </div>
         <!-- Password -->

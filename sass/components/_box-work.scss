@@ -29,6 +29,7 @@
     & .work-description {
         font-size: 1.8rem;
         line-height: 1.8;
+        font-family: tahoma;
     
         @include responsive(tablet){
             font-size: $normal;

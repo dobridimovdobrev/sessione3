@@ -58,6 +58,8 @@ if (isset($_POST["update"])) {
     // Check if a new image is uploaded,resize,compress and save it
     if ($_FILES["imageurl"]["error"] === UPLOAD_ERR_OK) {
         $image = $_FILES["imageurl"]["name"];
+        // Sanitize the image filename
+        $image = preg_replace('/[^a-zA-Z0-9\-_\.]/', '', str_replace(' ', '-', $image));
         $temp_image = $_FILES["imageurl"]["tmp_name"];
         $fileSize = $_FILES["imageurl"]["size"];
         $imageType = mime_content_type($temp_image);

@@ -53,7 +53,7 @@ if (!$articlesQuery) {
 }
 ?>
 <!-- Page section -->
-<section class="page-section">
+<div class="page-section">
   <div class="page-container">
     <div class="grid-page">
       <div class="search-articles">
@@ -80,7 +80,7 @@ if (!$articlesQuery) {
                 <div>
                   <span class="published">Author: <?= $articleAuthor ?></span>
                 </div>
-                <p class="paragraf-description"><?= $articleDescription ?></p>
+                <p class="paragraf-description"><?= $articleDescription . '...' ?></p>
                 <a href="article.php?id=<?= $articleId ?>" class="read-more" title="<?= $articleTitle ?>" aria-label="<?= $articleTitle ?>">Read More</a>
               </div>
             </article>
@@ -93,13 +93,31 @@ if (!$articlesQuery) {
         <!-- Pagination -->
         <div class="pagination">
           <?php if ($currentPage > 1) : ?>
-            <a href="?page=<?= $currentPage - 1 ?>" alt="<?= $currentPage - 1 ?>" title="<?= $currentPage - 1 ?>" class="prev">&laquo; Previous</a>
+            <a href="?page=<?= $currentPage - 1 ?>" title="Previous Page" aria-label="Previous Page" class="prev">&laquo;</a>
           <?php endif; ?>
-          <?php for ($i = 1; $i <= $totalPages; $i++) : ?>
-            <a href="?page=<?= $i ?>" alt="<?= $currentPage ?>" title="<?= $currentPage ?>" class="<?= $i === $currentPage ? 'active' : '' ?>"><?= $i ?></a>
-          <?php endfor; ?>
+
+          <a href="?page=1" title="Page 1" aria-label="Page 1" class="<?= $currentPage == 1 ? 'active' : '' ?>">1</a>
+
+          <?php if ($totalPages > 2) : ?>
+            <?php if ($currentPage > 3) : ?>
+              <span>...</span>
+            <?php endif; ?>
+
+            <?php for ($i = max(2, $currentPage - 1); $i <= min($totalPages - 1, $currentPage + 1); $i++) : ?>
+              <a href="?page=<?= $i ?>" title="Page <?= $i ?>" aria-label="Page <?= $i ?>" class="<?= $currentPage == $i ? 'active' : '' ?>"><?= $i ?></a>
+            <?php endfor; ?>
+
+            <?php if ($currentPage < $totalPages - 2) : ?>
+              <span>...</span>
+            <?php endif; ?>
+          <?php endif; ?>
+
+          <?php if ($totalPages > 1) : ?>
+            <a href="?page=<?= $totalPages ?>" title="Page <?= $totalPages ?>" aria-label="Page <?= $totalPages ?>" class="<?= $currentPage == $totalPages ? 'active' : '' ?>"><?= $totalPages ?></a>
+          <?php endif; ?>
+
           <?php if ($currentPage < $totalPages) : ?>
-            <a href="?page=<?= $currentPage + 1 ?>" alt="<?= $currentPage + 1 ?>" title="<?= $currentPage + 1 ?>" class="next">Next &raquo;</a>
+            <a href="?page=<?= $currentPage + 1 ?>" title="Next Page" aria-label="Next Page" class="next">&raquo;</a>
           <?php endif; ?>
         </div>
       </div>
@@ -107,7 +125,7 @@ if (!$articlesQuery) {
       <?php require "includes/sidebar.php"; ?>
     </div>
   </div>
-</section>
+</div>
 <!-- Footer -->
 <?php
 require "includes/footer.php";

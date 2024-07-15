@@ -1,3 +1,100 @@
+/* ***********************/
+/*Reusable Mixin and Media Queries Responsive*/
+/* ***********************
+-samsung-fold from 280px to 320px /20em
+-small-phone 420px / 26.25em
+-phone: 480px / 30em
+-small-tab: 600px / 37.5em
+- 780px for some elements / 48.75em
+-tablet: 900px / 56.25em
+-tablet-pro 1024px / 64em
+-desktop: 1200px / 75em
+-desktop-pro: 1400px/87.5em
+-big-desktop:1800px /112.5em
+*/
+
+@mixin responsive($breakpoint) {
+
+  @if $breakpoint ==samsung-fold {
+    @media(max-width: 20em) {
+      @content
+    }
+
+    ;
+  }
+
+  @if $breakpoint ==small-phone {
+    @media(max-width: 26.25em) {
+      @content
+    }
+
+    ;
+  }
+
+  @if $breakpoint ==phone {
+    @media(max-width: 30em) {
+      @content
+    }
+
+    ;
+  }
+
+  @if $breakpoint ==small-tab {
+    @media(max-width: 37.5em) {
+      @content
+    }
+
+    ;
+  }
+
+  @if $breakpoint ==780px {
+    @media(max-width: 48.75em) {
+      @content
+    }
+
+    ;
+  }
+
+  @if $breakpoint ==tablet {
+    @media(max-width: 56.25em) {
+      @content
+    }
+
+    ;
+  }
+
+  @if $breakpoint ==tablet-pro {
+    @media(max-width: 64em) {
+      @content
+    }
+
+    ;
+  }
+
+  @if $breakpoint ==desktop {
+    @media (max-width: 75em) {
+      @content
+    }
+
+    ;
+  }
+
+  @if $breakpoint ==desktop {
+    @media (max-width: 87.5em) {
+      @content
+    }
+
+    ;
+  }
+
+  @if $breakpoint ==big-desktop {
+    @media (min-width: 112.5em) {
+      @content
+    }
+
+    ;
+  }
+}
 
 /* changing links color */
 @mixin action-button($color) {

@@ -1,36 +1,48 @@
-/* Add this CSS to your existing stylesheet */
+/* Pagination*/
 
 .pagination {
     display: flex;
     justify-content: center;
-    padding: $padding-3 0;
+    align-items: center; // Center align items to prevent height issues
+    padding: 10px 0;
+    gap: 5px;
 
-    & a {
-        margin: 0 5px;
-        font-size: $small-font;
-        padding: 10px 15px;
+    @include responsive(small-phone) {
+        gap: 2px; // Reduce gap on small screens
+    }
+
+    a, span {
+        margin: 0;
+        font-size: 14px;
+        padding: 5px 10px; 
         text-decoration: none;
-        color: $text-color;
+        color: #000;
         background-color: #fff;
         border: 1px solid #dee2e6;
         border-radius: 4px;
         transition: background-color 0.3s, color 0.3s;
     }
 
-    & a:hover {
-        background-color: $primary-color;
-        color: $text-color;
+    a:hover {
+        background-color: #007bff;
+        color: #fff;
     }
 
-    & a.active {
-        background-color: $primary-color;
-        color: $text-color;
-        border-color: $primary-color;
+    a.active {
+        background-color: #007bff;
+        color: #fff;
+        border-color: #007bff;
         pointer-events: none;
     }
 
-    & a.prev,
-    & a.next {
+    a.prev,
+    a.next {
         font-weight: bold;
+        padding: 5px 15px; 
+    }
+
+    span {
+        padding: 5px 10px; 
+        color: #999;
     }
 }

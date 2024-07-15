@@ -109,18 +109,7 @@
             }    
         }
 
-        .paragraf-description {
-            color: $text-color;
-            /* text-align:justify; */
-            font-size: $normal;
-            line-height: 1.7;
-
-            @include responsive(780px){
-                
-            margin-bottom: $martop-2;
-                
-            }
-        }
+        
 
         .h2-center {
             font-family: "Times New Roman", Times, serif;
