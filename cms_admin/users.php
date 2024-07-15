@@ -145,8 +145,6 @@ deleteQuery($con_db, 'users', 'user_id', 'users.php');
         <?php endif; ?>
     </div>
 </div>
-</div>
-</div>
 <!-- Delete Confirmation Modal -->
 <div id="deleteModal" class="delete-modal">
     <div class="delete-modal-content">

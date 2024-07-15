@@ -26,22 +26,22 @@ if (isset($_GET["id"])) {
 <!-- Container -->
 <div class="container">
     <div class="admin-page">
-    <div class="admin-page__box">
-        <h1 class="admin-page__title">Inbox</h1>
-        <?php if (isset($messageId)): ?>
-            <a href="javascript:void(0);" onclick="showDeleteModal(<?= $messageId ?>, 'read_message.php')" class="admin-page__crud-link">Delete</a>
-        <?php endif; ?>
-    </div>
+        <div class="admin-page__box">
+            <h1 class="admin-page__title">Inbox</h1>
+            <?php if (isset($messageId)) : ?>
+                <a href="javascript:void(0);" onclick="showDeleteModal(<?= $messageId ?>, 'read_message.php')" class="admin-page__crud-link">Delete</a>
+            <?php endif; ?>
+        </div>
     </div>
     <!-- Message  -->
     <div class="inbox">
         <?php if ($messages = mysqli_fetch_assoc($messageQuery)) :
-        $messageId = $messages["message"];
-        $subject = $messages["subject"];
-        $name = $messages["name"];
-        $email = $messages["email"];
-        $content = $messages["message"];
-        $date = $messages["date"];
+            $messageId = $messages["message"];
+            $subject = $messages["subject"];
+            $name = $messages["name"];
+            $email = $messages["email"];
+            $content = $messages["message"];
+            $date = $messages["date"];
         ?>
             <!-- Date -->
             <div class="read-message">
@@ -68,18 +68,19 @@ if (isset($_GET["id"])) {
                 <span class="form-group__label">Message:</span>
                 <p class="paragraph"><?= $content ?></p>
             </div>
-            <?php endif; ?>
+        <?php endif; ?>
     </div>
-    <!-- Delete Confirmation Modal -->
-    <div id="deleteModal" class="delete-modal">
+</div>
+<!-- Delete Confirmation Modal -->
+<div id="deleteModal" class="delete-modal">
     <div class="delete-modal-content">
-            <span class="close"></span>
-            <p class="confirmDeleteparagraph">Are you sure you want to delete this message?</p>
-            <button id="cancelBtn" class="btn">Cancel</button>
-            <button id="confirmDeleteBtn" class="btn btn-danger">Delete</button>
-        </div>
+        <span class="close"></span>
+        <p class="confirmDeleteparagraph">Are you sure you want to delete this message?</p>
+        <button id="cancelBtn" class="btn">Cancel</button>
+        <button id="confirmDeleteBtn" class="btn btn-danger">Delete</button>
     </div>
-    <!-- Footer -->
-    <?php
-    require "includes/admin_footer.php";
-    ?>
+</div>
+<!-- Footer -->
+<?php
+require "includes/admin_footer.php";
+?>

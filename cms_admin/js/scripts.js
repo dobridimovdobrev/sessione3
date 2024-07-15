@@ -30,8 +30,6 @@ function showDeleteModal(entityId, deleteUrl) {
     }
 }
 
-
-
 /* Description counter for article and service */
 document.addEventListener('DOMContentLoaded', function () {
     // Function to update the description length counter
@@ -73,20 +71,19 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
-
-
 // Helper function to validate email format
 function validateEmail(email) {
     var re = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
     return re.test(String(email).toLowerCase());
 }
 
-$(function () {
-    $('#summernote').summernote({
-        tabsize: 2,
-        height: 500,
-        enterHtml: '<br>',
-        dialogsInBody: true,
+//summernote editor configuration
+$('#summernote').summernote({
+
+    tabsize: 2,
+    height: 500,
+    enterHtml: '<br>',
+    dialogsInBody: true,
         callbacks: {
             onInit: function () {
                 updateContentLength();
@@ -103,17 +100,36 @@ $(function () {
         },
         clipboard: {
             matchVisual: false
-        },
-        toolbar: [
-            ['style', ['bold', 'italic', 'underline', 'clear']],
-            ['font', ['fontsize', 'fontname']],
-            ['para', ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'paragraph']],
-            ['insert', ['link', 'video']], // Picture button is excluded
-            ['view', ['fullscreen', 'codeview', 'help']]
-        ]
-    });
-});
-        
+        }
+  });
+
+/* Summernote editor sanitize and behavior adjustments */
+function sanitizeHTML(html) {
+    // Remove any <p> tags wrapping <h1>, <h2>, etc.
+    html = html.replace(/<p>\s*(<h[1-6][^>]*>[^<]*<\/h[1-6]>)\s*<\/p>/g, '$1');
+
+    // Ensure <h1>, <h2>, etc., are not within <p> tags
+    html = html.replace(/<p>\s*(<h[1-6][^>]*>[^<]*<\/h[1-6]>)\s*<\/p>/g, '$1');
+
+    // Handle specific heading classes
+    html = html.replace(/<h1>/g, '<h1 class="primary-heading">');
+    html = html.replace(/<h2>/g, '<h2 class="article-heading">');
+    html = html.replace(/<h3>/g, '<h3 class="third-heading">');
+    html = html.replace(/<h4>/g, '<h4 class="fourth-heading">');
+    html = html.replace(/<h5>/g, '<h5 class="fifth-heading">');
+
+    // Remove empty <p> tags
+    html = html.replace(/<p><\/p>/g, '');
+
+    // Remove any single </p> or <p> tags that are not closed
+    html = html.replace(/<p>(\s|&nbsp;)*<\/p>/g, ''); // Remove empty <p> tags
+    html = html.replace(/<p>\s*<\/p>/g, ''); // Remove empty <p> tags
+
+    // Replace all <p> tags with <p class="paragraph">
+    html = html.replace(/<p>/g, '<p class="paragraph">');
+
+    return html;
+}
  
 // Function to update the content counter
 function updateContentLength() {
@@ -125,18 +141,6 @@ function updateContentLength() {
         contentLengthCounter.textContent = `Content length: ${contentLength} characters`;
     }
 }
-/* For summernote behavior */
-function sanitizeHTML(html) {
-    // Remove any <p> tags wrapping <h1>, <h2>, etc.
-    html = html.replace(/<p>\s*(<h[1-6][^>]*>[^<]*<\/h[1-6]>)\s*<\/p>/g, '$1');
-
-    // Ensure <h1>, <h2>, etc., are not within <p> tags
-    html = html.replace(/<p>\s*(<h[1-6][^>]*>[^<]*<\/h[1-6]>)\s*<\/p>/g, '$1');
-
-    // Optionally, handle other sanitization rules if needed
-    return html;
-}
-
 
 /* Validate Article form */
 document.addEventListener('DOMContentLoaded', function () {
@@ -393,7 +397,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
-
 /* Validate profile form */
 document.addEventListener('DOMContentLoaded', function () {
     if (document.getElementById('profileForm') !== null) {
@@ -451,6 +454,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 });
+
 /* Validate category form */
 document.addEventListener('DOMContentLoaded', function () {
     if (document.getElementById('categoryForm') !== null) {
@@ -470,7 +474,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 });
-
 
 /* Validate Update category form */
 document.addEventListener('DOMContentLoaded', function () {

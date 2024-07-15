@@ -49,7 +49,7 @@ if (isset($_GET["id"])) {
 }
 ?>
 <!-- Page section -->
-<section class="page-section">
+<div class="page-section">
   <div class="page-container">
     <div class="grid-page">
       <div class="search-articles">
@@ -83,7 +83,7 @@ if (isset($_GET["id"])) {
           <?php endforeach; ?>
           <!-- Show message if no articles -->
         <?php else : ?>
-          <h1 class='fifth-heading'>Articles not found!</h1>
+          <?= header("Location: blog.php"); ?>
         <?php endif; ?>
         <!-- Pagination -->
         <div class="pagination">
@@ -102,7 +102,7 @@ if (isset($_GET["id"])) {
       <?php require "includes/sidebar.php"; ?>
     </div>
   </div>
-</section>
+</div>
 <!-- Footer menu -->
 <?php
 require "includes/footer.php";

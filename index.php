@@ -97,26 +97,26 @@ if (isset($_POST["submit"])) {
       <p class="social-text btn--from-bottom">Follow me on Social media</p>
       <ul class="social-icons btn--from-bottom">
         <li>
-          <a href="" aria-label="facebook" title="facebook"><img src="./img/social%20media/facebook.png" alt="facebook" id="face" title="social media platform"></a>
+          <a href="" aria-label="facebook" title="facebook"><img src="./img/social%20media/facebook.png" alt="facebook" id="face" title="social media platform" loading="lazy"></a>
         </li>
         <li>
-          <a href="" aria-label="twitter" title="twitter"><img src="./img/social%20media/twitter.png" alt="twitter" title="social media platform"></a>
+          <a href="" aria-label="twitter" title="twitter"><img src="./img/social%20media/twitter.png" alt="twitter" title="social media platform" loading="lazy"></a>
         </li>
         <li>
-          <a href="" aria-label="youtube" title="youtube"><img src="./img/social%20media/youtube.png" alt="youtube" title="social media platform"></a>
+          <a href="" aria-label="youtube" title="youtube"><img src="./img/social%20media/youtube.png" alt="youtube" title="social media platform" loading="lazy"></a>
         </li>
         <li>
-          <a href="" aria-label="google" title="google"><img src="./img/social%20media/google.png" alt="google" title="social media platform"></a>
+          <a href="" aria-label="google" title="google"><img src="./img/social%20media/google.png" alt="google" title="social media platform" loading="lazy"></a>
         </li>
         <li>
-          <a href="" aria-label="rss" title="rss"><img src="./img/social%20media/rss.png" alt="rss" title="social media platform"></a>
+          <a href="" aria-label="rss" title="rss"><img src="./img/social%20media/rss.png" alt="rss" title="social media platform" loading="lazy"></a>
         </li>
       </ul>
     </div>
     <!-- Big Hero Image -->
     <picture>
       <source srcset="./img/web-developer-img.png" media="(max-width:37.5em)">
-      <img src="./img/web-developer-img.png" class="myphoto btn--from-right" alt="My Foto" title="Dobri Dobrev">
+      <img src="./img/web-developer-img.png" class="myphoto btn--from-right" alt="My Foto" title="Dobri Dobrev" loading="lazy" width="665" height="665">
     </picture>
   </div>
 </section>
@@ -127,11 +127,11 @@ if (isset($_POST["submit"])) {
   <div class="container">
     <h2 class="heading-featured-in">As featured in</h2>
     <div class="logos">
-    <img src="./img/logos/techcrunch.png" alt="Techcrunch logo" title="Techcrunch logo">
-      <img src="./img/logos/business-insider.png" alt="Business Insider logo" title="Business Insider logo">
-      <img src="./img/logos/the-new-york-times.png" alt="The New York Times logo" title="The New York Times logo">
-      <img src="./img/logos/forbes.png" alt="Forbes logo" title="Forbes logo">
-      <img src="./img/logos/usa-today.png" alt="USA Today logo" title="USA Today logo">
+    <img src="./img/logos/techcrunch.png" alt="Techcrunch logo" title="Techcrunch logo" loading="lazy">
+      <img src="./img/logos/business-insider.png" alt="Business Insider logo" title="Business Insider logo" loading="lazy">
+      <img src="./img/logos/the-new-york-times.png" alt="The New York Times logo" title="The New York Times logo" loading="lazy">
+      <img src="./img/logos/forbes.png" alt="Forbes logo" title="Forbes logo" loading="lazy">
+      <img src="./img/logos/usa-today.png" alt="USA Today logo" title="USA Today logo" loading="lazy">
     </div>
   </div>
 </section>
@@ -160,15 +160,15 @@ if (isset($_POST["submit"])) {
         </p>
       </div>
       <picture>
-        <source srcset="./img/works/back-end.png" media="(max-width:37.5em)">
-        <img src="./img/works/front-end.png" alt="Front-end development" title="Front-end development" class="work-images">
+        <source srcset="./img/works/front-end.png" media="(max-width:37.5em)">
+        <img src="./img/works/front-end.png" alt="Front-end development" title="Front-end development" class="work-images" loading="lazy">
       </picture>
     </div>
     <!-- Second Work -->
     <div class="box-work">
       <picture>
         <source srcset="./img/works/back-end.png" media="(max-width:37.5em)">
-        <img src="./img/works/back-end.png" alt="Back-end development" title="Back-end development" class="work-images">
+        <img src="./img/works/back-end.png" alt="Back-end development" title="Back-end development" class="work-images" loading="lazy">
       </picture>
 
       <div class="front-end">
@@ -198,7 +198,7 @@ if (isset($_POST["submit"])) {
       </div>
       <picture class="picture">
         <source srcset="./img/works/full-stack.png" media="(max-width:37.5em)">
-        <img src="./img/works/full-stack.png" alt="Fullstack development" title="Fullstack development" class="work-images">
+        <img src="./img/works/full-stack.png" alt="Fullstack development" title="Fullstack development" class="work-images" loading="lazy">
       </picture>
 
     </div>
@@ -222,7 +222,7 @@ if (isset($_POST["submit"])) {
         $articleId = $article['id'];
       ?>
         <article class="article">
-          <img src="uploads/<?= $articleImage ?>" alt="<?= $articleTitle ?>" title="<?= $articleTitle ?>" class="blog-imgs">
+          <img src="uploads/<?= $articleImage ?>" alt="<?= $articleTitle ?>" title="<?= $articleTitle ?>" class="blog-imgs" loading="lazy">
           <div class="blog-box">
             <div class="blog-tags">
               <div>
@@ -264,7 +264,7 @@ if (isset($_POST["submit"])) {
           </h3>
           <p class="service-description"><?= substr($serviceDescription, 0, 180) . '...' ?></p>
           <picture>
-            <img src="uploads/<?= $serviceImage ?>" alt="<?= $serviceTitle ?>" title="<?= $serviceTitle ?>" class="gallery-img">
+            <img src="uploads/<?= $serviceImage ?>" alt="<?= $serviceTitle ?>" title="<?= $serviceTitle ?>" class="gallery-img" loading="lazy">
           </picture>
         </div>
       <?php endforeach; ?>
@@ -319,7 +319,7 @@ if (isset($_POST["submit"])) {
         </form>
       </div>
       <!--Web developer  -->
-      <img src="./img/Dobri-Dobrev.png" class="cta__img-box" alt="Dobri Dobrev" title="Dobri Dobrev">
+      <img src="./img/Dobri-Dobrev.png" class="cta__img-box" alt="Dobri Dobrev" title="Dobri Dobrev" loading="lazy">
     </div>
   </div>
 </section>
