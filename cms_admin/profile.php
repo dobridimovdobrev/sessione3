@@ -1,9 +1,11 @@
 <?php
 /* Header with navigation and database included */
 require "includes/admin_header.php";
-/* Initialize variables */
 $editSuccess = isset($_SESSION['editSuccess']) ? $_SESSION['editSuccess'] : '';
-$repeatPasswordError = "";
+
+/* Initialize variables */
+$username = $first_name = $last_name = $user_email = "";
+$firstnameError = $lastnameError = $emailError = $passwordError = $repeatPasswordError = "";
 
 /* Clear the session variable */
 unset($_SESSION['editSuccess']);
@@ -21,8 +23,6 @@ if (isset($_SESSION['role']) && $_SESSION['role'] === 'subscriber') {
     $user_email = $user["user_email"];
 }
 
-/* Initialize variables */
-$passwordError = $repeatPasswordError = $firstnameError = $lastnameError = $emailError = "";
 
 /* Update the form to the database */
 if (isset($_POST["submit"])) {
