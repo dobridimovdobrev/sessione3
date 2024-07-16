@@ -17,9 +17,9 @@ $maxFileSizeMB = $maxFileSize / 1024 / 1024; // Convert bytes to MB for user dis
 $articleTitleError = $articleDescriptionError = $articleContentError = $articleAuthorError = $articleTagsError =
     $articlePublished_atError = $articleCat_idError = $articleImageError = $articleStatusError = "";
 
-/* Handle form submission */
+/* form submission */
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["submit"])) {
-    // Retrieve and sanitize input
+    // sanitize input
     $title = trim(mysqli_real_escape_string($con_db, $_POST["title"]));
     $description = trim($_POST["description"]);
     $content = $_POST["content"];
@@ -159,7 +159,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["submit"])) {
         <!-- Article content -->
         <div class="form-group">
             <label class="form-group__label" for="summernote">Content</label>
-            <textarea class="form-group__form-content" id="summernote" name="content" cols="30" rows="20" oninput="updateContentLength()"><?= htmlspecialchars($content) ?></textarea>
+            <textarea class="form-group__form-content" id="summernote" name="content" cols="30" rows="20" oninput="updateContentLength()"><?= $content ?></textarea>
             <span id="articleContentError" class="form-group__error"><?= $articleContentError ?></span>
             <small id="contentLength">Content length: 0 characters</small>
         </div>

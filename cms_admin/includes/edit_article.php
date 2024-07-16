@@ -170,7 +170,7 @@ if (isset($_POST["update"])) {
         <!-- Content -->
         <div class="form-group">
             <label class="form-group__label" for="summernote">Content</label>
-            <textarea class="form-group__form-content" id="summernote" name="content" cols="30" rows="20"><?= htmlspecialchars($content); ?></textarea>
+            <textarea class="form-group__form-content" id="summernote" name="content" cols="30" rows="20"><?= $content; ?></textarea>
             <span id="articleContentError" class="form-group__error"><?= $articleContentError ?></span>
             <small id="contentLength">Content length: 0 characters</small>
         </div>

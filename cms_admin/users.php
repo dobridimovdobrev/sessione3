@@ -88,7 +88,7 @@ deleteQuery($con_db, 'users', 'user_id', 'users.php');
                         $user_lastname = $user["user_lastname"];
                         $user_email = $user["user_email"];
                         $user_role = $user["user_role"];
-                        $user_date = $user["user_date"];
+                        $user_date = date("Y-m-d H:i", strtotime($user["user_date"]));
                     ?>
                         <!-- Displaying data from DB -->
                         <tr>

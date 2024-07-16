@@ -3,28 +3,28 @@
     font-family: 'Rubik';
     font-weight: 400; // Regular
     font-style: normal;
-    src: url('../../../fonts/Rubik-Regular.ttf') format('truetype');
+    src: url('../../fonts/Rubik-Regular.ttf') format('truetype');
 }
 
 @font-face {
     font-family: 'Rubik';
     font-weight: 500; // Medium
     font-style: normal;
-    src: url('../../../fonts/Rubik-Medium.ttf') format('truetype');
+    src: url('../../fonts/Rubik-Medium.ttf') format('truetype');
 }
 
 @font-face {
     font-family: 'Rubik';
     font-weight: 600; // SemiBold
     font-style: normal;
-    src: url('../../../fonts/Rubik-SemiBold.ttf') format('truetype');
+    src: url('../../fonts/Rubik-SemiBold.ttf') format('truetype');
 }
 
 @font-face {
     font-family: 'Rubik';
     font-weight: 700; // Bold
     font-style: normal;
-    src: url('../../../fonts/Rubik-Bold.ttf') format('truetype');
+    src: url('../../fonts/Rubik-Bold.ttf') format('truetype');
 }
 
 
@@ -81,7 +81,7 @@ $small-font:1.4rem;
 
 .article-heading{
     font-family: 'rubik';
-    font-size: $md-font-2;
+    font-size: $md-font;
     color: $color-dark-grey;
 }
 

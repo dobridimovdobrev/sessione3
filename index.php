@@ -116,7 +116,7 @@ if (isset($_POST["submit"])) {
     <!-- Big Hero Image -->
     <picture>
       <source srcset="./img/web-developer-img.png" media="(max-width:37.5em)">
-      <img src="./img/web-developer-img.png" class="myphoto btn--from-right" alt="My Foto" title="Dobri Dobrev" loading="lazy" width="665" height="665">
+      <img src="./img/web-developer-img.png" class="myphoto btn--from-right" alt="My Foto" title="Dobri Dobrev" loading="lazy">
     </picture>
   </div>
 </section>

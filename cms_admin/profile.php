@@ -95,16 +95,17 @@ if (isset($_POST["submit"])) {
     }
 }
 /* Delete query */
-if (isset($_POST["delete"])) {
-    $deleteUserId = $_SESSION['id'];
-    $deleteUserSql = "DELETE FROM users WHERE user_id = $deleteUserId";
-    $deleteUserQuery = mysqli_query($con_db, $deleteUserSql);
+if (isset($_GET["delete"]) ) {
+    $deleteId = $_SESSION['id'];
+    $deleteId = mysqli_real_escape_string($con_db, $_GET["delete"]);
+    $deleteSql = "DELETE FROM users WHERE user_id = '$deleteId'";
+    $deleteQuery = mysqli_query($con_db, $deleteSql);
     /* Check for query errors */
-    if (!errorsQuery($deleteUserQuery)) {
+    if (!errorsQuery($deleteQuery)) {
         session_destroy();
-        header("Location: /mysite-mysql/login.php?deleted=true");
+        header("Location: /mysite-mysql/index.php");
         exit();
-    }
+    } 
 }
 ?>
 
@@ -116,10 +117,7 @@ if (isset($_POST["delete"])) {
                 <h1>Welcome <?= ucfirst($_SESSION["username"]) ?></h1>
             <?php endif; ?>
             <?php if (isset($editUserId)) : ?>
-                <form id="deleteForm" method="post">
-                    <input type="hidden" name="delete" value="1">
-                    <a href="javascript:void(0);" onclick="document.getElementById('deleteForm').submit();" class="admin-page__crud-link">Delete Account</a>
-                </form>
+                <a href="javascript:void(0);" onclick="showDeleteModal(<?= $editUserId ?>, 'profile.php')" class="admin-page__crud-link">Delete Account</a>
             <?php endif; ?>
             <span class="form-group__success"><?= $editSuccess ?></span>
         </div>
@@ -161,6 +159,15 @@ if (isset($_POST["delete"])) {
         <!-- Submit -->
         <input class="form-group__btn-form" type="submit" name="submit" value="Update Profile">
     </form>
+</div>
+<!-- Delete Confirmation Modal -->
+<div id="deleteModal" class="delete-modal">
+    <div class="delete-modal-content">
+        <span class="close"></span>
+        <p class="confirmDeleteparagraph">Are you sure you want to delete this account?</p>
+        <button id="cancelBtn" class="btn">Cancel</button>
+        <button id="confirmDeleteBtn" class="btn btn-danger">Delete</button>
+    </div>
 </div>
 <!-- Footer -->
 <?php
