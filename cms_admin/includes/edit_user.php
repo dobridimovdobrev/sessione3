@@ -60,7 +60,7 @@ if (isset($_POST["submit"])) {
     } elseif (!filter_var($user_email, FILTER_VALIDATE_EMAIL)) {
         $emailError = "Email is not valid.";
     }
-    if (empty($reg_date) || $_POST['user_date'] === '1970-01-01T01:00') {
+    if (empty($reg_date) || $_POST['date'] === '1970-01-01T01:00') {
         $regDateError = "Registration date is required.";
     }
     if (!empty($password)) {

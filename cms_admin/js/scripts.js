@@ -217,7 +217,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     document.getElementById('articleImageError').textContent = "Invalid image type. Only JPG, JPEG, and PNG are allowed.";
                     validation = false;
                 } else if (imageurl.size > maxSize) {
-                    document.getElementById('articleImageError').textContent = "AAImage file size must be less than 10MB.";
+                    document.getElementById('articleImageError').textContent = "Image file size must be less than 10MB.";
                     validation = false;
                 }
             }
@@ -264,27 +264,27 @@ document.addEventListener('DOMContentLoaded', function () {
             var validation = true;
             /* Validate title */
             if (title === "") {
-                document.getElementById('serviceTitleError').textContent = "AATitle is required";
+                document.getElementById('serviceTitleError').textContent = "Title is required";
                 validation = false;
             }
             /* Validate description */
             if (description === "") {
-                document.getElementById('serviceDescriptionError').textContent = "AADescription is required";
+                document.getElementById('serviceDescriptionError').textContent = "Description is required";
                 validation = false;
             }
             /* Validate content */
             if (content === "" || content === "<p><br></p>") {  // This check is needed because sometimes Summernote returns an empty paragraph) 
-                document.getElementById('serviceContentError').textContent = "AAContent is required";
+                document.getElementById('serviceContentError').textContent = "Content is required";
                 validation = false;
             }
             /* Validate tags */
             if (tags === "") {
-                document.getElementById('serviceTagsError').textContent = "AATags are required";
+                document.getElementById('serviceTagsError').textContent = "Tags are required";
                 validation = false;
             }
             /* Validate image */
             if (imageurl === undefined && existingImage === null) {
-                document.getElementById('serviceImageError').textContent = "AAImage is required";
+                document.getElementById('serviceImageError').textContent = "Image is required";
                 validation = false;
             } else if (imageurl !== undefined) {
                 var allowedTypes = ['image/jpeg', 'image/jpg', 'image/png'];
@@ -299,7 +299,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
             /* Validate published date */
             if (published_at === "") {
-                document.getElementById('servicePublished_atError').textContent = "AADate is required";
+                document.getElementById('servicePublished_atError').textContent = "Date is required";
                 validation = false;
             }
             /* Prevent submit if not validation */
@@ -342,49 +342,49 @@ document.addEventListener('DOMContentLoaded', function () {
 
             // Validate username
             if (username === '') {
-                document.getElementById('usernameError').textContent = "ZZUsername is required";
+                document.getElementById('usernameError').textContent = "Username is required";
                 validation = false;
             }
             // Validate first name
             if (firstName === '') {
-                document.getElementById('firstNameError').textContent = "ZZFirst name is required";
+                document.getElementById('firstNameError').textContent = "First name is required";
                 validation = false;
             }
             // Validate last name
             if (lastName === '') {
-                document.getElementById('lastNameError').textContent = "ZZLast name is required";
+                document.getElementById('lastNameError').textContent = "Last name is required";
                 validation = false;
             }
             // Validate email
             if (email === '') {
-                document.getElementById('emailError').textContent = "ZZEmail is required";
+                document.getElementById('emailError').textContent = "Email is required";
                 validation = false;
             } else if (!validateEmail(email)) {
-                document.getElementById('emailError').textContent = 'ZZInvalid email format';
+                document.getElementById('emailError').textContent = 'Invalid email format';
                 validation = false;
             }
             // Validate registration date
             if (date === '') {
-                document.getElementById('regDateError').textContent = "ZZRegistration date is required";
+                document.getElementById('regDateError').textContent = "Registration date is required";
                 validation = false;
             }
             // Validate password when i create a new user
             if (document.getElementById('editUserId') === null) {
                 if (password === '') {
-                    document.getElementById('passwordError').textContent = "ZZPassword is required";
+                    document.getElementById('passwordError').textContent = "Password is required";
                     validation = false;
                     /* Validate length password */
                 } else if (password.length < 8) {
-                    document.getElementById('passwordError').textContent = "ZZPassword must be at least 8 characters";
+                    document.getElementById('passwordError').textContent = "Password must be at least 8 characters";
                     validation = false;
                 }
                 /* Validate repeat password */
                 if (repeatPassword === '') {
-                    document.getElementById('repeatPasswordError').textContent = "ZZPlease repeat password";
+                    document.getElementById('repeatPasswordError').textContent = "Please repeat password";
                     validation = false;
                     /* Validate password match */
                 } else if (password !== repeatPassword) {
-                    document.getElementById('repeatPasswordError').textContent = "ZZPasswords do not match";
+                    document.getElementById('repeatPasswordError').textContent = "Passwords do not match";
                     validation = false;
                 }
             }
@@ -419,30 +419,30 @@ document.addEventListener('DOMContentLoaded', function () {
 
             // Validate first name
             if (firstName === '') {
-                document.getElementById('firstNameError').textContent = "QQFirst name is required";
+                document.getElementById('firstNameError').textContent = "First name is required";
                 validation = false;
             }
             // Validate last name
             if (lastName === '') {
-                document.getElementById('lastNameError').textContent = "QQLast name is required";
+                document.getElementById('lastNameError').textContent = "Last name is required";
                 validation = false;
             }
             // Validate email
             if (email === '') {
-                document.getElementById('emailError').textContent = "QQEmail is required";
+                document.getElementById('emailError').textContent = "Email is required";
                 validation = false;
             } else if (!validateEmail(email)) {
-                document.getElementById('emailError').textContent = "QQInvalid email format";
+                document.getElementById('emailError').textContent = "Invalid email format";
                 validation = false;
             }
             // Validate password
             if (password !== '') {
                 if (password.length < 8) {
-                    document.getElementById('passwordError').textContent = "QQPassword must be at least 8 characters";
+                    document.getElementById('passwordError').textContent = "Password must be at least 8 characters";
                     validation = false;
                 }
                 if (password !== repeatPassword) {
-                    document.getElementById('repeatPasswordError').textContent = "QQPasswords do not match";
+                    document.getElementById('repeatPasswordError').textContent = "Passwords do not match";
                     validation = false;
                 }
             }

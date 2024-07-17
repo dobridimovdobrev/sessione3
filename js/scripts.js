@@ -24,28 +24,28 @@ document.addEventListener('DOMContentLoaded', function () {
 
       // Validate subject
       if (subject === '') {
-        document.getElementById('contactSubjectError').textContent = 'GGSubject is required';
+        document.getElementById('contactSubjectError').textContent = 'Subject is required';
         validation = false;
       }
 
       // Validate name
       if (name === '') {
-        document.getElementById('contactNameError').textContent = 'GGName is required';
+        document.getElementById('contactNameError').textContent = 'Name is required';
         validation = false;
       }
 
       // Validate email
       if (email === '') {
-        document.getElementById('contactEmailError').textContent = 'GGEmail is required';
+        document.getElementById('contactEmailError').textContent = 'Email is required';
         validation = false;
       } else if (!validateEmail(email)) {
-        document.getElementById('contactEmailError').textContent = 'GGInvalid email format';
+        document.getElementById('contactEmailError').textContent = 'Invalid email format';
         validation = false;
       }
 
       // Validate message
       if (message === '') {
-        document.getElementById('contactMessageError').textContent = 'GGMessage is required';
+        document.getElementById('contactMessageError').textContent = 'Message is required';
         validation = false;
       }
 
@@ -75,22 +75,22 @@ document.addEventListener('DOMContentLoaded', function () {
 
       // Validate name
       if (newsletterName === '') {
-        document.getElementById('newsletterNameError').textContent = 'DDName is required';
+        document.getElementById('newsletterNameError').textContent = 'Name is required';
         validation = false;
       }
 
       // Validate email
       if (newsletterEmail === '') {
-        document.getElementById('newsletterEmailError').textContent = 'DDEmail is required';
+        document.getElementById('newsletterEmailError').textContent = 'Email is required';
         validation = false;
       } else if (!validateEmail(newsletterEmail)) {
-        document.getElementById('newsletterEmailError').textContent = 'DDInvalid email format';
+        document.getElementById('newsletterEmailError').textContent = 'Invalid email format';
         validation = false;
       }
 
       // Validate origin
       if (newsletterOrigin === '') {
-        document.getElementById('newsletterOriginError').textContent = 'DDPlease select an option';
+        document.getElementById('newsletterOriginError').textContent = 'Please select an option';
         validation = false;
       }
       /* Prevent submission if no validation */
@@ -127,22 +127,22 @@ document.addEventListener('DOMContentLoaded', function () {
       var validation = true;
       /* Validate username */
       if (userName.trim() === '') {
-        document.getElementById('registrationUsernameError').textContent = "RRUsername is required";
+        document.getElementById('registrationUsernameError').textContent = "Username is required";
         validation = false;
       }
       /* Validate firstname */
       if (firstName.trim() === '') {
-        document.getElementById('registrationFirstNameError').textContent = "RRFirst name is required";
+        document.getElementById('registrationFirstNameError').textContent = "First name is required";
         validation = false;
       }
       /* Validate lastname */
       if (lastName.trim() === '') {
-        document.getElementById('registrationLastNameError').textContent = "RRLast name is required";
+        document.getElementById('registrationLastNameError').textContent = "Last name is required";
         validation = false;
       }
       /* Validate email */
       if (email.trim() === '') {
-        document.getElementById('registrationEmailError').textContent = "RREmail is required";
+        document.getElementById('registrationEmailError').textContent = "Email is required";
         validation = false;
         /* Validate email format */
       } else if (!validateEmail(email)) {
@@ -151,7 +151,7 @@ document.addEventListener('DOMContentLoaded', function () {
       }
       /* Validate password */
       if (password.trim() === '') {
-        document.getElementById('registrationPasswordError').textContent = "RRPassword is required";
+        document.getElementById('registrationPasswordError').textContent = "Password is required";
         validation = false;
         /* Validate length password */
       } else if (password.length < 8) {
@@ -160,16 +160,16 @@ document.addEventListener('DOMContentLoaded', function () {
       }
       /* Validate repeat password */
       if (repeatPassword.trim() === '') {
-        document.getElementById('registrationRepeatPasswordError').textContent = "RRPlease repeat password";
+        document.getElementById('registrationRepeatPasswordError').textContent = "Please repeat password";
         validation = false;
         /* Validate if password match with repeat password */
       } else if (password !== repeatPassword) {
-        document.getElementById('registrationRepeatPasswordError').textContent = "RRPasswords do not match";
+        document.getElementById('registrationRepeatPasswordError').textContent = "Passwords do not match";
         validation = false;
       }
       /* Validate checked terms and conditions checkbox */
       if(!terms.checked){
-        document.getElementById('registrationTermsError').textContent = "RRYou must agree to the terms and conditions.";
+        document.getElementById('registrationTermsError').textContent = "You must agree to the terms and conditions.";
         validation = false;
       }
       /* Prevent submission if no validation */
@@ -198,12 +198,12 @@ document.addEventListener('DOMContentLoaded', function () {
       var validation = true;
       /* Validate username */
       if (username.trim() === '') {
-        document.getElementById('loginUsernameError').textContent = "LLUsername is required;"
+        document.getElementById('loginUsernameError').textContent = "Username is required;"
         validation = false;
       }
       /* Validate Password */
       if (password.trim() === '') {
-        document.getElementById('loginPasswordError').textContent = "LLPassword is required";
+        document.getElementById('loginPasswordError').textContent = "Password is required";
         validation = false;
       }
       /* Prevent submission if no validation */
