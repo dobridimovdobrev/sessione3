@@ -215,6 +215,5 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["submit"])) {
         <input class="form-group__btn-form" type="submit" name="submit" value="Add Article">
     </form>
 </div>
-
 <!-- Footer -->
 <?php require "admin_footer.php"; ?>
