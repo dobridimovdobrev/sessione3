@@ -14,6 +14,12 @@
     white-space: nowrap;
 }
 
+/* Regola più specifica per forzare il margin */
+table td.actions-cell a.action-icon {
+    margin: 0 2px !important;
+    
+}
+
 /* Stili per la colonna delle azioni */
 table td.actions-cell {
     white-space: nowrap !important;
