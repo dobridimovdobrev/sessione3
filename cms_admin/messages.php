@@ -64,8 +64,16 @@ deleteQuery($con_db, 'messages', 'id', 'messages.php');
                         <td><?= date("Y-m-d H:i", strtotime($date)) ?></td>
                         <!-- Action buttons -->
                         <td>
-                            <a href="read_message.php?id=<?= $id ?>" class="default">Read</a>
-                            <a href="javascript:void(0);" onclick="showDeleteModal(<?= $id ?>, 'messages.php')" class="delete">Delete</a>
+                            <a href="read_message.php?id=<?= $id ?>" class="action-icon view-icon" title="Read">
+                                <svg class="admin-icon">
+                                    <use href="/assets/back-icons/symbol-defs.svg#icon-eye"></use>
+                                </svg>
+                            </a>
+                            <a href="javascript:void(0);" onclick="showDeleteModal(<?= $id ?>, 'messages.php')" class="action-icon delete-icon" title="Delete">
+                                <svg class="admin-icon">
+                                    <use href="/assets/back-icons/symbol-defs.svg#icon-bin"></use>
+                                </svg>
+                            </a>
                         </td>
                     </tr>
                 <?php endforeach; ?>

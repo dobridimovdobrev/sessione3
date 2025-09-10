@@ -100,8 +100,16 @@ deleteQuery($con_db, 'users', 'user_id', 'users.php');
                             <td><?= $user_date ?></td>
                             <!-- Action butons edit and delete -->
                             <td>
-                                <a href="includes/edit_user.php?edit=<?= $user_id ?>" class="default">Edit</a>
-                                <a href="javascript:void(0);" onclick="showDeleteModal(<?= $user_id ?>, 'users.php')" class="delete">Delete</a>
+                                <a href="includes/edit_user.php?edit=<?= $user_id ?>" class="action-icon edit-icon" title="Edit">
+                                    <svg class="admin-icon">
+                                        <use href="/assets/back-icons/symbol-defs.svg#icon-new-message"></use>
+                                    </svg>
+                                </a>
+                                <a href="javascript:void(0);" onclick="showDeleteModal(<?= $user_id ?>, 'users.php')" class="action-icon delete-icon" title="Delete">
+                                    <svg class="admin-icon">
+                                        <use href="/assets/back-icons/symbol-defs.svg#icon-bin"></use>
+                                    </svg>
+                                </a>
                             </td>
                         </tr>
                     <?php endforeach; ?>

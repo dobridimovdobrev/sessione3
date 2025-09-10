@@ -57,7 +57,11 @@ deleteQuery($con_db, 'subscribers', 'id', 'subscribers.php');
                         <td><?= date("Y-m-d H:i", strtotime($date)) ?></td>
                         <!-- Action button -->
                         <td>
-                            <a href="javascript:void(0);" onclick="showDeleteModal(<?= $id ?>, 'subscribers.php')" class="delete">Delete</a>
+                            <a href="javascript:void(0);" onclick="showDeleteModal(<?= $id ?>, 'subscribers.php')" class="action-icon delete-icon" title="Delete">
+                                <svg class="admin-icon">
+                                    <use href="/assets/back-icons/symbol-defs.svg#icon-bin"></use>
+                                </svg>
+                            </a>
                         </td>
                     </tr>
                 <?php endforeach; ?>

@@ -36,8 +36,16 @@ delete_categories();
                         <tr>
                             <td><?= $category["cat_title"] ?></td>
                             <td>
-                                <a href="categories.php?edit=<?= $category['cat_id'] ?>" class="default">Edit</a>
-                                <a href="javascript:void(0);" onclick="showDeleteModal(<?= $category['cat_id'] ?>, 'categories.php')" class="delete">Delete</a>
+                                <a href="categories.php?edit=<?= $category['cat_id'] ?>" class="action-icon edit-icon" title="Edit">
+                                    <svg class="admin-icon">
+                                        <use href="/assets/back-icons/symbol-defs.svg#icon-new-message"></use>
+                                    </svg>
+                                </a>
+                                <a href="javascript:void(0);" onclick="showDeleteModal(<?= $category['cat_id'] ?>, 'categories.php')" class="action-icon delete-icon" title="Delete">
+                                    <svg class="admin-icon">
+                                        <use href="/assets/back-icons/symbol-defs.svg#icon-bin"></use>
+                                    </svg>
+                                </a>
                             </td>
                         </tr>
                         <?php if (isset($_GET["edit"]) && $_GET["edit"] == $category['cat_id']) : ?>
