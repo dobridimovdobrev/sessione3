@@ -54,7 +54,7 @@ $pageUrl = basename($_SERVER['REQUEST_URI']);
                         <!-- Sub menu for username to logout -->
                         <ul class="admin_header__nav-right__sub-list">
                             <li>
-                                <a href="../../logout.php" class="admin_header__nav-right__link" aria-label="logout" title="logout">
+                                <a href="/logout.php" class="admin_header__nav-right__link" aria-label="logout" title="logout">
                                     <span>Logout</span>
                                     <svg class="admin_header__nav-right__icons">
                                         <use href="../../assets/back-icons/symbol-defs.svg#icon-log-out"></use>
@@ -75,7 +75,7 @@ $pageUrl = basename($_SERVER['REQUEST_URI']);
                     <!-- User Profile visible for subscribers -->
                     <?php if ($_SESSION["role"] === "subscriber") : ?>
                         <li class="admin_sidebar-nav__item <?= ($pageUrl === 'profile.php') ? $activeClass : ''; ?>">
-                            <a href="../profile.php" class="admin_sidebar-nav__link" aria-label="profile" title="profile">
+                            <a href="/cms_admin/profile.php" class="admin_sidebar-nav__link" aria-label="profile" title="profile">
                                 <svg class="admin_sidebar-nav__icons">
                                     <use href="../../assets/back-icons/symbol-defs.svg#icon-gauge"></use>
                                 </svg>
@@ -86,7 +86,7 @@ $pageUrl = basename($_SERVER['REQUEST_URI']);
                     <!-- Dashboard visible for admin -->
                     <?php if ($_SESSION["role"] === "admin") : ?>
                         <li class="admin_sidebar-nav__item <?= ($pageUrl === 'dashboard.php') ? $activeClass : ''; ?>">
-                            <a href="../dashboard.php" class="admin_sidebar-nav__link" aria-label="dashboard" title="dashboard">
+                            <a href="/cms_admin/dashboard.php" class="admin_sidebar-nav__link" aria-label="dashboard" title="dashboard">
                                 <svg class="admin_sidebar-nav__icons">
                                     <use href="../../assets/back-icons/symbol-defs.svg#icon-gauge"></use>
                                 </svg>
@@ -96,7 +96,7 @@ $pageUrl = basename($_SERVER['REQUEST_URI']);
                     <?php endif; ?>
                     <!-- Services (admin and subscribers) -->
                     <li class="admin_sidebar-nav__item <?= ($pageUrl === 'services.php') ? $activeClass : ''; ?>">
-                        <a href="../services.php" class="admin_sidebar-nav__link" aria-label="Services" title="Services">
+                        <a href="/cms_admin/services.php" class="admin_sidebar-nav__link" aria-label="Services" title="Services">
                             <svg class="admin_sidebar-nav__icons">
                                 <use href="../../assets/back-icons/symbol-defs.svg#icon-tools"></use>
                             </svg>
@@ -105,7 +105,7 @@ $pageUrl = basename($_SERVER['REQUEST_URI']);
                     </li>
                     <!-- Articles (admin and subscribers) -->
                     <li class="admin_sidebar-nav__item <?= ($pageUrl === 'articles.php') ? $activeClass : ''; ?>">
-                        <a href="../articles.php" class="admin_sidebar-nav__link" aria-label="Articles" title="Articles">
+                        <a href="/cms_admin/articles.php" class="admin_sidebar-nav__link" aria-label="Articles" title="Articles">
                             <svg class="admin_sidebar-nav__icons">
                                 <use href="../../assets/back-icons/symbol-defs.svg#icon-new-message"></use>
                             </svg>
@@ -115,7 +115,7 @@ $pageUrl = basename($_SERVER['REQUEST_URI']);
                     <!-- Categories (admin only) -->
                     <?php if ($_SESSION["role"] === "admin") : ?>
                         <li class="admin_sidebar-nav__item <?= ($pageUrl === 'categories.php') ? $activeClass : ''; ?>">
-                            <a href="../categories.php" class="admin_sidebar-nav__link" aria-label="Categories" title="Categories">
+                            <a href="/cms_admin/categories.php" class="admin_sidebar-nav__link" aria-label="Categories" title="Categories">
                                 <svg class="admin_sidebar-nav__icons">
                                     <use href="../../assets/back-icons/symbol-defs.svg#icon-archive"></use>
                                 </svg>
@@ -126,7 +126,7 @@ $pageUrl = basename($_SERVER['REQUEST_URI']);
                     <!-- Users (admin only) -->
                     <?php if ($_SESSION["role"] === "admin") : ?>
                         <li class="admin_sidebar-nav__item <?= ($pageUrl === 'users.php') ? $activeClass : ''; ?>">
-                            <a href="../users.php" class="admin_sidebar-nav__link" aria-label="Users" title="Users">
+                            <a href="/cms_admin/users.php" class="admin_sidebar-nav__link" aria-label="Users" title="Users">
                                 <svg class="admin_sidebar-nav__icons">
                                     <use href="../../assets/back-icons/symbol-defs.svg#icon-users"></use>
                                 </svg>
@@ -137,7 +137,7 @@ $pageUrl = basename($_SERVER['REQUEST_URI']);
                     <!-- Newsletter (admin only) -->
                     <?php if ($_SESSION["role"] === "admin") : ?>
                         <li class="admin_sidebar-nav__item <?= ($pageUrl === 'subscribers.php') ? $activeClass : ''; ?>">
-                            <a href="../subscribers.php" class="admin_sidebar-nav__link" aria-label="Newsletter" title="Newsletter">
+                            <a href="/cms_admin/subscribers.php" class="admin_sidebar-nav__link" aria-label="Newsletter" title="Newsletter">
                                 <svg class="admin_sidebar-nav__icons">
                                     <use href="../../assets/back-icons/symbol-newsletter.svg#icon-email"></use>
                                 </svg>
@@ -148,7 +148,7 @@ $pageUrl = basename($_SERVER['REQUEST_URI']);
                     <!-- Messages (admin only) -->
                     <?php if ($_SESSION["role"] === "admin") : ?>
                         <li class="admin_sidebar-nav__item <?= ($pageUrl === 'messages.php') ? $activeClass : ''; ?>">
-                            <a href="../messages.php" class="admin_sidebar-nav__link" aria-label="Messages" title="Messages">
+                            <a href="/cms_admin/messages.php" class="admin_sidebar-nav__link" aria-label="Messages" title="Messages">
                                 <svg class="admin_sidebar-nav__icons">
                                     <use href="../../assets/back-icons/symbol-defs.svg#icon-mail"></use>
                                 </svg>

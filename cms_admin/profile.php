@@ -103,7 +103,7 @@ if (isset($_GET["delete"]) ) {
     /* Check for query errors */
     if (!errorsQuery($deleteQuery)) {
         session_destroy();
-        header("Location: /mysite-mysql/index.php");
+        header("Location: /index.php");
         exit();
     } 
 }

@@ -65,7 +65,7 @@ deleteQuery($con_db, 'articles', 'id', 'articles.php');
                 <input type="search" name="search" id="search" class="search-form__input" placeholder="Search...">
                 <button class="search-form__button" type="submit" name="submit">
                     <svg class="search-form__search-icon-magnifying-glass">
-                        <use href="../assets/front-icons/symbol-defs.svg#icon-magnifying-glass"></use>
+                            <use href="/assets/front-icons/symbol-defs.svg#icon-magnifying-glass"></use>
                     </svg>
                 </button>
             </form>
@@ -118,12 +118,12 @@ deleteQuery($con_db, 'articles', 'id', 'articles.php');
                             <td><?= $catTitle ?></td>
                             <td><?= $articleAuthor ?></td>
                             <td><?= substr($articleTags, 0, 70) . "..." ?></td>
-                            <td><img src="../uploads/<?= $articleImage ?>" alt="<?= $articleTitle ?>" title="<?= $articleTitle ?>" class="default-table__image"></td>
+                            <td><img src="/uploads/<?= $articleImage ?>" alt="<?= $articleTitle ?>" title="<?= $articleTitle ?>" class="default-table__image"></td>
                             <td><?= $articleViews ?></td>
                             <td><?= $articleStatus ?></td>
                             <td><?= $articleDate ?></td>
                             <td>
-                                <a href="../article.php?id=<?= $articleId ?>" class="default" target="_blank">View</a>
+                                <a href="/article.php?id=<?= $articleId ?>" class="default" target="_blank">View</a>
                                 <?php if ($isAdmin) : ?>
                                     <a href="includes/edit_article.php?edit=<?= $articleId ?>" class="default" target="_blank">Edit</a>
                                     <a href="javascript:void(0);" onclick="showDeleteModal(<?= $articleId ?>, 'articles.php')" class="delete">Delete</a>

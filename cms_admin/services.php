@@ -46,11 +46,11 @@ deleteQuery($con_db, 'services', 'id', 'services.php');
                     <tr>
                         <td><?= $serviceTitle ?></td>   
                         <td><?= $serviceTags ?></td>
-                        <td><img src="../uploads/<?= $serviceImage ?>" alt="<?= $serviceTitle ?>" title="<?= $serviceTitle ?>" class="default-table__image"></td>                     
+                        <td><img src="/uploads/<?= $serviceImage ?>" alt="<?= $serviceTitle ?>" title="<?= $serviceTitle ?>" class="default-table__image"></td>                     
                         <td><?= $serviceViews ?></td>
                         <td><?= $serviceDate ?></td>
                         <td>
-                            <a href="../work.php?id=<?= $serviceId ?>" class="default" target="_blank">View </a>
+                            <a href="/work.php?id=<?= $serviceId ?>" class="default" target="_blank">View </a>
                             <!-- Action buttons only for admin -->
                             <?php if($_SESSION['role'] === 'admin') : ?>
                             <a href="includes/edit_service.php?edit=<?= $serviceId ?>" class="default" target="_blank">Edit</a> 
