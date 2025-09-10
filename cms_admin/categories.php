@@ -41,11 +41,8 @@ delete_categories();
                                         <use href="/assets/back-icons/symbol-defs.svg#icon-new-message"></use>
                                     </svg>
                                 </a>
-                                <a href="javascript:void(0);" onclick="showDeleteModal(<?= $category['cat_id'] ?>, 'categories.php')" class="action-icon delete-icon" title="Delete">
-                                    <svg class="admin-icon">
-                                        <use href="/assets/back-icons/symbol-defs.svg#icon-thumbs-down"></use>
-                                    </svg>
-                                    ELIMINA
+                                <a href="javascript:void(0);" onclick="showDeleteModal(<?= $category['cat_id'] ?>, 'categories.php')" class="action-icon delete-icon" title="Delete" style="color: red; font-size: 18px;">
+                                    🗑️
                                 </a>
                             </td>
                         </tr>
