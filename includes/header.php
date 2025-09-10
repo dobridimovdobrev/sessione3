@@ -60,7 +60,7 @@ $currentPage = basename($_SERVER['REQUEST_URI']);
                             <a href="login.php" class="navigation__link <?= ($currentPage == 'login.php') ? $activeClass : '' ?>" title="login" aria-label="login">
                                 Login
                                 <svg class="login-icon">
-                                    <use href="/mysite-mysql/assets/front-icons/symbol-defs.svg#icon-user-tie"></use>
+                                    <use href="./assets/front-icons/symbol-defs.svg#icon-user-tie"></use>
                                 </svg>
                             </a>
                         </li>
@@ -68,9 +68,9 @@ $currentPage = basename($_SERVER['REQUEST_URI']);
                     <!-- If user is logged do not show login page -->
                     <?php if (isset($_SESSION["username"])) : ?>
                         <li class="navigation__item">
-                            <a href="/mysite-mysql/cms_admin/dashboard.php" class="navigation__login-link" title="dashboard" aria-label="dashboard">
+                            <a href="./cms_admin/dashboard.php" class="navigation__login-link" title="dashboard" aria-label="dashboard">
                                 <svg class="logged-in-icon">
-                                    <use href="/mysite-mysql/assets/front-icons/symbol-user-login.svg#icon-user-circle"></use>
+                                    <use href="./assets/front-icons/symbol-user-login.svg#icon-user-circle"></use>
                                 </svg>
                             </a>
                         </li>

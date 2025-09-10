@@ -16,7 +16,7 @@ $user_ip_adress = verify_user_ip();
         <div class="dashboard service-theme">
             <div class="dashboard__top">
                 <svg class="dashboard__article-icon">
-                    <use href="/mysite-mysql/assets/back-icons/symbol-defs.svg#icon-tools"></use>
+                    <use href="../assets/back-icons/symbol-defs.svg#icon-tools"></use>
                 </svg>
                 <div class="dashboard__dynamic-data">
                     <h2 class="dashboard__heading"><?= countTable('services'); ?></h2>
@@ -36,7 +36,7 @@ $user_ip_adress = verify_user_ip();
         <div class="dashboard article-theme">
             <div class="dashboard__top">
                 <svg class="dashboard__article-icon">
-                    <use href="/mysite-mysql/assets/back-icons/symbol-defs.svg#icon-new-message"></use>
+                    <use href="../assets/back-icons/symbol-defs.svg#icon-new-message"></use>
                 </svg>
                 <div class="dashboard__dynamic-data">
                     <h2 class="dashboard__heading"><?= countTable('articles'); ?></h2>
@@ -56,7 +56,7 @@ $user_ip_adress = verify_user_ip();
         <div class="dashboard user-theme">
             <div class="dashboard__top">
                 <svg class="dashboard__article-icon">
-                    <use href="/mysite-mysql/assets/back-icons/symbol-defs.svg#icon-users"></use>
+                    <use href="../assets/back-icons/symbol-defs.svg#icon-users"></use>
                 </svg>
                 <div class="dashboard__dynamic-data">
                     <h2 class="dashboard__heading"><?= countTable('users'); ?></h2>
@@ -76,7 +76,7 @@ $user_ip_adress = verify_user_ip();
         <div class="dashboard newsletter-theme">
             <div class="dashboard__top">
                 <svg class="dashboard__article-icon">
-                    <use href="/mysite-mysql/assets/back-icons/symbol-newsletter.svg#icon-email"></use>
+                    <use href="../assets/back-icons/symbol-newsletter.svg#icon-email"></use>
                 </svg>
                 <div class="dashboard__dynamic-data">
                     <h2 class="dashboard__heading"><?= countTable('subscribers'); ?></h2>
@@ -96,7 +96,7 @@ $user_ip_adress = verify_user_ip();
         <div class="dashboard message-theme">
             <div class="dashboard__top">
                 <svg class="dashboard__article-icon">
-                    <use href="/mysite-mysql/assets/back-icons/symbol-defs.svg#icon-mail"></use>
+                    <use href="../assets/back-icons/symbol-defs.svg#icon-mail"></use>
                 </svg>
                 <div class="dashboard__dynamic-data">
                     <h2 class="dashboard__heading"><?= countTable('messages'); ?></h2>
