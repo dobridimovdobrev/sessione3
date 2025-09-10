@@ -11,6 +11,9 @@
     background-attachment: fixed;
     @extend %padding-default;
 
+    @include responsive(tablet) {
+        background-attachment: scroll;
+    }
 
     & .hero-container {
         @include grid-col(1fr 1.5fr);
@@ -20,7 +23,6 @@
         padding: 0 3.6rem;
         margin: 0 auto;
 
-
         @include responsive(desktop) {
             max-width: 120rem;
             display: grid;
@@ -28,8 +30,6 @@
             column-gap: 10rem;
 
         }
-
-
 
         @include responsive(tablet) {
             @include grid-col(1);
@@ -62,7 +62,6 @@
                 width: 100%;
             }
 
-
         }
     }
 }
@@ -77,7 +76,7 @@
     background-position-y: -27rem;  
     @extend %padding-default;
 
-     @include responsive(desktop-pro){
+    @include responsive(desktop-pro){
         background-position-y: -22rem;
     }
 
@@ -91,14 +90,19 @@
 
     @include responsive(tablet){
         background-position-y: -6rem;
+        background-attachment: scroll;
     }
 
     @include responsive(780px){
         background-position-y: -3rem;
+        background-attachment: scroll;
+        background-size: cover;
     }
 
     @include responsive(small-tab){
-        background-position-y: 0;
+        background-position: center;
+        background-attachment: scroll;
+        background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url(../img/primary-header-image.jpg);
     }
 
 } 
