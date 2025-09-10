@@ -50,11 +50,23 @@ deleteQuery($con_db, 'services', 'id', 'services.php');
                         <td><?= $serviceViews ?></td>
                         <td><?= $serviceDate ?></td>
                         <td>
-                            <a href="/work.php?id=<?= $serviceId ?>" class="default" target="_blank">View </a>
+                            <a href="/work.php?id=<?= $serviceId ?>" class="action-icon view-icon" title="View" target="_blank">
+                                <svg class="admin-icon">
+                                    <use href="/assets/back-icons/symbol-defs.svg#icon-eye"></use>
+                                </svg>
+                            </a>
                             <!-- Action buttons only for admin -->
                             <?php if($_SESSION['role'] === 'admin') : ?>
-                            <a href="includes/edit_service.php?edit=<?= $serviceId ?>" class="default" target="_blank">Edit</a> 
-                            <a href="javascript:void(0);" onclick="showDeleteModal(<?= $serviceId ?>, 'services.php')" class="delete">Delete</a>
+                            <a href="includes/edit_service.php?edit=<?= $serviceId ?>" class="action-icon edit-icon" title="Edit" target="_blank">
+                                <svg class="admin-icon">
+                                    <use href="/assets/back-icons/symbol-defs.svg#icon-new-message"></use>
+                                </svg>
+                            </a>
+                            <a href="javascript:void(0);" onclick="showDeleteModal(<?= $serviceId ?>, 'services.php')" class="action-icon delete-icon" title="Delete">
+                                <svg class="admin-icon">
+                                    <use href="/assets/back-icons/symbol-defs.svg#icon-bin"></use>
+                                </svg>
+                            </a>
                             <?php endif; ?>
                         </td>
                     </tr>

@@ -123,10 +123,22 @@ deleteQuery($con_db, 'articles', 'id', 'articles.php');
                             <td><?= $articleStatus ?></td>
                             <td><?= $articleDate ?></td>
                             <td>
-                                <a href="/article.php?id=<?= $articleId ?>" class="default" target="_blank">View</a>
+                                <a href="/article.php?id=<?= $articleId ?>" class="action-icon view-icon" title="View" target="_blank">
+                                    <svg class="admin-icon">
+                                        <use href="/assets/back-icons/symbol-defs.svg#icon-eye"></use>
+                                    </svg>
+                                </a>
                                 <?php if ($isAdmin) : ?>
-                                    <a href="includes/edit_article.php?edit=<?= $articleId ?>" class="default" target="_blank">Edit</a>
-                                    <a href="javascript:void(0);" onclick="showDeleteModal(<?= $articleId ?>, 'articles.php')" class="delete">Delete</a>
+                                    <a href="includes/edit_article.php?edit=<?= $articleId ?>" class="action-icon edit-icon" title="Edit" target="_blank">
+                                        <svg class="admin-icon">
+                                            <use href="/assets/back-icons/symbol-defs.svg#icon-new-message"></use>
+                                        </svg>
+                                    </a>
+                                    <a href="javascript:void(0);" onclick="showDeleteModal(<?= $articleId ?>, 'articles.php')" class="action-icon delete-icon" title="Delete">
+                                        <svg class="admin-icon">
+                                            <use href="/assets/back-icons/symbol-defs.svg#icon-bin"></use>
+                                        </svg>
+                                    </a>
                                 <?php endif; ?>
                             </td>
                         </tr>
