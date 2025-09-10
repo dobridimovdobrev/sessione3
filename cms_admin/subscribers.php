@@ -58,7 +58,7 @@ deleteQuery($con_db, 'subscribers', 'id', 'subscribers.php');
                         <!-- Action button -->
                         <td class="actions-cell">
                             <a href="javascript:void(0);" onclick="showDeleteModal(<?= $id ?>, 'subscribers.php')" class="action-icon delete-icon" title="Delete" style="color: red; font-size: 18px;">
-                                🗑️
+                                delete 🗑️
                             </a>
                         </td>
                     </tr>
