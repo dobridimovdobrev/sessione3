@@ -8,7 +8,7 @@
 
 .action-icon {
     display: inline-block;
-    margin: 0 2px;
+    margin: 0 2px !important;
     text-decoration: none;
     transition: all 0.3s ease;
     white-space: nowrap;
@@ -56,7 +56,7 @@ table td.actions-cell .action-icon {
 .delete-icon {
     color: #e74c3c;
     font-weight: bold;
-    font-size: 1.2em;
+    font-size: 1.1em;
 }
 
 .delete-icon:hover {
