@@ -5,4 +5,4 @@ Disallow: /includes/
 Disallow: /sass/
 
 # Sitemap
-Sitemap: https://www.tuodominio.com/sitemap.xml
+Sitemap: https://www.dobridobrev.com/sitemap.xml
