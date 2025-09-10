@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /cms_admin/
+Disallow: /includes/
+Disallow: /sass/
+
+# Sitemap
+Sitemap: https://www.tuodominio.com/sitemap.xml
