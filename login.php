@@ -64,11 +64,11 @@ if (isset($_POST["submit"])) {
           
           /* Redirecting on specified page base on user role */
           if($_SESSION['role'] === 'admin'){
-            header("Location: /mysite-mysql/cms_admin/dashboard.php");
+            header("Location: ./cms_admin/dashboard.php");
             exit();
             /* Subscribers are redirected to profile page */
           }else{
-            header("Location: /mysite-mysql/cms_admin/index.php");
+            header("Location: ./cms_admin/index.php");
             exit();
           }
           
