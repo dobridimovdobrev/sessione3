@@ -35,7 +35,7 @@ delete_categories();
                     <?php foreach ($categories as $category) : ?>
                         <tr>
                             <td><?= $category["cat_title"] ?></td>
-                            <td>
+                            <td class="actions-cell">
                                 <a href="categories.php?edit=<?= $category['cat_id'] ?>" class="action-icon edit-icon" title="Edit">
                                     <svg class="admin-icon">
                                         <use href="/assets/back-icons/symbol-defs.svg#icon-new-message"></use>

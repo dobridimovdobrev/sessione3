@@ -63,7 +63,7 @@ deleteQuery($con_db, 'messages', 'id', 'messages.php');
                         <td><?= substr($message, 0, 80) . "..." ?></td>
                         <td><?= date("Y-m-d H:i", strtotime($date)) ?></td>
                         <!-- Action buttons -->
-                        <td>
+                        <td class="actions-cell">
                             <a href="read_message.php?id=<?= $id ?>" class="action-icon view-icon" title="Read">
                                 <svg class="admin-icon">
                                     <use href="/assets/back-icons/symbol-defs.svg#icon-eye"></use>

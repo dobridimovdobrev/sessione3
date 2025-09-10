@@ -99,7 +99,7 @@ deleteQuery($con_db, 'users', 'user_id', 'users.php');
                             <td><?= $user_role ?></td>
                             <td><?= $user_date ?></td>
                             <!-- Action butons edit and delete -->
-                            <td>
+                            <td class="actions-cell">
                                 <a href="includes/edit_user.php?edit=<?= $user_id ?>" class="action-icon edit-icon" title="Edit">
                                     <svg class="admin-icon">
                                         <use href="/assets/back-icons/symbol-defs.svg#icon-new-message"></use>

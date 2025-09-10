@@ -122,7 +122,7 @@ deleteQuery($con_db, 'articles', 'id', 'articles.php');
                             <td><?= $articleViews ?></td>
                             <td><?= $articleStatus ?></td>
                             <td><?= $articleDate ?></td>
-                            <td>
+                            <td class="actions-cell">
                                 <a href="/article.php?id=<?= $articleId ?>" class="action-icon view-icon" title="View" target="_blank">
                                     <svg class="admin-icon">
                                         <use href="/assets/back-icons/symbol-defs.svg#icon-eye"></use>

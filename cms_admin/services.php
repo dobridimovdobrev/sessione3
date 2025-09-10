@@ -49,7 +49,7 @@ deleteQuery($con_db, 'services', 'id', 'services.php');
                         <td><img src="/uploads/<?= $serviceImage ?>" alt="<?= $serviceTitle ?>" title="<?= $serviceTitle ?>" class="default-table__image"></td>                     
                         <td><?= $serviceViews ?></td>
                         <td><?= $serviceDate ?></td>
-                        <td>
+                        <td class="actions-cell">
                             <a href="/work.php?id=<?= $serviceId ?>" class="action-icon view-icon" title="View" target="_blank">
                                 <svg class="admin-icon">
                                     <use href="/assets/back-icons/symbol-defs.svg#icon-eye"></use>
