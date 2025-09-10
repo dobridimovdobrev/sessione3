@@ -15,17 +15,22 @@
 }
 
 /* Stili per la colonna delle azioni */
-.actions-cell {
+table td.actions-cell {
     white-space: nowrap !important;
     min-width: 100px !important;
     width: 100px !important;
     text-align: center !important;
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: center !important;
+    align-items: center !important;
 }
 
 /* Stili per le icone nelle celle */
-.actions-cell .action-icon {
+table td.actions-cell .action-icon {
     display: inline-block !important;
     margin: 0 5px !important;
+    float: none !important;
 }
 
 .view-icon {
