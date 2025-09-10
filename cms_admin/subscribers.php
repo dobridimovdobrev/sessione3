@@ -59,8 +59,9 @@ deleteQuery($con_db, 'subscribers', 'id', 'subscribers.php');
                         <td>
                             <a href="javascript:void(0);" onclick="showDeleteModal(<?= $id ?>, 'subscribers.php')" class="action-icon delete-icon" title="Delete">
                                 <svg class="admin-icon">
-                                    <use href="/assets/back-icons/symbol-defs.svg#icon-bin"></use>
+                                    <use href="/assets/back-icons/symbol-defs.svg#icon-thumbs-down"></use>
                                 </svg>
+                                ELIMINA
                             </a>
                         </td>
                     </tr>
