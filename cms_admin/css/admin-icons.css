@@ -29,8 +29,12 @@ table td.actions-cell {
 /* Stili per le icone nelle celle */
 table td.actions-cell .action-icon {
     display: inline-block !important;
-    margin: 0 5px !important;
+    margin: 0 2px !important;
     float: none !important;
+}
+
+.text-center{
+    text-align: center;
 }
 
 .view-icon {
